@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://4in22s5me85j"]
+
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_usw6a"]
+[ext_resource type="Script" path="res://logic/text-segment.gd" id="1_xcg3s"]
+
+[sub_resource type="Theme" id="Theme_w2jmn"]
+default_font = ExtResource("1_usw6a")
+default_font_size = 256
+
+[node name="TextSegment" type="RichTextLabel"]
+offset_right = 2457.0
+offset_bottom = 1557.0
+theme = SubResource("Theme_w2jmn")
+bbcode_enabled = true
+text = "The antialiasing sharpness can be [color=green]i[/color]mproved by using LCD subpixel optimization, which exploits the subpixel patterns of most LCD displays by offse"
+scroll_active = false
+autowrap_mode = 1
+script = ExtResource("1_xcg3s")
