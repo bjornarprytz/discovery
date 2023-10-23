@@ -1,7 +1,9 @@
-@tool
 extends Node2D
 class_name Global
 
+signal moved(step: Vector2)
+
+const font_size : Vector2 = Vector2(102.0, 256.0)
 var corpus_line_length : int = 64
 var segment_width : int = 12
 var segment_height : int = 3
@@ -11,7 +13,7 @@ var current_target : String
 var words : Array[String] = []
 var visited : Array[bool] = []
 
-var corpus = "
+@onready var corpus = "
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lobortis mattis aliquam faucibus purus in massa. In massa tempor nec feugiat nisl pretium fusce. Facilisi morbi tempus iaculis urna id. Nibh praesent tristique magna sit amet purus gravida quis. Tincidunt ornare massa eget egestas purus viverra. Condimentum vitae sapien pellentesque habitant morbi tristique senectus et netus. Quis hendrerit dolor magna eget est. Vitae et leo duis ut. Viverra mauris in aliquam sem fringilla ut morbi tincidunt augue. Tempus quam pellentesque nec nam. Velit ut tortor pretium viverra suspendisse potenti. Amet cursus sit amet dictum sit amet. A condimentum vitae sapien pellentesque habitant morbi tristique senectus et. Habitant morbi tristique senectus et netus et malesuada fames. Turpis tincidunt id aliquet risus feugiat in ante metus.
 Arcu ac tortor dignissim convallis aenean. Proin sed libero enim sed faucibus turpis. Sagittis purus sit amet volutpat consequat mauris nunc congue. Viverra vitae congue eu consequat. Nisl suscipit adipiscing bibendum est ultricies integer. Turpis massa sed elementum tempus. Odio eu feugiat pretium nibh. Morbi non arcu risus quis varius quam quisque id diam. Sed enim ut sem viverra aliquet eget sit amet tellus. Commodo nulla facilisi nullam vehicula ipsum a arcu. Consequat mauris nunc congue nisi vitae. Nibh ipsum consequat nisl vel pretium lectus. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. Facilisis mauris sit amet massa vitae. Purus sit amet luctus venenatis lectus magna fringilla. Sapien eget mi proin sed. Viverra orci sagittis eu volutpat odio facilisis. Urna nec tincidunt praesent semper feugiat nibh sed pulvinar proin. Urna id volutpat lacus laoreet non curabitur. Dictum fusce ut placerat orci.
 Sit amet commodo nulla facilisi. Blandit aliquam etiam erat velit scelerisque in dictum non consectetur. Mauris in aliquam sem fringilla ut morbi tincidunt. Lectus nulla at volutpat diam ut. Donec ultrices tincidunt arcu non sodales neque sodales ut etiam. Pharetra sit amet aliquam id diam. Enim nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet. Morbi enim nunc faucibus a pellentesque sit amet. Eu mi bibendum neque egestas congue quisque. Vitae proin sagittis nisl rhoncus mattis rhoncus urna. Purus non enim praesent elementum facilisis. Ultricies leo integer malesuada nunc vel risus commodo viverra maecenas. Diam quis enim lobortis scelerisque fermentum dui faucibus in. Faucibus nisl tincidunt eget nullam non nisi.
@@ -20,13 +22,18 @@ Gravida arcu ac tortor dignissim convallis aenean. Odio ut enim blandit volutpat
 "
 func visit(idx: int) -> void:
 	var normalized_idx = normalize_idx(idx)
+	print("Visiting ", normalized_idx, " ", get_char_at(idx))
 	assert(!visited[normalized_idx])
 	visited[normalized_idx] = true
 
 func is_visited(idx: int) -> bool:
 	var normalized_idx = normalize_idx(idx)
+	var result = visited[normalized_idx]
 	
-	return visited[normalized_idx]
+	if (result):
+		print(normalized_idx, " is visited")
+
+	return result
 
 func get_char_at(idx: int) -> String:
 	var normalized_idx = normalize_idx(idx)
@@ -38,7 +45,9 @@ func normalize_idx(idx: int) -> int:
 	
 	while n < 0:
 		n += corpus.length()
-		
+	
+	#if (n != idx):
+		#print ("Normalized ", idx, " to ", n, " because it was outside bounds: ", corpus.length())
 	return n
 
 

@@ -10,6 +10,7 @@ TODO:
 
 - Visit effect
 - Mark visited letters
+- Move camera
 - Punctuation and white space are impassable
 - Cannot return to road traveled (like snake)
 - Score when completing words
