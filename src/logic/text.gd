@@ -90,6 +90,8 @@ func try_move(c : String, t_idx : int) -> bool:
 	return false
 
 func _shift_north():
+	# TODO: There's something here swallowing segments
+	
 	var new_upper_left : int = nw_segment.start_index - (Autoload.segment_height * Autoload.corpus_line_length)
 	var move_by = center_segment.size.y * 3
 	print("Move y by: ", move_by)

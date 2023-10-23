@@ -8,11 +8,11 @@ default_font = ExtResource("1_usw6a")
 default_font_size = 256
 
 [node name="TextSegment" type="RichTextLabel"]
-offset_right = 2457.0
-offset_bottom = 1557.0
+offset_right = 1224.0
+offset_bottom = 768.0
 theme = SubResource("Theme_w2jmn")
 bbcode_enabled = true
-text = "The antialiasing sharpness can be [color=green]i[/color]mproved by using LCD subpixel optimization, which exploits the subpixel patterns of most LCD displays by offse"
+text = "The antialiasing sharpness can be [color=green]i[/color]m"
 scroll_active = false
 autowrap_mode = 1
 script = ExtResource("1_xcg3s")

@@ -9,7 +9,7 @@ var t : RichTextEffect
 func contains_idx(idx: int) -> bool:
 	# TODO: Check if this actually works
 	
-	var normalized_idx = idx % Autoload.corpus.length()
+	var normalized_idx = Autoload.normalize_idx(idx)
 	
 	for l in range(Autoload.segment_height):
 		if (start_index >= normalized_idx and normalized_idx >= Autoload.corpus_line_length):
@@ -19,18 +19,22 @@ func contains_idx(idx: int) -> bool:
 	return false
 
 func set_start_index(idx: int) -> void:
-	start_index = idx
-	text = ""
+	var normalized_idx = Autoload.normalize_idx(idx)
+	start_index = normalized_idx
+	clear()
 	for l in range(Autoload.segment_height):
-		text = text + _get_line(start_index + (l * Autoload.corpus_line_length))
+		var line = _get_line(start_index + (l * Autoload.corpus_line_length))
+		append_text(line)
 
 func _get_line(idx: int) -> String:
-	var corpus : String = Autoload.corpus
 	
-	var line_end = idx + Autoload.segment_width
+	var corpus : String = Autoload.corpus
+	var normalized_idx = Autoload.normalize_idx(idx)
+	
+	var line_end = normalized_idx + Autoload.segment_width
 	
 	if (line_end >= corpus.length()):
-		return corpus.substr(idx) + corpus.substr(0, line_end - corpus.length())
+		return corpus.substr(normalized_idx) + corpus.substr(0, line_end - corpus.length())
 	else:
-		return corpus.substr(idx, Autoload.segment_width)
+		return corpus.substr(normalized_idx, Autoload.segment_width)
 
