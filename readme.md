@@ -9,9 +9,6 @@ Goal: collect specific words to increase high score
 TODO:
 
 - Visit effect
-- Mark visited letters
-- Move camera
-- Punctuation and white space are impassable
-- Cannot return to road traveled (like snake)
+- Feedback when unable to move due to duplicates
 - Score when completing words
-- game over condition (no valid moves)
+- Game over condition (no valid moves)

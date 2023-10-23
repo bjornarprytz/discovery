@@ -40,7 +40,7 @@ func _append_line(idx: int) -> void:
 		
 		if (is_visited and !is_marking):
 			is_marking = true
-			push_color(Color.PINK)
+			push_color(Autoload.MARK_COLOR)
 		if (!is_visited and is_marking):
 			is_marking = false
 			pop()

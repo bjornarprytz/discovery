@@ -6,7 +6,6 @@ extends Node2D
 
 var target_pos : Vector2
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	cam.position = Autoload.font_size / 2
 	target_pos = cam.position

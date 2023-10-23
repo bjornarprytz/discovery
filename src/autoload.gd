@@ -3,6 +3,7 @@ class_name Global
 
 signal moved(step: Vector2)
 
+const MARK_COLOR: Color = Color.CRIMSON
 const font_size : Vector2 = Vector2(102.0, 256.0)
 var corpus_line_length : int = 64
 var segment_width : int = 12

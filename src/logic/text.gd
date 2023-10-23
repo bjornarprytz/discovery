@@ -36,7 +36,6 @@ func _ready() -> void:
 			add_child(segment)
 			
 			segment.position = -segment.size + Vector2(segment.size.x * x, segment.size.y * y)
-			#segment.modulate = Color.from_hsv(randf(),randf(),randf())
 			
 	nw_segment = get_child(0)
 	north_segment = get_child(1)
