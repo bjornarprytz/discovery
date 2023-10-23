@@ -31,8 +31,8 @@ func refresh() -> void:
 
 func _append_line(idx: int) -> void:
 	var normalized_idx = Autoload.normalize_idx(idx)
-	
 	var is_marking : bool
+	
 	for pos in range(Autoload.segment_width):
 		var char_idx = normalized_idx + pos
 		var letter = Autoload.get_char_at(char_idx)
@@ -45,8 +45,17 @@ func _append_line(idx: int) -> void:
 			is_marking = false
 			pop()
 		
+		# Hack to get around trailing spaces being removed in BBCode
+		var is_trailing_space = letter == " " and (pos == 0 or pos == Autoload.segment_width-1)
+		
+		if is_trailing_space:
+			letter = "a"
+			push_color(Color.from_hsv(0,0,0,0))
+		
 		append_text(letter)
-		print ("letter: (", letter, ")")
+		if (is_trailing_space):
+			pop()
+
 	if (is_marking):
 		pop()
 

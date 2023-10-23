@@ -28,12 +28,7 @@ func visit(idx: int) -> void:
 
 func is_visited(idx: int) -> bool:
 	var normalized_idx = normalize_idx(idx)
-	var result = visited[normalized_idx]
-	
-	if (result):
-		print(normalized_idx, " is visited")
-
-	return result
+	return visited[normalized_idx]
 
 func get_char_at(idx: int) -> String:
 	var normalized_idx = normalize_idx(idx)
@@ -46,8 +41,6 @@ func normalize_idx(idx: int) -> int:
 	while n < 0:
 		n += corpus.length()
 	
-	#if (n != idx):
-		#print ("Normalized ", idx, " to ", n, " because it was outside bounds: ", corpus.length())
 	return n
 
 
