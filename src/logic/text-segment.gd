@@ -24,38 +24,51 @@ func contains_idx(idx: int) -> bool:
 
 func refresh() -> void:
 	clear()
-	push_bgcolor(Color.from_string("050f26", Color.PURPLE))
 	for l in range(Global.segment_height):
 		_append_line(start_index + (l * Global.corpus_line_length))
-	pop()
 
 func _append_line(idx: int) -> void:
 	var normalized_idx = Global.normalize_idx(idx)
-	var is_marking : bool
+	
+	var prev_state: Corpus.CharState = Corpus.CharState.new()
 	
 	for pos in range(Global.segment_width):
 		var char_idx = normalized_idx + pos
 		var letter = Global.get_char_at(char_idx)
-		var is_visited = Global.is_visited(char_idx)
+		var char_state = Global.get_state(char_idx) as Corpus.CharState
 		
-		if (is_visited and !is_marking):
-			is_marking = true
+		if (char_state.visited and !prev_state.visited):
 			push_color(Global.MARK_COLOR)
-		if (!is_visited and is_marking):
-			is_marking = false
+		if (!char_state.visited and prev_state.visited):
 			pop()
 		
+		var trailing_space:bool = letter == " " and (pos == 0 or pos == Global.segment_width-1)
 		# Hack to get around trailing spaces being removed in BBCode
-		var is_trailing_space = letter == " " and (pos == 0 or pos == Global.segment_width-1)
-		
-		if is_trailing_space:
-			letter = "a"
+		if trailing_space:
+			letter = "_"
 			push_color(Color.from_hsv(0,0,0,0))
 		
+		var pushed_effect := false
+		
+		if (char_state.cursor):
+			push_customfx(Cursor.new(), { "color": Global.MARK_COLOR })
+			pushed_effect = true
+		elif (char_state.invalid_move):
+			push_customfx(Error.new(),{})
+			pushed_effect = true
+		elif (char_state.impassable):
+			push_color(Global.IMPASSABLE_COLOR)
+			pushed_effect = true
+		
 		append_text(letter)
-		if (is_trailing_space):
+		
+		if pushed_effect:
 			pop()
+		if trailing_space:
+			pop()
+		
+		prev_state = char_state
 
-	if (is_marking):
+	if (prev_state.visited):
 		pop()
 

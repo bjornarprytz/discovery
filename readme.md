@@ -8,7 +8,6 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Visit effect
-- Feedback when unable to move due to duplicates
 - Score when completing words
-- Game over condition (no valid moves)
+- Sound effects
+- Music
