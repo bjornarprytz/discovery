@@ -2,9 +2,9 @@ extends Node2D
 class_name TextGame
 
 @onready var segment_spawner = preload("res://logic/text-segment.tscn")
-@onready var LINE_LENGTH : int = Autoload.corpus_line_length
-@onready var SEGMENT_HEIGHT : int = Autoload.segment_height * Autoload.corpus_line_length
-@onready var SEGMENT_WIDTH : int = Autoload.segment_width
+@onready var LINE_LENGTH : int = Global.corpus_line_length
+@onready var SEGMENT_HEIGHT : int = Global.segment_height * Global.corpus_line_length
+@onready var SEGMENT_WIDTH : int = Global.segment_width
 
 var current_pos : int = 0
 
@@ -26,7 +26,7 @@ class MoveCandidate:
 	var step : Vector2
 
 func _ready() -> void:
-	var random_start = randi_range(0, Autoload.corpus.length()-1)
+	var random_start = randi_range(0, Global.corpus.length()-1)
 	var upper_left : int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
 	
 	for y in range(3):
@@ -53,10 +53,10 @@ func try_move(input : String) -> bool:
 	if (input.length() > 1):
 		return false
 		
-	var up = _create_candidate(current_pos - LINE_LENGTH, Autoload.font_size * Vector2.UP)
-	var right = _create_candidate(current_pos +1, Autoload.font_size * Vector2.RIGHT)
-	var down = _create_candidate(current_pos + LINE_LENGTH, Autoload.font_size * Vector2.DOWN)
-	var left = _create_candidate(current_pos -1,  Autoload.font_size * Vector2.LEFT)
+	var up = _create_candidate(current_pos - LINE_LENGTH, Global.font_size * Vector2.UP)
+	var right = _create_candidate(current_pos +1, Global.font_size * Vector2.RIGHT)
+	var down = _create_candidate(current_pos + LINE_LENGTH, Global.font_size * Vector2.DOWN)
+	var left = _create_candidate(current_pos -1,  Global.font_size * Vector2.LEFT)
 	
 	var visited = [up, right, down, left].filter(func (c: MoveCandidate): return c.visited)
 	var not_visited = [up, right, down, left].filter(func (c: MoveCandidate): return !c.visited)
@@ -68,7 +68,7 @@ func try_move(input : String) -> bool:
 	for candidate in viable:
 		if (input.nocasecmp_to(candidate.character) == 0):
 			_visit(candidate.destination)
-			Autoload.moved.emit(candidate.step)
+			Global.moved.emit(candidate.step)
 			return true
 	
 	if duplicates.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
@@ -77,7 +77,7 @@ func try_move(input : String) -> bool:
 	return false
 
 func _visit(target_idx: int):
-	Autoload.visit(target_idx)
+	Global.visit(target_idx)
 	current_pos = target_idx
 	
 	
@@ -95,9 +95,9 @@ func _visit(target_idx: int):
 
 func _create_candidate(target_idx: int, step: Vector2) -> MoveCandidate:
 	var candidate = MoveCandidate.new()
-	candidate.character = Autoload.get_char_at(target_idx)
+	candidate.character = Global.get_char_at(target_idx)
 	candidate.destination = target_idx
-	candidate.visited = Autoload.is_visited(target_idx)
+	candidate.visited = Global.is_visited(target_idx)
 	candidate.step = step
 	return candidate
 	

@@ -1,5 +1,5 @@
 extends Node2D
-class_name Global
+class_name State
 
 signal moved(step: Vector2)
 

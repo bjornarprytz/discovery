@@ -7,10 +7,10 @@ extends Node2D
 var target_pos : Vector2
 
 func _ready() -> void:
-	cam.position = Autoload.font_size / 2
+	cam.position = Global.font_size / 2
 	target_pos = cam.position
 	cam.zoom = Vector2(.6, .6)
-	Autoload.moved.connect(_move_target)
+	Global.moved.connect(_move_target)
 
 var tween : Tween
 
