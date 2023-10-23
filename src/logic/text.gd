@@ -1,8 +1,11 @@
 @tool
 
 extends Node2D
+class_name TextGame
 
 @onready var segment_spawner = preload("res://logic/text-segment.tscn")
+@onready var SEGMENT_HEIGHT : int = Autoload.segment_height * Autoload.corpus_line_length
+@onready var SEGMENT_WIDTH : int = Autoload.segment_width
 
 var current_pos : int = 0
 var center : Vector2
@@ -18,11 +21,15 @@ var se_segment : TextSegment
 var sw_segment : TextSegment
 var nw_segment : TextSegment
 
+class MoveCandidate:
+	var destination : int
+	var character: String
+	var visited: bool
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	current_pos = randi_range(0, Autoload.corpus.length()-1)
-	Autoload.visited.push_front(current_pos)
+	_visit(randi_range(0, Autoload.corpus.length()-1))
 	
 	var upper_left : int = current_pos - (((Autoload.segment_width) + (Autoload.segment_height * Autoload.corpus_line_length)) * 1.5)
 	
@@ -46,53 +53,48 @@ func _ready() -> void:
 	nw_segment = get_child(0)
 	center = (center_segment.size / 2) + Vector2(20.0, 20.0)
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	if (event.is_released()):
-		
-		var key = event.as_text()
-		if (key == "W"):
-			_shift_north()
-		if (key == "S"):
-			_shift_south()
-		if (key == "D"):
-			_shift_east()
-		if (key == "A"):
-			_shift_west()
-		if (try_move(key, current_pos - Autoload.corpus_line_length)):
-			print("Moved up ", current_pos, " ", key)
-			if (north_segment.contains_idx(current_pos)):
-				_shift_north()
-			return
-		if (try_move(key, current_pos +1)):
-			print("Moved right ", current_pos, " ", key)
-			if (east_segment.contains_idx(current_pos)):
-				_shift_east()
-			return
-		if (try_move(key, current_pos + Autoload.corpus_line_length)):
-			print("Moved down ", current_pos, " ", key)
-			if (south_segment.contains_idx(current_pos)):
-				_shift_south()
-			return
-		if (try_move(key, current_pos -1)):
-			print("Moved left ", current_pos, " ", key)
-			if (west_segment.contains_idx(current_pos)):
-				_shift_west()
-
-func try_move(c : String, t_idx : int) -> bool:
-	if (c.length() > 1):
+func try_move(input : String) -> bool:
+	if (input.length() > 1):
 		return false
-	
-	var target_char = Autoload.get_char_at(t_idx)
-	if (c.nocasecmp_to(target_char) == 0):
-		current_pos = t_idx
-		return true
 		
+	var up = _create_candidate(current_pos - SEGMENT_HEIGHT)
+	var right = _create_candidate(current_pos +1)
+	var down = _create_candidate(current_pos + SEGMENT_HEIGHT)
+	var left = _create_candidate(current_pos -1)
+	
+	var visited = [up, right, down, left].filter(func (c: MoveCandidate): return c.visited)
+	var not_visited = [up, right, down, left].filter(func (c: MoveCandidate): return !c.visited)
+	
+	var duplicates = not_visited.filter(func (c1: MoveCandidate): return not_visited.filter(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0).size() > 1)
+	
+	var viable = not_visited.filter(func (c1: MoveCandidate): return !duplicates.any(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
+	
+	for candidate in viable:
+		if (input.nocasecmp_to(candidate.character) == 0):
+			_visit(candidate.destination)
+			return true
+	
+	if duplicates.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character)):
+		print("Tried to move to a duplicate")
+	
 	return false
 
-func _shift_north():
-	# TODO: There's something here swallowing segments
+func _visit(target_idx: int):
+	# TODO update bbcodes
+	Autoload.visit(target_idx)
+	current_pos = target_idx
+	print("new pos ", Autoload.get_char_at(current_pos), " ", current_pos)
+
+func _create_candidate(target_idx: int) -> MoveCandidate:
+	var candidate = MoveCandidate.new()
+	candidate.character = Autoload.get_char_at(target_idx)
+	candidate.destination = target_idx
+	candidate.visited = Autoload.is_visited(target_idx)
+	return candidate
 	
-	var new_upper_left : int = nw_segment.start_index - (Autoload.segment_height * Autoload.corpus_line_length)
+
+func _shift_north():
+	var new_upper_left : int = nw_segment.start_index - (SEGMENT_HEIGHT)
 	var move_by = center_segment.size.y * 3
 	print("Move y by: ", move_by)
 	
@@ -107,19 +109,19 @@ func _shift_north():
 	south_segment = center_segment
 	center_segment = north_segment
 	north_segment = temp_segment
-	north_segment.set_start_index(new_upper_left + Autoload.segment_width)
+	north_segment.set_start_index(new_upper_left + SEGMENT_WIDTH)
 	north_segment.position.y -= move_by
 	
 	temp_segment = se_segment
 	se_segment = east_segment
 	east_segment = ne_segment
 	ne_segment = temp_segment
-	ne_segment.set_start_index(new_upper_left + (Autoload.segment_width * 2))
+	ne_segment.set_start_index(new_upper_left + (SEGMENT_WIDTH * 2))
 	ne_segment.position.y -= move_by
 
 		
 func _shift_east():
-	var new_upper_right : int = ne_segment.start_index + Autoload.segment_width
+	var new_upper_right : int = ne_segment.start_index + SEGMENT_WIDTH
 	var move_by = (center_segment.size.x * 3)
 	print("Move x by: ", move_by)
 
@@ -134,18 +136,18 @@ func _shift_east():
 	west_segment = center_segment
 	center_segment = east_segment
 	east_segment = temp_segment
-	east_segment.set_start_index(new_upper_right + (Autoload.segment_height * Autoload.corpus_line_length))
+	east_segment.set_start_index(new_upper_right + (SEGMENT_HEIGHT))
 	east_segment.position.x += move_by
 
 	temp_segment = sw_segment
 	sw_segment = south_segment
 	south_segment = se_segment
 	se_segment = temp_segment
-	se_segment.set_start_index(new_upper_right + (2 * Autoload.segment_height * Autoload.corpus_line_length))
+	se_segment.set_start_index(new_upper_right + (2 * SEGMENT_HEIGHT))
 	se_segment.position.x += move_by
 
 func _shift_south():
-	var new_lower_left : int = sw_segment.start_index + (Autoload.segment_height * Autoload.corpus_line_length)
+	var new_lower_left : int = sw_segment.start_index + (SEGMENT_HEIGHT)
 	var move_by = center_segment.size.y * 3
 	print("Move y by: ", move_by)
 
@@ -160,18 +162,18 @@ func _shift_south():
 	north_segment = center_segment
 	center_segment = south_segment
 	south_segment = temp_segment
-	south_segment.set_start_index(new_lower_left + Autoload.segment_width)
+	south_segment.set_start_index(new_lower_left + SEGMENT_WIDTH)
 	south_segment.position.y += move_by
 	
 	temp_segment = ne_segment
 	ne_segment = east_segment
 	east_segment = se_segment
 	se_segment = temp_segment
-	se_segment.set_start_index(new_lower_left + (Autoload.segment_width * 2))
+	se_segment.set_start_index(new_lower_left + (SEGMENT_WIDTH * 2))
 	se_segment.position.y += move_by
 
 func _shift_west():
-	var new_upper_left : int = nw_segment.start_index - Autoload.segment_width
+	var new_upper_left : int = nw_segment.start_index - SEGMENT_WIDTH
 	var move_by = (center_segment.size.x * 3)
 	print("Move x by: ", move_by)
 
@@ -186,13 +188,13 @@ func _shift_west():
 	east_segment = center_segment
 	center_segment = west_segment
 	west_segment = temp_segment
-	west_segment.set_start_index(new_upper_left + (Autoload.segment_height * Autoload.corpus_line_length))
+	west_segment.set_start_index(new_upper_left + (SEGMENT_HEIGHT))
 	west_segment.position.x -= move_by
 
 	temp_segment = se_segment
 	se_segment = south_segment
 	south_segment = sw_segment
 	sw_segment = temp_segment
-	sw_segment.set_start_index(new_upper_left + (2 * Autoload.segment_height * Autoload.corpus_line_length))
+	sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
 	sw_segment.position.x -= move_by
 

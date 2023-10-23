@@ -8,7 +8,6 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Smaller text segments
 - Visit effect
 - Mark visited letters
 - Punctuation and white space are impassable
