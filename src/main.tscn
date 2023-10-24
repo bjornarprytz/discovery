@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cykltnkc0oakx"]
+[gd_scene load_steps=9 format=3 uid="uid://cykltnkc0oakx"]
 
 [ext_resource type="PackedScene" uid="uid://dimlovpbn02gs" path="res://logic/text.tscn" id="1_8pnxv"]
 [ext_resource type="Script" path="res://main.gd" id="1_l7u6q"]
-[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_my845"]
 [ext_resource type="AudioStream" uid="uid://baptchqbrwor6" path="res://assets/click.wav" id="4_28lg2"]
 [ext_resource type="AudioStream" uid="uid://d078wk84fudu7" path="res://assets/quest.wav" id="5_v4bgw"]
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="6_yi4vj"]
@@ -38,10 +37,6 @@ shader = SubResource("Shader_txto1")
 shader_parameter/blur_radius = 7.97
 shader_parameter/blur_passes = 3
 
-[sub_resource type="Theme" id="Theme_axe8j"]
-default_font = ExtResource("3_my845")
-default_font_size = 128
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_l7u6q")
 
@@ -51,51 +46,6 @@ script = ExtResource("1_l7u6q")
 material = SubResource("ShaderMaterial_h24hg")
 
 [node name="CameraFade" type="CanvasModulate" parent="Camera"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
-
-[node name="GameOver" type="Control" parent="Camera/CanvasLayer"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Heading" type="RichTextLabel" parent="Camera/CanvasLayer/GameOver"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 242.0
-offset_top = 88.0
-offset_right = 871.0
-offset_bottom = 428.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_axe8j")
-bbcode_enabled = true
-text = "[center][color=gray][wave]Game over[/wave]
-[font_size=96]
-Score:"
-
-[node name="Score" type="RichTextLabel" parent="Camera/CanvasLayer/GameOver"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 242.0
-offset_top = 431.0
-offset_right = 871.0
-offset_bottom = 594.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_axe8j")
-bbcode_enabled = true
-text = "[center][rainbow freq=.2 sat=0.4]00069"
 
 [node name="Click" type="AudioStreamPlayer2D" parent="Camera"]
 stream = ExtResource("4_28lg2")

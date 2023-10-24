@@ -1,13 +1,14 @@
 extends Node2D
 
+@onready var score_scene = preload("res://score.tscn")
 @onready var cam : Camera2D = $Camera
 @onready var game : TextGame = $Text
 
-var score: int = 0
 var target_pos : Vector2
 var game_over := false
 
 func _ready() -> void:
+	Global.score = 0
 	cam.position = Global.font_size / 2
 	target_pos = cam.position
 	cam.zoom = Vector2(.6, .6)
@@ -20,7 +21,7 @@ var tween : Tween
 func _move(step: Vector2, score_change: int):
 	$Camera/Click.play()
 	target_pos += step
-	score += score_change
+	Global.score += score_change
 	if (tween != null):
 		tween.kill()
 	
@@ -36,14 +37,10 @@ func _game_over():
 	tween.tween_property($Camera/CameraFade, 'color', Color.BLACK, 2.0)
 	tween.set_parallel(false)
 	tween.tween_callback(_show_score)
-	tween.tween_property($Camera/CanvasLayer/GameOver, 'modulate', Color.WHITE, 2.0)
 
 func _show_score():
 	Engine.time_scale = 1.0
-	$Camera/CanvasLayer/GameOver.visible = true
-	$Camera/CanvasLayer/GameOver.modulate = Color.BLACK
-	$Camera/CanvasLayer/GameOver/Score.clear()
-	$Camera/CanvasLayer/GameOver/Score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(score).pad_zeros(5))
+	get_tree().change_scene_to_packed(score_scene)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (!game_over and event.is_released()):

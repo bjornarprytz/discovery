@@ -32,6 +32,7 @@ class MoveCandidate:
 	var step : Vector2
 
 func _ready() -> void:
+	Global.load_corpus()
 	var random_start = randi_range(0, Global.corpus.length()-1)
 	var upper_left : int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
 	

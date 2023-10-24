@@ -11,14 +11,12 @@ Goal: collect specific words to increase high score
 TODO:
 
 - Music
-
-- Buttons
-  - Exit
-  - Restart
-  - Credits
+- Add feedback / explanation of target words
+- Cycle target words when quest completed
 
 ## Tools & Resources
 
 - Godot
 - ChatGPT
 - [RichTextEffects](https://github.com/teebarjunk/godot-text_effects)
+- [Freesound](https://freesound.org/)

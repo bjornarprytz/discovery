@@ -17,6 +17,7 @@ var segment_width : int = 12
 var segment_height : int = 3
 
 var current_target : String
+var score := 0
 
 class WordData:
 	var word : String
@@ -36,8 +37,92 @@ var words : Array[String] = []
 var state : Dictionary = {}
 
 @onready var valid_regex : RegEx = RegEx.new()
+var corpus : String
 
-@onready var corpus = "
+func get_state(idx: int) -> CharState:
+	var normalized_idx = normalize_idx(idx)
+	if (!state.has(normalized_idx)):
+		state[normalized_idx] = CharState.new()
+		
+	state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
+		
+	return state[normalized_idx]
+
+func get_char_at(idx: int) -> String:
+	var normalized_idx = normalize_idx(idx)
+	
+	return corpus[normalized_idx]
+
+func get_word_of(idx: int) -> WordData:
+	var normalized_idx: int = normalize_idx(idx)
+	var letter = get_char_at(idx)
+	if (valid_regex.search(letter) == null):
+		return null
+	
+	var data = WordData.new()
+	
+	var start := ""
+	var end := ""
+	
+	var pointer := normalized_idx +1
+	
+	while valid_regex.search(letter) != null:
+		end += letter
+		data.states.push_back(get_state(pointer-1))
+		letter = get_char_at(pointer)
+		pointer+=1
+	
+	pointer = normalized_idx-1
+	letter = get_char_at(pointer)
+	while valid_regex.search(letter) != null:
+		start = letter + start
+		data.states.push_front(get_state(pointer))
+		pointer-=1
+		letter = get_char_at(pointer)
+	
+	data.start_idx = pointer+1
+	data.word = start+end
+	
+	var i :=0
+	for s in data.states:
+		s.local_idx = i
+		i += 1
+	
+	return data
+
+func normalize_idx(idx: int) -> int:
+	var n = idx % corpus.length()
+	
+	while n < 0:
+		n += corpus.length()
+	
+	return n
+
+func load_corpus(text: String = ""):
+	assert(segment_width <= corpus_line_length)
+	assert(segment_height > 0)
+	assert(segment_width > 0)
+	
+	valid_regex.compile("[a-zA-Z0-9]")
+	
+	if (text.length() > 0):
+		corpus = text
+	else:
+		corpus = main_corpus
+	
+	corpus = corpus.replace("\n", " ").replace("  ", " ")
+	
+	words = []
+	for w in corpus.split(" ", false):
+		words.push_back(w.replace(".", "").to_lower())
+	
+	current_target = words.pick_random()
+	state = {}
+
+func _ready() -> void:
+	load_corpus(main_corpus)
+
+@onready var main_corpus = "
 A Mad Tea-Party
 There was a table set out under a tree in front of the house, and the March Hare and the Hatter were having tea at it: a Dormouse was sitting between them, fast asleep, and the other two were using it as a cushion, resting their elbows on it, and talking over its head. 'Very uncomfortable for the Dormouse,' thought Alice; 'only, as it's asleep, I suppose it doesn't mind.'
 The table was a large one, but the three were all crowded together at one corner of it: 'No room! No room!' they cried out when they saw Alice coming. 'There's plenty of room!' said Alice indignantly, and she sat down in a large arm-chair at one end of the table.
@@ -152,78 +237,3 @@ Hatter and Hare dunking Dormouse
 Just as she said this, she noticed that one of the trees had a door leading right into it. 'That's very curious!' she thought. 'But everything's curious today. I think I may as well go in at once.' And in she went.
 Once more she found herself in the long hall, and close to the little glass table. 'Now, I'll manage better this time,' she said to herself, and began by taking the little golden key, and unlocking the door that led into the garden. Then she went to work nibbling at the mushroom (she had kept a piece of it in her pocket) till she was about a foot high: then she walked down the little passage: and thenshe found herself at last in the beautiful garden, among the bright flower-beds and the cool fountains.
 "
-
-func get_state(idx: int) -> CharState:
-	var normalized_idx = normalize_idx(idx)
-	if (!state.has(normalized_idx)):
-		state[normalized_idx] = CharState.new()
-		
-	state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
-		
-	return state[normalized_idx]
-
-func get_char_at(idx: int) -> String:
-	var normalized_idx = normalize_idx(idx)
-	
-	return corpus[normalized_idx]
-
-func get_word_of(idx: int) -> WordData:
-	var normalized_idx: int = normalize_idx(idx)
-	var letter = get_char_at(idx)
-	if (valid_regex.search(letter) == null):
-		return null
-	
-	var data = WordData.new()
-	
-	var start := ""
-	var end := ""
-	
-	var pointer := normalized_idx +1
-	
-	while valid_regex.search(letter) != null:
-		end += letter
-		data.states.push_back(get_state(pointer-1))
-		letter = get_char_at(pointer)
-		pointer+=1
-	
-	pointer = normalized_idx-1
-	letter = get_char_at(pointer)
-	while valid_regex.search(letter) != null:
-		start = letter + start
-		data.states.push_front(get_state(pointer))
-		pointer-=1
-		letter = get_char_at(pointer)
-	
-	data.start_idx = pointer+1
-	data.word = start+end
-	
-	var i :=0
-	for s in data.states:
-		s.local_idx = i
-		i += 1
-	
-	return data
-
-func normalize_idx(idx: int) -> int:
-	var n = idx % corpus.length()
-	
-	while n < 0:
-		n += corpus.length()
-	
-	return n
-
-
-func _ready() -> void:
-	assert(segment_width <= corpus_line_length)
-	assert(segment_height > 0)
-	assert(segment_width > 0)
-	
-	valid_regex.compile("[a-zA-Z0-9]")
-	
-	corpus = corpus.replace("\n", " ").replace("  ", " ")
-	
-	for w in corpus.split(" ", false):
-		words.push_back(w.replace(".", "").to_lower())
-	
-	current_target = words.pick_random()
-
