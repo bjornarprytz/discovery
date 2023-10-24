@@ -24,8 +24,9 @@ func contains_idx(idx: int) -> bool:
 
 func refresh() -> void:
 	clear()
-	for l in range(Global.segment_height):
-		_append_line(start_index + (l * Global.corpus_line_length))
+	for line in range(Global.segment_height):
+		_append_line(start_index + (line * Global.corpus_line_length))
+	
 
 func _append_line(idx: int) -> void:
 	var normalized_idx = Global.normalize_idx(idx)
@@ -37,41 +38,32 @@ func _append_line(idx: int) -> void:
 		var letter = Global.get_char_at(char_idx)
 		var char_state = Global.get_state(char_idx) as Corpus.CharState
 		
-		if (char_state.visited and !prev_state.visited):
-			push_color(Global.MARK_COLOR)
-		if (!char_state.visited and prev_state.visited):
-			pop()
-		
 		var trailing_space:bool = letter == " " and (pos == 0 or pos == Global.segment_width-1)
-		# Hack to get around trailing spaces being removed in BBCode
+		
 		if trailing_space:
+			# Hack to get around trailing spaces being removed in BBCode
 			letter = "_"
 			push_color(Color.from_hsv(0,0,0,0))
-		
-		var pushed_effect := false
-		
-		if (char_state.quest):
-			push_customfx(Quest.new(), { })
-			pushed_effect = true
+		elif (char_state.completed_word):
+			var word = Global.get_word_of(char_idx)
+			var color : Color = Global.MARK_COLOR
+			if (char_state.quest):
+				color = Global.QUEST_COLOR
+			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": color })
+		elif(char_state.visited):
+			push_color(Global.MARK_COLOR)
+		elif (char_state.quest):
+			push_color(Global.QUEST_COLOR)
 		elif (char_state.cursor):
 			push_customfx(Cursor.new(), { "color": Global.MARK_COLOR })
-			pushed_effect = true
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(),{})
-			pushed_effect = true
 		elif (char_state.impassable):
 			push_color(Global.IMPASSABLE_COLOR)
-			pushed_effect = true
 		
 		append_text(letter)
 		
-		if pushed_effect:
-			pop()
-		if trailing_space:
-			pop()
+		pop()
 		
 		prev_state = char_state
-
-	if (prev_state.visited):
-		pop()
 

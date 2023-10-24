@@ -1,5 +1,7 @@
 # Evening jam: Discovery
 
+"The pun is mightier than the word"
+
 ## Stipulation: Text based
 
 try to find as many words as possible
@@ -9,6 +11,7 @@ Goal: collect specific words to increase high score
 TODO:
 
 - Score when completing words
+- Disable input when game over
 - Sound effects
 - Music
 - New Corpus
@@ -16,3 +19,9 @@ TODO:
   - Exit
   - Restart
   - Credits
+
+## Tools & Resources
+
+- Godot
+- ChatGPT
+- [RichTextEffects](https://github.com/teebarjunk/godot-text_effects)

@@ -7,6 +7,7 @@ signal game_over
 
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
+const QUEST_COLOR: Color = Color.GOLD
 const IMPASSABLE_COLOR: Color = Color.DARK_SLATE_GRAY
 
 
@@ -20,7 +21,7 @@ var current_target : String
 class WordData:
 	var word : String
 	var start_idx : int
-	var states : Array[CharState]
+	var states : Array[CharState] = []
 
 class CharState:
 	var visited : bool
@@ -29,6 +30,7 @@ class CharState:
 	var invalid_move : bool
 	var completed_word : bool
 	var quest : bool
+	var local_idx : int # Only relevant for words
 
 var words : Array[String] = []
 var state : Dictionary = {}
@@ -55,6 +57,7 @@ func get_char_at(idx: int) -> String:
 	return corpus[normalized_idx]
 
 func get_word_of(idx: int) -> WordData:
+	var normalized_idx: int = normalize_idx(idx)
 	var letter = get_char_at(idx)
 	if (valid_regex.search(letter) == null):
 		return null
@@ -63,27 +66,30 @@ func get_word_of(idx: int) -> WordData:
 	
 	var start := ""
 	var end := ""
-	var states : Array[CharState] = []
 	
-	var pointer := idx +1
+	var pointer := normalized_idx +1
 	
 	while valid_regex.search(letter) != null:
 		end += letter
-		states.push_back(get_state(pointer-1))
+		data.states.push_back(get_state(pointer-1))
 		letter = get_char_at(pointer)
 		pointer+=1
 	
-	pointer = idx-1
+	pointer = normalized_idx-1
 	letter = get_char_at(pointer)
 	while valid_regex.search(letter) != null:
 		start = letter + start
-		states.push_front(get_state(pointer))
+		data.states.push_front(get_state(pointer))
 		pointer-=1
 		letter = get_char_at(pointer)
 	
 	data.start_idx = pointer+1
 	data.word = start+end
-	data.states = states
+	
+	var i :=0
+	for s in data.states:
+		s.local_idx = i
+		i += 1
 	
 	return data
 

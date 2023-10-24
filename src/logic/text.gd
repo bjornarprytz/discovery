@@ -60,6 +60,8 @@ func try_move(input : String) -> void:
 	if (input.length() > 1):
 		return
 	
+	_reset_word_state()
+	
 	var visited = [up, right, down, left].filter(func (c: MoveCandidate): return c.state.visited)
 	var not_visited = [up, right, down, left].filter(func (c: MoveCandidate): return !c.state.visited)
 	
@@ -94,7 +96,7 @@ func _visit(target_idx: int) -> int:
 	# TODO: add score per letter in a completed word, double if it's a quest word
 	var word = Global.get_word_of(target_idx) as Corpus.WordData
 	
-	if (word.states.all(func (s : Corpus.CharState): return s.visited or s.cursor)):
+	if (word != null and word.states.all(func (s : Corpus.CharState): return s.visited or s.cursor)):
 		var is_target = Global.current_target.nocasecmp_to(word.word) == 0
 			
 		for s in word.states:
@@ -123,6 +125,12 @@ func _visit(target_idx: int) -> int:
 	left = _create_candidate(current_pos -1,  Global.font_size * Vector2.LEFT)
 	
 	return score
+
+func _reset_word_state():
+	var word = Global.get_word_of(current_pos) as Corpus.WordData
+	if (word != null and word.states.all(func (s : Corpus.CharState): return s.visited or s.cursor)):
+		for s in word.states:
+			s.completed_word = false
 
 func _refresh_text():
 	for s in get_children():
