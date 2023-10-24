@@ -10,9 +10,7 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Sound effects
 - Music
-- New Corpus
 
 - Buttons
   - Exit

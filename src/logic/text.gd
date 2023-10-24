@@ -56,9 +56,9 @@ func _ready() -> void:
 	_visit(center_segment.start_index)
 	_refresh_text()
 
-func try_move(input : String) -> void:
+func try_move(input : String) -> bool:
 	if (input.length() > 1):
-		return
+		return true 
 	
 	_reset_word_state()
 	
@@ -79,8 +79,11 @@ func try_move(input : String) -> void:
 	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
 			Global.get_state((d as MoveCandidate).destination).invalid_move = true
+		_refresh_text()
+		return false
 	
 	_refresh_text()
+	return true
 
 func _visit(target_idx: int) -> int:
 	var prev_state = Global.get_state(current_pos) as Corpus.CharState

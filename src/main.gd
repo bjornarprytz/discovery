@@ -13,10 +13,12 @@ func _ready() -> void:
 	cam.zoom = Vector2(.6, .6)
 	Global.moved.connect(_move)
 	Global.game_over.connect(_game_over)
+	Global.completed_quest.connect($Camera/Quest.play)
 
 var tween : Tween
 
 func _move(step: Vector2, score_change: int):
+	$Camera/Click.play()
 	target_pos += step
 	score += score_change
 	if (tween != null):
@@ -26,6 +28,7 @@ func _move(step: Vector2, score_change: int):
 	tween.tween_property(cam, 'position', target_pos, .2)
 
 func _game_over():
+	$Camera/Finished.play()
 	game_over = true
 	Engine.time_scale = 0.4
 	tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
@@ -45,4 +48,5 @@ func _show_score():
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (!game_over and event.is_released()):
 		var key = event.as_text()
-		game.try_move(key)
+		if (!game.try_move(key)):
+			$Camera/Denied.play()

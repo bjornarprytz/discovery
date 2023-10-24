@@ -1,8 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cykltnkc0oakx"]
+[gd_scene load_steps=11 format=3 uid="uid://cykltnkc0oakx"]
 
 [ext_resource type="PackedScene" uid="uid://dimlovpbn02gs" path="res://logic/text.tscn" id="1_8pnxv"]
 [ext_resource type="Script" path="res://main.gd" id="1_l7u6q"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_my845"]
+[ext_resource type="AudioStream" uid="uid://baptchqbrwor6" path="res://assets/click.wav" id="4_28lg2"]
+[ext_resource type="AudioStream" uid="uid://d078wk84fudu7" path="res://assets/quest.wav" id="5_v4bgw"]
+[ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="6_yi4vj"]
+[ext_resource type="AudioStream" uid="uid://eqni4bq3mka7" path="res://assets/521105__matrixxx__retro-explosion-07.wav" id="7_qmte6"]
 
 [sub_resource type="Shader" id="Shader_txto1"]
 code = "shader_type canvas_item;
@@ -92,3 +96,20 @@ grow_vertical = 2
 theme = SubResource("Theme_axe8j")
 bbcode_enabled = true
 text = "[center][rainbow freq=.2 sat=0.4]00069"
+
+[node name="Click" type="AudioStreamPlayer2D" parent="Camera"]
+stream = ExtResource("4_28lg2")
+pitch_scale = 0.5
+max_polyphony = 3
+
+[node name="Quest" type="AudioStreamPlayer2D" parent="Camera"]
+stream = ExtResource("5_v4bgw")
+pitch_scale = 0.5
+
+[node name="Denied" type="AudioStreamPlayer2D" parent="Camera"]
+stream = ExtResource("6_yi4vj")
+
+[node name="Finished" type="AudioStreamPlayer2D" parent="Camera"]
+stream = ExtResource("7_qmte6")
+volume_db = -25.0
+pitch_scale = 0.75
