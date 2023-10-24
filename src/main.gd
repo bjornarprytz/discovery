@@ -3,19 +3,19 @@ extends Node2D
 @onready var cam : Camera2D = $Camera
 @onready var game : TextGame = $Text
 
-
+var score: int = 0
 var target_pos : Vector2
 
 func _ready() -> void:
 	cam.position = Global.font_size / 2
 	target_pos = cam.position
 	cam.zoom = Vector2(.6, .6)
-	Global.moved.connect(_move_target)
+	Global.moved.connect(_move)
 	Global.game_over.connect(_game_over)
 
 var tween : Tween
 
-func _move_target(step: Vector2):
+func _move(step: Vector2, score_change: int):
 	target_pos += step
 	if (tween != null):
 		tween.kill()
@@ -24,6 +24,7 @@ func _move_target(step: Vector2):
 	tween.tween_property(cam, 'position', target_pos, .2)
 
 func _game_over():
+	Engine.time_scale = 0.4
 	tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
 	tween.tween_property(cam, 'zoom', Vector2.ONE * 10.0, 2.0)
 	tween.tween_property($Camera/CameraFade, 'color', Color.BLACK, 2.0)
@@ -32,8 +33,11 @@ func _game_over():
 	tween.tween_property($Camera/CanvasLayer/GameOver, 'modulate', Color.WHITE, 2.0)
 
 func _show_score():
+	Engine.time_scale = 1.0
 	$Camera/CanvasLayer/GameOver.visible = true
 	$Camera/CanvasLayer/GameOver.modulate = Color.BLACK
+	$Camera/CanvasLayer/GameOver/Score.clear()
+	$Camera/CanvasLayer/GameOver/Score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(score).pad_zeros(5))
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):

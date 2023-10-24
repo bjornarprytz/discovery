@@ -50,7 +50,10 @@ func _append_line(idx: int) -> void:
 		
 		var pushed_effect := false
 		
-		if (char_state.cursor):
+		if (char_state.quest):
+			push_customfx(Quest.new(), { })
+			pushed_effect = true
+		elif (char_state.cursor):
 			push_customfx(Cursor.new(), { "color": Global.MARK_COLOR })
 			pushed_effect = true
 		elif (char_state.invalid_move):

@@ -71,8 +71,8 @@ func try_move(input : String) -> void:
 	
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
-			_visit(candidate.destination)
-			Global.moved.emit(candidate.step)
+			var score = _visit(candidate.destination)
+			Global.moved.emit(candidate.step, score)
 			
 	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
@@ -80,7 +80,7 @@ func try_move(input : String) -> void:
 	
 	_refresh_text()
 
-func _visit(target_idx: int):
+func _visit(target_idx: int) -> int:
 	var prev_state = Global.get_state(current_pos) as Corpus.CharState
 	prev_state.cursor = false
 	prev_state.visited = true
@@ -89,6 +89,20 @@ func _visit(target_idx: int):
 	next_state.cursor = true
 	
 	current_pos = target_idx
+	var score = 1 # Base score for moving
+	
+	# TODO: add score per letter in a completed word, double if it's a quest word
+	var word = Global.get_word_of(target_idx) as Corpus.WordData
+	
+	if (word.states.all(func (s : Corpus.CharState): return s.visited or s.cursor)):
+		var is_target = Global.current_target.nocasecmp_to(word.word) == 0
+			
+		for s in word.states:
+			s.completed_word = true
+			if (is_target):
+				s.quest = true
+		
+		Global.completed_quest.emit(word.word)
 	
 	if north_segment.contains_idx(current_pos):
 		_shift_north()
@@ -107,6 +121,8 @@ func _visit(target_idx: int):
 	right = _create_candidate(current_pos +1, Global.font_size * Vector2.RIGHT)
 	down = _create_candidate(current_pos + LINE_LENGTH, Global.font_size * Vector2.DOWN)
 	left = _create_candidate(current_pos -1,  Global.font_size * Vector2.LEFT)
+	
+	return score
 
 func _refresh_text():
 	for s in get_children():

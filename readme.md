@@ -11,3 +11,8 @@ TODO:
 - Score when completing words
 - Sound effects
 - Music
+- New Corpus
+- Buttons
+  - Exit
+  - Restart
+  - Credits
