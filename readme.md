@@ -10,11 +10,10 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Score when completing words
-- Disable input when game over
 - Sound effects
 - Music
 - New Corpus
+
 - Buttons
   - Exit
   - Restart

@@ -108,6 +108,7 @@ func _visit(target_idx: int) -> int:
 		
 		if (is_target):
 			Global.completed_quest.emit(word.word)
+			score *= 2
 	
 	if north_segment.contains_idx(current_pos):
 		_shift_north()
