@@ -97,14 +97,17 @@ func _visit(target_idx: int) -> int:
 	var word = Global.get_word_of(target_idx) as Corpus.WordData
 	
 	if (word != null and word.states.all(func (s : Corpus.CharState): return s.visited or s.cursor)):
+		score += word.word.length()
+		
 		var is_target = Global.current_target.nocasecmp_to(word.word) == 0
-			
+		
 		for s in word.states:
 			s.completed_word = true
 			if (is_target):
 				s.quest = true
 		
-		Global.completed_quest.emit(word.word)
+		if (is_target):
+			Global.completed_quest.emit(word.word)
 	
 	if north_segment.contains_idx(current_pos):
 		_shift_north()

@@ -38,32 +38,41 @@ func _append_line(idx: int) -> void:
 		var letter = Global.get_char_at(char_idx)
 		var char_state = Global.get_state(char_idx) as Corpus.CharState
 		
-		var trailing_space:bool = letter == " " and (pos == 0 or pos == Global.segment_width-1)
+		var pushed_effect := false
 		
+		var trailing_space:bool = letter == " " and (pos == 0 or pos == Global.segment_width-1)
 		if trailing_space:
 			# Hack to get around trailing spaces being removed in BBCode
 			letter = "_"
 			push_color(Color.from_hsv(0,0,0,0))
+			pushed_effect = true
+		elif (char_state.impassable):
+			push_color(Global.IMPASSABLE_COLOR)
+			pushed_effect = true
 		elif (char_state.completed_word):
 			var word = Global.get_word_of(char_idx)
 			var color : Color = Global.MARK_COLOR
 			if (char_state.quest):
 				color = Global.QUEST_COLOR
 			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": color })
+			pushed_effect = true
 		elif(char_state.visited):
 			push_color(Global.MARK_COLOR)
+			pushed_effect = true
 		elif (char_state.quest):
 			push_color(Global.QUEST_COLOR)
+			pushed_effect = true
 		elif (char_state.cursor):
 			push_customfx(Cursor.new(), { "color": Global.MARK_COLOR })
+			pushed_effect = true
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(),{})
-		elif (char_state.impassable):
-			push_color(Global.IMPASSABLE_COLOR)
+			pushed_effect = true
 		
 		append_text(letter)
 		
-		pop()
+		if pushed_effect:
+			pop()
 		
 		prev_state = char_state
 

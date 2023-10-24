@@ -8,7 +8,7 @@ signal game_over
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
 const QUEST_COLOR: Color = Color.GOLD
-const IMPASSABLE_COLOR: Color = Color.DARK_SLATE_GRAY
+const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 
 
 const font_size : Vector2 = Vector2(102.0, 256.0)
@@ -49,6 +49,9 @@ func get_state(idx: int) -> CharState:
 	var normalized_idx = normalize_idx(idx)
 	if (!state.has(normalized_idx)):
 		state[normalized_idx] = CharState.new()
+		
+	state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
+		
 	return state[normalized_idx]
 
 func get_char_at(idx: int) -> String:
