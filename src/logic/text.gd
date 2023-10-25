@@ -6,8 +6,6 @@ class_name TextGame
 @onready var SEGMENT_HEIGHT : int = Corpus.segment_height * Corpus.corpus_line_length
 @onready var SEGMENT_WIDTH : int = Corpus.segment_width
 
-var current_pos : int = 0
-
 var center_segment : TextSegment
 var north_segment : TextSegment
 var east_segment : TextSegment
@@ -19,20 +17,13 @@ var se_segment : TextSegment
 var sw_segment : TextSegment
 var nw_segment : TextSegment
 
-
-var up : MoveCandidate
-var right : MoveCandidate
-var down : MoveCandidate
-var left : MoveCandidate
-
-class MoveCandidate:
-	var destination : int
-	var character: String
-	var state: CorpusClass.CharState
-	var step : Vector2
-
 func _ready() -> void:
 	Corpus.load_corpus()
+	
+	Game.moved.connect(_on_moved)
+	Game.before_moving.connect(_on_moving)
+	Game.invalid_move.connect(_on_invalid_move)
+	
 	var random_start = randi_range(0, Corpus.corpus.length()-1)
 	var upper_left : int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
 	
@@ -54,68 +45,12 @@ func _ready() -> void:
 	south_segment = get_child(7)
 	se_segment = get_child(8)
 	
-	_visit(center_segment.start_index)
-	_refresh_text()
+	Game.force_move(center_segment.start_index)
 
-func try_move(input : String) -> bool:
-	if (input.length() > 1):
-		return true 
-	
+func _on_moving():
 	_reset_word_state()
-	
-	var visited = [up, right, down, left].filter(func (c: MoveCandidate): return c.state.visited)
-	var not_visited = [up, right, down, left].filter(func (c: MoveCandidate): return !c.state.visited)
-	
-	var invalid = not_visited.filter(func (c1: MoveCandidate): return not_visited.filter(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0).size() > 1)
-	var valid = not_visited.filter(func (c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func (c1: MoveCandidate): return !invalid.any(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
-	
-	if valid.is_empty():
-		Game.game_over.emit()
-	
-	for candidate in valid:
-		if (input.nocasecmp_to(candidate.character) == 0):
-			var score = _visit(candidate.destination)
-			Game.moved.emit(candidate.step, score)
-			
-	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
-		for d in invalid:
-			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
-		_refresh_text()
-		return false
-	
-	_refresh_text()
-	return true
 
-func _visit(target_idx: int) -> int:
-	var prev_state = Corpus.get_state(current_pos) as CorpusClass.CharState
-	prev_state.cursor = false
-	prev_state.visited = true
-	
-	var next_state = Corpus.get_state(target_idx) as CorpusClass.CharState
-	next_state.cursor = true
-	
-	current_pos = target_idx
-	var score = 1 # Base score for moving
-	if (Game.multiplier > 1):
-		Game.multiplier -= 1
-	
-	# TODO: add score per letter in a completed word, double if it's a quest word
-	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
-	
-	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
-		score += word.word.length()
-		Game.multiplier += word.word.length()
-		var is_target = Game.current_target.nocasecmp_to(word.word) == 0
-		
-		for s in word.states:
-			s.completed_word = true
-			if (is_target):
-				s.quest = true
-		
-		if (is_target):
-			Game.completed_quest.emit(word.word)
-			score *= Game.QUEST_MULTIPLIER
-	
+func _on_moved(prev_pos: int, current_pos: int, step: Vector2, score_change: int):
 	if north_segment.contains_idx(current_pos):
 		_shift_north()
 	elif east_segment.contains_idx(current_pos):
@@ -125,19 +60,13 @@ func _visit(target_idx: int) -> int:
 	elif west_segment.contains_idx(current_pos):
 		_shift_west()
 	
-	for c in [up, right, down, left]:
-		if (c != null):
-			c.state.invalid_move = false
-	
-	up = _create_candidate(current_pos - LINE_LENGTH, Corpus.font_size * Vector2.UP)
-	right = _create_candidate(current_pos +1, Corpus.font_size * Vector2.RIGHT)
-	down = _create_candidate(current_pos + LINE_LENGTH, Corpus.font_size * Vector2.DOWN)
-	left = _create_candidate(current_pos -1,  Corpus.font_size * Vector2.LEFT)
-	
-	return score * Game.multiplier
+	_refresh_text()
+
+func _on_invalid_move():
+	_refresh_text()
 
 func _reset_word_state():
-	var word = Corpus.get_word_of(current_pos) as CorpusClass.WordData
+	var word = Corpus.get_word_of(Game.current_pos) as CorpusClass.WordData
 	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
 		for s in word.states:
 			s.completed_word = false
@@ -145,15 +74,6 @@ func _reset_word_state():
 func _refresh_text():
 	for s in get_children():
 		(s as TextSegment).refresh()
-
-func _create_candidate(target_idx: int, step: Vector2) -> MoveCandidate:
-	var candidate = MoveCandidate.new()
-	candidate.character = Corpus.get_char_at(target_idx)
-	candidate.destination = target_idx
-	candidate.state = Corpus.get_state(target_idx)
-	candidate.step = step
-	return candidate
-	
 
 func _shift_north():
 	var new_upper_left : int = nw_segment.start_index - (SEGMENT_HEIGHT)

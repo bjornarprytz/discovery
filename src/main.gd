@@ -3,7 +3,6 @@ extends Node2D
 @onready var score_scene = preload("res://score.tscn")
 @onready var flair = preload("res://fx/flair.tscn")
 @onready var cam : Camera2D = $Camera
-@onready var game : TextGame = $Text
 @onready var ui : ColorRect = $Camera/CanvasLayer/Border
 
 @onready var score_board : RichTextLabel = $Camera/CanvasLayer/Border/FatigueBar/Score
@@ -20,49 +19,44 @@ func _ready() -> void:
 	Game.score = 0
 	cam.position = Corpus.font_size / 2
 	target_pos = cam.position
-	_new_target(Game.current_target)
-	_update_score()
 	cam.zoom = Vector2(.5, .5)
+	
+	_update_score()
+	_on_fatigue_tick(Game.word_fatigue, Game.word_fatigue)
+	_on_new_target(Game.current_target)
+	
 	Game.moved.connect(_move)
-	Game.new_target.connect(_new_target)
+	Game.fatigue_tick.connect(_on_fatigue_tick)
+	Game.new_target.connect(_on_new_target)
+	Game.invalid_move.connect(_on_invalid_move)
 	Game.game_over.connect(_game_over)
 	Game.completed_quest.connect($Sounds/Quest.play)
 
 var tween : Tween
 
-func _move(step: Vector2, score_change: int):
+func _move(prev_pos: int, current_pos: int, direction: Vector2, score_change: int):
 	$Sounds/Click.play()
-	target_pos += step
-	Game.score += score_change
+	target_pos += direction * Corpus.font_size
 	if (tween != null):
 		tween.kill()
-	
+	_update_score()
 	tween = create_tween()
 	tween.tween_property(cam, 'position', target_pos, .2)
 	tween.tween_callback(_flair.bind(score_change))
-	_tick_fatigue()
 
-func _reset_fatigue():
-	word_fatigue = Game.current_target.length() * Game.FATIGUE_FACTOR
-	steps_to_fatigue.clear()
-	steps_to_fatigue.append_text(str(word_fatigue))
-	tween = create_tween()
-	tween.tween_property(fatigue_bar, 'value', 100.0, .2)
+func _on_invalid_move():
+	$Sounds/Denied.play()
 
-func _tick_fatigue():
-	word_fatigue -= 1
+func _on_fatigue_tick(fatigue: int, cap: int):
 	steps_to_fatigue.clear()
-	steps_to_fatigue.append_text(str(word_fatigue))
-	var next_value: float = (float(word_fatigue) / float(Game.current_target.length() * Game.FATIGUE_FACTOR)) * 100.0
+	steps_to_fatigue.append_text(str(fatigue))
+	var next_value: float = (float(fatigue) / float(cap)) * 100.0
 	tween = create_tween()
 	tween.tween_property(fatigue_bar, 'value', next_value, .2)
-	if (word_fatigue <= 0):
-		Game.cycle_target()
 
-func _new_target(word : String):
+func _on_new_target(word : String):
 	target_ui.clear()
 	target_ui.append_text("[center]>"+word+"<")
-	_reset_fatigue()
 
 func _update_score():
 	score_board.clear()
@@ -74,7 +68,6 @@ func _flair(amount: int):
 	f.position = cam.position
 	f.amount = amount
 	f.emitting = true
-	_update_score()
 	await get_tree().create_timer(f.lifetime).timeout
 	f.queue_free()
 
@@ -106,5 +99,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		var key = event.as_text()
 		if (key == "Tab"):
 			_toggle_ui()
-		elif (!game.try_move(key)):
-			$Sounds/Denied.play()
+		else:
+			Game.try_move(key)
+			
