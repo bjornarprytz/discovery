@@ -3,6 +3,7 @@ class_name GameClass
 
 
 signal moved(prev_pos: int, current_pos: int, direction: Vector2, score_change: int)
+signal multiplier_changed(new_value: int)
 signal before_moving()
 signal invalid_move()
 signal fatigue_tick(fatigue: int, cap: int)
@@ -88,6 +89,9 @@ func _reset_fatigue():
 	fatigue_tick.emit(word_fatigue, word_fatigue)
 
 func _tick_fatigue():
+	if (multiplier > 1):
+		multiplier -= 1
+
 	var prev_fatigue = word_fatigue
 	word_fatigue -= 1
 	if (word_fatigue <= 0):
@@ -105,14 +109,13 @@ func _visit(target_idx: int) -> int:
 	
 	current_pos = target_idx
 	var score_change = 1 # Base score for moving
-	if (multiplier > 1):
-		multiplier -= 1
-	
+
 	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
 	
 	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
 		score_change += word.word.length()
-		multiplier += word.word.length()
+		score_change *= multiplier
+		multiplier = max(multiplier, word.word.length())
 		var is_target = current_target.nocasecmp_to(word.word) == 0
 		
 		for s in word.states:
@@ -132,8 +135,6 @@ func _visit(target_idx: int) -> int:
 	right = _create_candidate(current_pos +1, Vector2.RIGHT)
 	down = _create_candidate(current_pos + Corpus.corpus_line_length, Vector2.DOWN)
 	left = _create_candidate(current_pos -1, Vector2.LEFT)
-	
-	score_change *= Game.multiplier
 
 	return score_change
 

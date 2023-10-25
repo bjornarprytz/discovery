@@ -10,9 +10,6 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- make flair longer and more random velocity
-- refactor corpus and game
-- fatigue based on exiting moves
 - Music
 
 ## Tools & Resources
