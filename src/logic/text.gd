@@ -70,12 +70,12 @@ func try_move(input : String) -> bool:
 	var valid = not_visited.filter(func (c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func (c1: MoveCandidate): return !invalid.any(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
 	
 	if valid.is_empty():
-		Corpus.game_over.emit()
+		Game.game_over.emit()
 	
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
 			var score = _visit(candidate.destination)
-			Corpus.moved.emit(candidate.step, score)
+			Game.moved.emit(candidate.step, score)
 			
 	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
@@ -96,16 +96,16 @@ func _visit(target_idx: int) -> int:
 	
 	current_pos = target_idx
 	var score = 1 # Base score for moving
-	if (Corpus.multiplier > 1):
-		Corpus.multiplier -= 1
+	if (Game.multiplier > 1):
+		Game.multiplier -= 1
 	
 	# TODO: add score per letter in a completed word, double if it's a quest word
 	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
 	
 	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
 		score += word.word.length()
-		Corpus.multiplier += word.word.length()
-		var is_target = Corpus.current_target.nocasecmp_to(word.word) == 0
+		Game.multiplier += word.word.length()
+		var is_target = Game.current_target.nocasecmp_to(word.word) == 0
 		
 		for s in word.states:
 			s.completed_word = true
@@ -113,8 +113,8 @@ func _visit(target_idx: int) -> int:
 				s.quest = true
 		
 		if (is_target):
-			Corpus.completed_quest.emit(word.word)
-			score *= Corpus.QUEST_MULTIPLIER
+			Game.completed_quest.emit(word.word)
+			score *= Game.QUEST_MULTIPLIER
 	
 	if north_segment.contains_idx(current_pos):
 		_shift_north()
@@ -134,7 +134,7 @@ func _visit(target_idx: int) -> int:
 	down = _create_candidate(current_pos + LINE_LENGTH, Corpus.font_size * Vector2.DOWN)
 	left = _create_candidate(current_pos -1,  Corpus.font_size * Vector2.LEFT)
 	
-	return score * Corpus.multiplier
+	return score * Game.multiplier
 
 func _reset_word_state():
 	var word = Corpus.get_word_of(current_pos) as CorpusClass.WordData
@@ -143,7 +143,6 @@ func _reset_word_state():
 			s.completed_word = false
 
 func _refresh_text():
-	print("*** REFRESH ***")
 	for s in get_children():
 		(s as TextSegment).refresh()
 

@@ -11,7 +11,7 @@ var bbcode := "cursor"
 func _process_custom_fx(char_fx):
 	var frequency: float = char_fx.env.get("freq", 6.0)
 	var off_color: Color = char_fx.env.get("off_color", Color.from_hsv(0,0,0,0))
-	var on_color: Color = char_fx.env.get("color", Corpus.MARK_COLOR)
+	var on_color: Color = char_fx.env.get("color", Game.MARK_COLOR)
 	
 	if (sin(char_fx.elapsed_time * frequency) > 0.0):
 		char_fx.color = off_color

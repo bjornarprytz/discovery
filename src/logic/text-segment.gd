@@ -26,9 +26,6 @@ func refresh() -> void:
 	clear()
 	for line in range(Corpus.segment_height):
 		_append_line(start_index + (line * Corpus.corpus_line_length))
-	
-	print("---segment---")
-	
 
 func _append_line(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
@@ -50,9 +47,9 @@ func _append_line(idx: int) -> void:
 			letter = "_"
 			push_color(Color.from_hsv(0,0,0,0))
 		
-		var base_color : Color = Corpus.MARK_COLOR
+		var base_color : Color = Game.MARK_COLOR
 		if (char_state.quest):
-			base_color = Corpus.QUEST_COLOR
+			base_color = Game.QUEST_COLOR
 		
 		if (char_state.cursor):
 			if (letter == " "):
@@ -66,17 +63,16 @@ func _append_line(idx: int) -> void:
 			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": base_color })
 			pushed_effect = true
 		elif (char_state.quest):
-			push_color(Corpus.QUEST_COLOR)
+			push_color(Game.QUEST_COLOR)
 			pushed_effect = true
 		elif(char_state.visited):
-			push_color(Corpus.MARK_COLOR)
+			push_color(Game.MARK_COLOR)
 			pushed_effect = true
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(),{})
 			pushed_effect = true
 		
 		append_text(letter)
-		w+=letter
 		
 		if pushed_effect:
 			pop()
@@ -84,6 +80,4 @@ func _append_line(idx: int) -> void:
 			pop()
 		
 		prev_state = char_state
-	print("(", w, ")")
-	assert(w.length() == 12)
 

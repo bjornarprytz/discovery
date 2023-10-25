@@ -15,7 +15,7 @@ func _process_custom_fx(char_fx: CharFXTransform) -> bool:
 	var duration: float = char_fx.env.get("dur", .3)
 	var magnitude: float = char_fx.env.get("mag", 20.0)
 	var word_length: int = char_fx.env.get("len", 3)
-	var color : Color = char_fx.env.get("color", Corpus.MARK_COLOR)
+	var color : Color = char_fx.env.get("color", Game.MARK_COLOR)
 	
 	var delay = idx * duration / word_length
 	var delay_time = delay - char_fx.elapsed_time

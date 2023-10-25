@@ -1,27 +1,10 @@
 extends Node2D
 class_name CorpusClass
 
-signal moved(step: Vector2, score_change: int)
-signal completed_quest(word: String)
-signal new_target(word: String)
-signal game_over
-
-const ERROR_COLOR: Color = Color.CRIMSON
-const MARK_COLOR: Color = Color.AQUAMARINE
-const QUEST_COLOR: Color = Color.GOLDENROD
-const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
-
-const QUEST_MULTIPLIER: int = 4
-const FATIGUE_FACTOR: int = 5
-
-var current_target : String
-var score := 0
-var multiplier := 1
-
 const font_size : Vector2 = Vector2(128.0, 256.0)
-var corpus_line_length : int = 64
-var segment_width : int = 12
-var segment_height : int = 3
+const corpus_line_length : int = 64
+const segment_width : int = 12
+const segment_height : int = 3
 
 class WordData:
 	var word : String
@@ -121,20 +104,7 @@ func load_corpus(text: String = ""):
 		words.push_back(w.get_string().to_lower())
 	words.shuffle()
 	
-	current_target = words.pop_front()
 	state = {}
-
-func cycle_target():
-	current_target = words.pop_front()
-	new_target.emit(current_target)
-
-func _ready() -> void:
-	load_corpus(main_corpus)
-	completed_quest.connect(_on_quest_complete)
-
-func _on_quest_complete(word: String):
-	cycle_target()
-	
 
 @onready var main_corpus = "
 A Mad Tea-Party

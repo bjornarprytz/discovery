@@ -43,16 +43,16 @@ func try_move(input : String) -> bool:
 	var valid = not_visited.filter(func (c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func (c1: MoveCandidate): return !invalid.any(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
 	
 	if valid.is_empty():
-		Corpus.game_over.emit()
+		Game.game_over.emit()
 	
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
 			var score = _visit(candidate.destination)
-			Corpus.moved.emit(candidate.step, score)
+			Game.moved.emit(candidate.step, score)
 			
 	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
-			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
+			Game.get_state((d as MoveCandidate).destination).invalid_move = true
 		_refresh_text()
 		return false
 	
@@ -73,7 +73,7 @@ func _visit(target_idx: int) -> int:
 	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
 	
 	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
-		Corpus.completed_quest.emit(word.word)
+		Game.completed_quest.emit(word.word)
 	
 	for c in [up, right, down, left]:
 		if (c != null):
