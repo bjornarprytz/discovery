@@ -45,10 +45,9 @@ func _append_line(idx: int) -> void:
 			# Hack to get around trailing spaces being removed in BBCode
 			letter = "_"
 			push_color(Color.from_hsv(0,0,0,0))
-			pushed_effect = true
-		elif (char_state.impassable):
-			push_color(Global.IMPASSABLE_COLOR)
-			pushed_effect = true
+		
+		if (char_state.impassable):
+			pass
 		elif (char_state.completed_word):
 			var word = Global.get_word_of(char_idx)
 			var color : Color = Global.MARK_COLOR
@@ -72,6 +71,8 @@ func _append_line(idx: int) -> void:
 		append_text(letter)
 		
 		if pushed_effect:
+			pop()
+		if trailing_space:
 			pop()
 		
 		prev_state = char_state

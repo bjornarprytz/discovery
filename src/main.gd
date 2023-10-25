@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var score_scene = preload("res://score.tscn")
+@onready var flair = preload("res://fx/flair.tscn")
 @onready var cam : Camera2D = $Camera
 @onready var game : TextGame = $Text
 
@@ -11,7 +12,7 @@ func _ready() -> void:
 	Global.score = 0
 	cam.position = Global.font_size / 2
 	target_pos = cam.position
-	cam.zoom = Vector2(.6, .6)
+	cam.zoom = Vector2(.5, .5)
 	Global.moved.connect(_move)
 	Global.game_over.connect(_game_over)
 	Global.completed_quest.connect($Sounds/Quest.play)
@@ -27,6 +28,16 @@ func _move(step: Vector2, score_change: int):
 	
 	tween = create_tween()
 	tween.tween_property(cam, 'position', target_pos, .2)
+	tween.tween_callback(_flair.bind(score_change))
+
+func _flair(amount: int):
+	var f = flair.instantiate() as CPUParticles2D
+	add_child(f)
+	f.position = cam.position
+	f.amount = amount
+	f.emitting = true
+	await get_tree().create_timer(f.lifetime).timeout
+	f.queue_free()
 
 func _game_over():
 	$Sounds/Finished.play()

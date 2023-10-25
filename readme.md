@@ -10,7 +10,6 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Particles based on score
 - Add feedback / explanation of target words
 - Cycle target words when quest completed
 
