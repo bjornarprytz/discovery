@@ -10,10 +10,7 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Add feedback / explanation of target words
-- Cycle target words when quest completed
-Color(0.854902, 0.647059, 0.12549, 1)
-- CI
+- cycle words after a set number of moves
 - Music
 
 ## Tools & Resources

@@ -55,11 +55,11 @@ func _append_line(idx: int) -> void:
 				color = Global.QUEST_COLOR
 			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": color })
 			pushed_effect = true
-		elif(char_state.visited):
-			push_color(Global.MARK_COLOR)
-			pushed_effect = true
 		elif (char_state.quest):
 			push_color(Global.QUEST_COLOR)
+			pushed_effect = true
+		elif(char_state.visited):
+			push_color(Global.MARK_COLOR)
 			pushed_effect = true
 		elif (char_state.cursor):
 			push_customfx(Cursor.new(), { "color": Global.MARK_COLOR })

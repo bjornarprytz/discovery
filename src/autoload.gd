@@ -11,6 +11,7 @@ const MARK_COLOR: Color = Color.AQUAMARINE
 const QUEST_COLOR: Color = Color.GOLDENROD
 const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 
+const QUEST_MULTIPLIER: int = 4
 
 const font_size : Vector2 = Vector2(102.0, 256.0)
 var corpus_line_length : int = 64
@@ -104,7 +105,7 @@ func load_corpus(text: String = ""):
 	assert(segment_height > 0)
 	assert(segment_width > 0)
 	
-	valid_regex.compile("[a-zA-Z0-9]")
+	valid_regex.compile("\\w+")
 	
 	if (text.length() > 0):
 		corpus = text
@@ -114,9 +115,8 @@ func load_corpus(text: String = ""):
 	corpus = corpus.replace("\n", " ").replace("  ", " ")
 	
 	words = []
-	for w in corpus.split(" ", false):
-		words.push_back(w.replace(".", "").to_lower())
-		
+	for w in valid_regex.search_all(corpus):
+		words.push_back(w.get_string().to_lower())
 	words.shuffle()
 	
 	current_target = words.pop_front()
