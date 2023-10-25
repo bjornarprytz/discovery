@@ -45,21 +45,23 @@ script = ExtResource("1_l7u6q")
 [node name="Camera" type="Camera2D" parent="."]
 material = SubResource("ShaderMaterial_h24hg")
 
-[node name="CameraFade" type="CanvasModulate" parent="Camera"]
+[node name="Fade" type="CanvasModulate" parent="Camera"]
 
-[node name="Click" type="AudioStreamPlayer2D" parent="Camera"]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Click" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("4_28lg2")
 pitch_scale = 0.5
 max_polyphony = 3
 
-[node name="Quest" type="AudioStreamPlayer2D" parent="Camera"]
+[node name="Quest" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("5_v4bgw")
 pitch_scale = 0.5
 
-[node name="Denied" type="AudioStreamPlayer2D" parent="Camera"]
+[node name="Denied" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("6_yi4vj")
 
-[node name="Finished" type="AudioStreamPlayer2D" parent="Camera"]
+[node name="Finished" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("7_qmte6")
 volume_db = -25.0
 pitch_scale = 0.75
