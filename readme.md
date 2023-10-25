@@ -12,7 +12,7 @@ TODO:
 
 - Add feedback / explanation of target words
 - Cycle target words when quest completed
-
+Color(0.854902, 0.647059, 0.12549, 1)
 - CI
 - Music
 

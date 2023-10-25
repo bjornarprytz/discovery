@@ -5,6 +5,9 @@ extends Node2D
 @onready var cam : Camera2D = $Camera
 @onready var game : TextGame = $Text
 
+@onready var score_board : RichTextLabel = $Camera/CanvasLayer/Border/ColorRect/Score
+@onready var target_ui : RichTextLabel = $Camera/CanvasLayer/Border/ColorRect/TargetWord
+
 var target_pos : Vector2
 var game_over := false
 
@@ -12,8 +15,11 @@ func _ready() -> void:
 	Global.score = 0
 	cam.position = Global.font_size / 2
 	target_pos = cam.position
+	_new_target(Global.current_target)
+	_update_score()
 	cam.zoom = Vector2(.5, .5)
 	Global.moved.connect(_move)
+	Global.new_target.connect(_new_target)
 	Global.game_over.connect(_game_over)
 	Global.completed_quest.connect($Sounds/Quest.play)
 
@@ -30,6 +36,14 @@ func _move(step: Vector2, score_change: int):
 	tween.tween_property(cam, 'position', target_pos, .2)
 	tween.tween_callback(_flair.bind(score_change))
 
+func _new_target(word : String):
+	target_ui.clear()
+	target_ui.append_text("[center]"+word)
+
+func _update_score():
+	score_board.clear()
+	score_board.append_text("[right]"+str(Global.score).pad_zeros(5))
+
 func _flair(amount: int):
 	var f = flair.instantiate() as CPUParticles2D
 	add_child(f)
@@ -37,6 +51,7 @@ func _flair(amount: int):
 	f.amount = amount
 	f.emitting = true
 	await get_tree().create_timer(f.lifetime).timeout
+	_update_score()
 	f.queue_free()
 
 func _game_over():

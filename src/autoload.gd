@@ -3,11 +3,12 @@ class_name Corpus
 
 signal moved(step: Vector2, score_change: int)
 signal completed_quest(word: String)
+signal new_target(word: String)
 signal game_over
 
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
-const QUEST_COLOR: Color = Color.GOLD
+const QUEST_COLOR: Color = Color.GOLDENROD
 const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 
 
@@ -115,12 +116,22 @@ func load_corpus(text: String = ""):
 	words = []
 	for w in corpus.split(" ", false):
 		words.push_back(w.replace(".", "").to_lower())
+		
+	words.shuffle()
 	
-	current_target = words.pick_random()
+	current_target = words.pop_front()
 	state = {}
 
 func _ready() -> void:
 	load_corpus(main_corpus)
+	completed_quest.connect(_on_quest_complete)
+
+func _on_quest_complete(word: String):
+	assert(current_target.nocasecmp_to(word) == 0)
+	current_target = words.pop_front()
+	
+	new_target.emit(current_target)
+	
 
 @onready var main_corpus = "
 A Mad Tea-Party
