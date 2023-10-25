@@ -44,29 +44,32 @@ func _append_line(idx: int) -> void:
 		
 		var pushed_effect := false
 		
-		var trailing_space:bool = letter == " " and (pos == 0 or pos == Corpus.segment_width-1)
+		var trailing_space:bool = letter == " " and !char_state.cursor and (pos == 0 or pos == Corpus.segment_width-1)
 		if trailing_space:
 			# Hack to get around trailing spaces being removed in BBCode
 			letter = "_"
 			push_color(Color.from_hsv(0,0,0,0))
 		
-		if (char_state.impassable):
+		var base_color : Color = Corpus.MARK_COLOR
+		if (char_state.quest):
+			base_color = Corpus.QUEST_COLOR
+		
+		if (char_state.cursor):
+			if (letter == " "):
+				letter = "_"
+			push_customfx(Cursor.new(), { "color": base_color })
+			pushed_effect = true
+		elif (char_state.impassable):
 			pass
 		elif (char_state.completed_word):
 			var word = Corpus.get_word_of(char_idx)
-			var color : Color = Corpus.MARK_COLOR
-			if (char_state.quest):
-				color = Corpus.QUEST_COLOR
-			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": color })
+			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": base_color })
 			pushed_effect = true
 		elif (char_state.quest):
 			push_color(Corpus.QUEST_COLOR)
 			pushed_effect = true
 		elif(char_state.visited):
 			push_color(Corpus.MARK_COLOR)
-			pushed_effect = true
-		elif (char_state.cursor):
-			push_customfx(Cursor.new(), { "color": Corpus.MARK_COLOR })
 			pushed_effect = true
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(),{})

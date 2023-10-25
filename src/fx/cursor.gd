@@ -7,8 +7,6 @@ extends RichTextEffect
 # - Register this effect on the label.
 # - Use [cursor param=2.0]hello[/cursor] in text.
 var bbcode := "cursor"
-const CURSOR = "█"
-const CURSOR_COLOR = Color.GREEN_YELLOW
 
 func _process_custom_fx(char_fx):
 	var frequency: float = char_fx.env.get("freq", 6.0)

@@ -14,14 +14,14 @@ const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 const QUEST_MULTIPLIER: int = 4
 const FATIGUE_FACTOR: int = 5
 
+var current_target : String
+var score := 0
+var multiplier := 1
+
 const font_size : Vector2 = Vector2(128.0, 256.0)
 var corpus_line_length : int = 64
 var segment_width : int = 12
 var segment_height : int = 3
-
-var current_target : String
-var score := 0
-var multiplier := 1
 
 class WordData:
 	var word : String

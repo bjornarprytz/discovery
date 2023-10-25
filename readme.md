@@ -10,7 +10,8 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- offset bug on text segment
+- make flair longer and more random velocity
+- refactor corpus and game
 - fatigue based on exiting moves
 - Music
 
@@ -20,19 +21,5 @@ TODO:
 - ChatGPT
 - [RichTextEffects](https://github.com/teebarjunk/godot-text_effects)
 - [Freesound](https://freesound.org/)
-
-## Cases
-
-It's ligatures on ff and fi
-
-(lice thought)
-(w. Not at fi)
-(_to half-pas)
-
-(f you to off)
-(u to sit dow)
-(t know it wa)
-
-(tter, when t)
-(_time! Off w)
-(. And ever s)
+- [Google fonts](https://fonts.google.com/)
+- [fontspace.com](https://www.fontspace.com/)
