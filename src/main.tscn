@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cykltnkc0oakx"]
+[gd_scene load_steps=13 format=3 uid="uid://cykltnkc0oakx"]
 
 [ext_resource type="PackedScene" uid="uid://dimlovpbn02gs" path="res://logic/text.tscn" id="1_8pnxv"]
 [ext_resource type="Script" path="res://main.gd" id="1_l7u6q"]
@@ -38,6 +38,13 @@ shader = SubResource("Shader_txto1")
 shader_parameter/blur_radius = 7.97
 shader_parameter/blur_passes = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bi1r6"]
+bg_color = Color(0.0235294, 0.0235294, 0.215686, 1)
+border_color = Color(0.854902, 0.647059, 0.12549, 0.556863)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pp6o0"]
+bg_color = Color(0.108257, 0.108401, 0.525029, 1)
+
 [sub_resource type="Theme" id="Theme_brgmk"]
 default_font = ExtResource("3_iivva")
 default_font_size = 48
@@ -65,7 +72,7 @@ grow_horizontal = 2
 grow_vertical = 0
 color = Color(0.854902, 0.647059, 0.12549, 0.556863)
 
-[node name="ColorRect" type="ColorRect" parent="Camera/CanvasLayer/Border"]
+[node name="FatigueBar" type="ProgressBar" parent="Camera/CanvasLayer/Border"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -76,9 +83,25 @@ offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0235294, 0.0235294, 0.215686, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_bi1r6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pp6o0")
+value = 50.0
+show_percentage = false
 
-[node name="TargetWord" type="RichTextLabel" parent="Camera/CanvasLayer/Border/ColorRect"]
+[node name="StepsToFatigue" type="RichTextLabel" parent="Camera/CanvasLayer/Border/FatigueBar"]
+modulate = Color(0.6, 0.6, 0.6, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_right = -998.0
+theme = SubResource("Theme_brgmk")
+bbcode_enabled = true
+text = "69"
+scroll_active = false
+
+[node name="TargetWord" type="RichTextLabel" parent="Camera/CanvasLayer/Border/FatigueBar"]
 modulate = Color(0.854902, 0.647059, 0.12549, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -91,7 +114,7 @@ bbcode_enabled = true
 text = "[center]you"
 scroll_active = false
 
-[node name="Score" type="RichTextLabel" parent="Camera/CanvasLayer/Border/ColorRect"]
+[node name="Score" type="RichTextLabel" parent="Camera/CanvasLayer/Border/FatigueBar"]
 modulate = Color(0.854902, 0.647059, 0.12549, 1)
 layout_mode = 1
 anchors_preset = -1

@@ -10,8 +10,8 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- cycle words after a set number of moves
 - offset bug on text segment
+- fatigue based on exiting moves
 - Music
 
 ## Tools & Resources

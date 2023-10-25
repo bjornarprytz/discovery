@@ -96,13 +96,15 @@ func _visit(target_idx: int) -> int:
 	
 	current_pos = target_idx
 	var score = 1 # Base score for moving
+	if (Global.multiplier > 1):
+		Global.multiplier -= 1
 	
 	# TODO: add score per letter in a completed word, double if it's a quest word
 	var word = Global.get_word_of(target_idx) as Corpus.WordData
 	
 	if (word != null and word.states.all(func (s : Corpus.CharState): return s.visited or s.cursor)):
 		score += word.word.length()
-		
+		Global.multiplier += word.word.length()
 		var is_target = Global.current_target.nocasecmp_to(word.word) == 0
 		
 		for s in word.states:
@@ -132,7 +134,7 @@ func _visit(target_idx: int) -> int:
 	down = _create_candidate(current_pos + LINE_LENGTH, Global.font_size * Vector2.DOWN)
 	left = _create_candidate(current_pos -1,  Global.font_size * Vector2.LEFT)
 	
-	return score
+	return score * Global.multiplier
 
 func _reset_word_state():
 	var word = Global.get_word_of(current_pos) as Corpus.WordData

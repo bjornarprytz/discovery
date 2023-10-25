@@ -6,12 +6,15 @@ extends Node2D
 @onready var game : TextGame = $Text
 @onready var ui : ColorRect = $Camera/CanvasLayer/Border
 
-@onready var score_board : RichTextLabel = $Camera/CanvasLayer/Border/ColorRect/Score
-@onready var target_ui : RichTextLabel = $Camera/CanvasLayer/Border/ColorRect/TargetWord
+@onready var score_board : RichTextLabel = $Camera/CanvasLayer/Border/FatigueBar/Score
+@onready var target_ui : RichTextLabel = $Camera/CanvasLayer/Border/FatigueBar/TargetWord
+@onready var steps_to_fatigue : RichTextLabel = $Camera/CanvasLayer/Border/FatigueBar/StepsToFatigue
+@onready var fatigue_bar : ProgressBar = $Camera/CanvasLayer/Border/FatigueBar
 
 var target_pos : Vector2
 var game_over := false
 var show_ui := true
+var word_fatigue := 0
 
 func _ready() -> void:
 	Global.score = 0
@@ -37,10 +40,29 @@ func _move(step: Vector2, score_change: int):
 	tween = create_tween()
 	tween.tween_property(cam, 'position', target_pos, .2)
 	tween.tween_callback(_flair.bind(score_change))
+	_tick_fatigue()
+
+func _reset_fatigue():
+	word_fatigue = Global.current_target.length() * Global.FATIGUE_FACTOR
+	steps_to_fatigue.clear()
+	steps_to_fatigue.append_text(str(word_fatigue))
+	tween = create_tween()
+	tween.tween_property(fatigue_bar, 'value', 100.0, .2)
+
+func _tick_fatigue():
+	word_fatigue -= 1
+	steps_to_fatigue.clear()
+	steps_to_fatigue.append_text(str(word_fatigue))
+	var next_value: float = (float(word_fatigue) / float(Global.current_target.length() * Global.FATIGUE_FACTOR)) * 100.0
+	tween = create_tween()
+	tween.tween_property(fatigue_bar, 'value', next_value, .2)
+	if (word_fatigue <= 0):
+		Global.cycle_target()
 
 func _new_target(word : String):
 	target_ui.clear()
 	target_ui.append_text("[center]>"+word+"<")
+	_reset_fatigue()
 
 func _update_score():
 	score_board.clear()
@@ -52,8 +74,8 @@ func _flair(amount: int):
 	f.position = cam.position
 	f.amount = amount
 	f.emitting = true
-	await get_tree().create_timer(f.lifetime).timeout
 	_update_score()
+	await get_tree().create_timer(f.lifetime).timeout
 	f.queue_free()
 
 func _game_over():

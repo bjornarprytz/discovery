@@ -12,6 +12,7 @@ const QUEST_COLOR: Color = Color.GOLDENROD
 const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 
 const QUEST_MULTIPLIER: int = 4
+const FATIGUE_FACTOR: int = 5
 
 const font_size : Vector2 = Vector2(102.0, 256.0)
 var corpus_line_length : int = 64
@@ -20,6 +21,7 @@ var segment_height : int = 3
 
 var current_target : String
 var score := 0
+var multiplier := 1
 
 class WordData:
 	var word : String
@@ -112,7 +114,7 @@ func load_corpus(text: String = ""):
 	else:
 		corpus = main_corpus
 	
-	corpus = corpus.replace("\n", " ").replace("  ", " ")
+	corpus = corpus.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
 	
 	words = []
 	for w in valid_regex.search_all(corpus):
@@ -122,14 +124,16 @@ func load_corpus(text: String = ""):
 	current_target = words.pop_front()
 	state = {}
 
+func cycle_target():
+	current_target = words.pop_front()
+	new_target.emit(current_target)
+
 func _ready() -> void:
 	load_corpus(main_corpus)
 	completed_quest.connect(_on_quest_complete)
 
 func _on_quest_complete(word: String):
-	current_target = words.pop_front()
-	
-	new_target.emit(current_target)
+	cycle_target()
 	
 
 @onready var main_corpus = "
