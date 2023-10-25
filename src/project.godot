@@ -19,7 +19,12 @@ config/icon="res://icon.svg"
 
 Global="*res://autoload.tscn"
 
+[display]
+
+window/size/resizable=false
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0235294, 0.0235294, 0.215686, 1)

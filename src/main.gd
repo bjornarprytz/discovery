@@ -38,7 +38,7 @@ func _move(step: Vector2, score_change: int):
 
 func _new_target(word : String):
 	target_ui.clear()
-	target_ui.append_text("[center]"+word)
+	target_ui.append_text("[center]>"+word+"<")
 
 func _update_score():
 	score_board.clear()
