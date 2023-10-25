@@ -17,23 +17,23 @@ var show_ui := true
 var word_fatigue := 0
 
 func _ready() -> void:
-	Global.score = 0
-	cam.position = Global.font_size / 2
+	Corpus.score = 0
+	cam.position = Corpus.font_size / 2
 	target_pos = cam.position
-	_new_target(Global.current_target)
+	_new_target(Corpus.current_target)
 	_update_score()
 	cam.zoom = Vector2(.5, .5)
-	Global.moved.connect(_move)
-	Global.new_target.connect(_new_target)
-	Global.game_over.connect(_game_over)
-	Global.completed_quest.connect($Sounds/Quest.play)
+	Corpus.moved.connect(_move)
+	Corpus.new_target.connect(_new_target)
+	Corpus.game_over.connect(_game_over)
+	Corpus.completed_quest.connect($Sounds/Quest.play)
 
 var tween : Tween
 
 func _move(step: Vector2, score_change: int):
 	$Sounds/Click.play()
 	target_pos += step
-	Global.score += score_change
+	Corpus.score += score_change
 	if (tween != null):
 		tween.kill()
 	
@@ -43,7 +43,7 @@ func _move(step: Vector2, score_change: int):
 	_tick_fatigue()
 
 func _reset_fatigue():
-	word_fatigue = Global.current_target.length() * Global.FATIGUE_FACTOR
+	word_fatigue = Corpus.current_target.length() * Corpus.FATIGUE_FACTOR
 	steps_to_fatigue.clear()
 	steps_to_fatigue.append_text(str(word_fatigue))
 	tween = create_tween()
@@ -53,11 +53,11 @@ func _tick_fatigue():
 	word_fatigue -= 1
 	steps_to_fatigue.clear()
 	steps_to_fatigue.append_text(str(word_fatigue))
-	var next_value: float = (float(word_fatigue) / float(Global.current_target.length() * Global.FATIGUE_FACTOR)) * 100.0
+	var next_value: float = (float(word_fatigue) / float(Corpus.current_target.length() * Corpus.FATIGUE_FACTOR)) * 100.0
 	tween = create_tween()
 	tween.tween_property(fatigue_bar, 'value', next_value, .2)
 	if (word_fatigue <= 0):
-		Global.cycle_target()
+		Corpus.cycle_target()
 
 func _new_target(word : String):
 	target_ui.clear()
@@ -66,7 +66,7 @@ func _new_target(word : String):
 
 func _update_score():
 	score_board.clear()
-	score_board.append_text("[right]"+str(Global.score).pad_zeros(5))
+	score_board.append_text("[right]"+str(Corpus.score).pad_zeros(5))
 
 func _flair(amount: int):
 	var f = flair.instantiate() as CPUParticles2D

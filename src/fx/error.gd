@@ -19,7 +19,7 @@ func _process_custom_fx(char_fx):
 	var scale:float = char_fx.env.get("scale", 10.0)
 	var freq:float = char_fx.env.get("freq", 100.0)
 	var duration:float = char_fx.env.get("duration", .2)
-	var color = Color(char_fx.env.get("color", Global.ERROR_COLOR))
+	var color = Color(char_fx.env.get("color", Corpus.ERROR_COLOR))
 	
 	var time_remaining = duration - char_fx.elapsed_time
 	

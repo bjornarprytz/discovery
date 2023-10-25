@@ -14,7 +14,7 @@ const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 const QUEST_MULTIPLIER: int = 4
 const FATIGUE_FACTOR: int = 5
 
-const font_size : Vector2 = Vector2(102.0, 256.0)
+const font_size : Vector2 = Vector2(128.0, 256.0)
 var corpus_line_length : int = 64
 var segment_width : int = 12
 var segment_height : int = 3
@@ -249,5 +249,5 @@ This piece of rudeness was more than Alice could bear: she got up in great disgu
 Hatter and Hare dunking Dormouse
 At any rate Ill never go there again! said Alice as she picked her way through the wood. Its the stupidest tea-party I ever was at in all my life!
 Just as she said this, she noticed that one of the trees had a door leading right into it. Thats very curious! she thought. But everythings curious today. I think I may as well go in at once. And in she went.
-Once more she found herself in the long hall, and close to the little glass table. Now, Ill manage better this time, she said to herself, and began by taking the little golden key, and unlocking the door that led into the garden. Then she went to work nibbling at the mushroom (she had kept a piece of it in her pocket) till she was about a foot high: then she walked down the little passage: and thenshe found herself at last in the beautiful garden, among the bright flower-beds and the cool fountains.
+Once more she found herself in the long hall, and close to the little glass table. Now, Ill manage better this time, she said to herself, and began by taking the little golden key, and unlocking the door that led into the garden. Then she went to work nibbling at the mushroom (she had kept a piece of it in her pocket) till she was about a foot high: then she walked down the little passage: and then she found herself at last in the beautiful garden, among the bright flower-beds and the cool fountains. 
 "

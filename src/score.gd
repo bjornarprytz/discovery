@@ -5,9 +5,9 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$GameOver/Score.clear()
-	$GameOver/Score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Global.score).pad_zeros(5))
+	$GameOver/Score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Corpus.score).pad_zeros(5))
 	
-	Global.completed_quest.connect(_word_complete)
+	Corpus.completed_quest.connect(_word_complete)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
