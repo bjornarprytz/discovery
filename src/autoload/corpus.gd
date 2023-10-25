@@ -1,5 +1,5 @@
 extends Node2D
-class_name Corpus
+class_name CorpusClass
 
 signal moved(step: Vector2, score_change: int)
 signal completed_quest(word: String)
