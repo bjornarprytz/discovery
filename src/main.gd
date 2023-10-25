@@ -4,12 +4,14 @@ extends Node2D
 @onready var flair = preload("res://fx/flair.tscn")
 @onready var cam : Camera2D = $Camera
 @onready var game : TextGame = $Text
+@onready var ui : ColorRect = $Camera/CanvasLayer/Border
 
 @onready var score_board : RichTextLabel = $Camera/CanvasLayer/Border/ColorRect/Score
 @onready var target_ui : RichTextLabel = $Camera/CanvasLayer/Border/ColorRect/TargetWord
 
 var target_pos : Vector2
 var game_over := false
+var show_ui := true
 
 func _ready() -> void:
 	Global.score = 0
@@ -68,8 +70,19 @@ func _show_score():
 	Engine.time_scale = 1.0
 	get_tree().change_scene_to_packed(score_scene)
 
+func _toggle_ui():
+	show_ui = !show_ui
+	
+	tween = create_tween().set_ease(Tween.EASE_IN)
+	if (show_ui):
+		tween.tween_property(ui, 'position:y', 588, .5)
+	else:
+		tween.tween_property(ui, 'position:y', 648, .5)
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (!game_over and event.is_released()):
 		var key = event.as_text()
-		if (!game.try_move(key)):
+		if (key == "Tab"):
+			_toggle_ui()
+		elif (!game.try_move(key)):
 			$Sounds/Denied.play()

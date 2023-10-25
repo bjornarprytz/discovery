@@ -127,7 +127,6 @@ func _ready() -> void:
 	completed_quest.connect(_on_quest_complete)
 
 func _on_quest_complete(word: String):
-	assert(current_target.nocasecmp_to(word) == 0)
 	current_target = words.pop_front()
 	
 	new_target.emit(current_target)
