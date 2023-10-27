@@ -7,7 +7,7 @@
 
 [sub_resource type="Theme" id="Theme_w2jmn"]
 default_font = ExtResource("1_yqmf8")
-default_font_size = 256
+default_font_size = 64
 
 [sub_resource type="RichTextEffect" id="RichTextEffect_3fy6j"]
 script = ExtResource("2_2d4qo")
@@ -21,7 +21,7 @@ offset_right = 1536.0
 offset_bottom = 768.0
 theme = SubResource("Theme_w2jmn")
 bbcode_enabled = true
-text = "The [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mp"
+text = "The [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mpThe [color=blue]antialiasing sh[/color]ar[cursor]p[/cursor]ness [quest idx=10]c[/quest][quest idx=11]a[/quest][quest idx=12]n[/quest] be [color=green]i[/color]mp"
 scroll_active = false
 autowrap_mode = 1
 custom_effects = [SubResource("RichTextEffect_3fy6j"), SubResource("RichTextEffect_loi5u")]

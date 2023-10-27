@@ -10,6 +10,9 @@ Goal: collect specific words to increase high score
 
 TODO:
 
+- Bug
+  - Errors on the first move stick around
+
 - Music
 
 ## Tools & Resources

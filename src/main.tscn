@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dimlovpbn02gs" path="res://logic/text.tscn" id="1_8pnxv"]
 [ext_resource type="Script" path="res://main.gd" id="1_l7u6q"]
+[ext_resource type="Shader" path="res://fx/magnify.gdshader" id="3_853ub"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_iivva"]
 [ext_resource type="AudioStream" uid="uid://baptchqbrwor6" path="res://assets/click.wav" id="4_28lg2"]
 [ext_resource type="AudioStream" uid="uid://8481vgpl2nyt" path="res://assets/pickup-word.mp3" id="5_7s16o"]
@@ -9,35 +10,11 @@
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="6_yi4vj"]
 [ext_resource type="AudioStream" uid="uid://eqni4bq3mka7" path="res://assets/finished.wav" id="8_0jjta"]
 
-[sub_resource type="Shader" id="Shader_txto1"]
-code = "shader_type canvas_item;
-
-uniform float blur_radius : hint_range(1.0, 10.0) = 2.0;
-uniform int blur_passes : hint_range(1, 10) = 3;
-uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
-
-void fragment() {
-	vec4 col = texture(screen_texture, SCREEN_UV);
-
-	vec2 resolution = 1.0 / SCREEN_PIXEL_SIZE;
-
-	for (int i = 0; i < blur_passes; i++) {
-		col += texture(screen_texture, SCREEN_UV + vec2(0.0, float(i) * blur_radius / resolution.y));
-		col += texture(screen_texture, SCREEN_UV - vec2(0.0, float(i) * blur_radius / resolution.y));
-		col += texture(screen_texture, SCREEN_UV + vec2(float(i) * blur_radius / resolution.x, 0.0));
-		col += texture(screen_texture, SCREEN_UV - vec2(float(i) * blur_radius / resolution.x, 0.0));
-	}
-
-	col /= float(blur_passes * 4 + 1);
-
-	COLOR = col;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h24hg"]
-shader = SubResource("Shader_txto1")
-shader_parameter/blur_radius = 7.97
-shader_parameter/blur_passes = 3
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d6bg2"]
+shader = ExtResource("3_853ub")
+shader_parameter/magnification = 2.0
+shader_parameter/distortion_strength = null
+shader_parameter/sharpness_radius = null
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bi1r6"]
 bg_color = Color(0.0235294, 0.0235294, 0.215686, 1)
@@ -56,9 +33,10 @@ script = ExtResource("1_l7u6q")
 [node name="Text" parent="." instance=ExtResource("1_8pnxv")]
 
 [node name="Camera" type="Camera2D" parent="."]
-material = SubResource("ShaderMaterial_h24hg")
+zoom = Vector2(1.5, 1.5)
 
 [node name="Fade" type="CanvasModulate" parent="Camera"]
+material = SubResource("ShaderMaterial_d6bg2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
 

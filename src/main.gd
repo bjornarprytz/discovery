@@ -21,7 +21,6 @@ func _ready() -> void:
 	Game.score = 0
 	cam.position = Corpus.font_size / 2
 	target_pos = cam.position
-	cam.zoom = Vector2(.5, .5)
 	
 	_update_score()
 	_on_fatigue_tick(Game.word_fatigue, Game.word_fatigue)

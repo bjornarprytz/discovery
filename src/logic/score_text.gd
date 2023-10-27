@@ -20,15 +20,12 @@ class MoveCandidate:
 	var step : Vector2
 
 func _ready() -> void:
-	Game.start("Restart ------------------------------------------------------- 
-Quit ---------------------------------------------------------- 
--pun > word---------------------------------------------------
-	")
-		
+	Game.start("Restart   Quit")
+
 	var segment = segment_spawner.instantiate() as TextSegment
 	segment.set_start_index(0)
 	add_child(segment)
-	
+
 	_visit(0)
 	_refresh_text()
 
@@ -52,7 +49,7 @@ func try_move(input : String) -> bool:
 			
 	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
-			Game.get_state((d as MoveCandidate).destination).invalid_move = true
+			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
 		_refresh_text()
 		return false
 	

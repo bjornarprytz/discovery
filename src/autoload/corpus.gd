@@ -1,10 +1,10 @@
 extends Node2D
 class_name CorpusClass
 
-const font_size : Vector2 = Vector2(128.0, 256.0)
-const corpus_line_length : int = 64
-const segment_width : int = 12
-const segment_height : int = 3
+const font_size : Vector2 = Vector2(32.0, 64.0)
+const corpus_line_length : int = 128
+const segment_width : int = 48
+const segment_height : int = 12
 
 class WordData:
 	var word : String
