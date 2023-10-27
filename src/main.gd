@@ -17,6 +17,7 @@ var word_fatigue := 0
 var tween : Tween
 
 func _ready() -> void:
+	Game.start()
 	Game.score = 0
 	cam.position = Corpus.font_size / 2
 	target_pos = cam.position

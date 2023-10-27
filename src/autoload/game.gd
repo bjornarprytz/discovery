@@ -36,6 +36,10 @@ class MoveCandidate:
 	var state: CorpusClass.CharState
 	var direction : Vector2
 
+func start(corpus: String = ""):
+	Corpus.load_corpus(corpus)
+	cycle_target()
+
 func cycle_target():
 	current_target = Corpus.words.pop_front()
 	_reset_fatigue()
@@ -77,9 +81,7 @@ func force_move(target_pos: int):
 	Game.moved.emit(prev_pos, current_pos, Vector2.ZERO, score_change)
 
 func _ready() -> void:
-	Corpus.load_corpus()
 	completed_word.connect(_on_word_complete)
-	cycle_target()
 
 func _on_word_complete(word: String, was_quest: bool):
 	if (was_quest):

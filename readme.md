@@ -10,7 +10,6 @@ Goal: collect specific words to increase high score
 
 TODO:
 
-- Make sure target word is chosen _after_ restart
 - Music
 
 ## Tools & Resources
@@ -21,3 +20,4 @@ TODO:
 - [Freesound](https://freesound.org/)
 - [Google fonts](https://fonts.google.com/)
 - [fontspace.com](https://www.fontspace.com/)
+- [Pixabay](https://pixabay.com/)
