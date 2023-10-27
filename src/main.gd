@@ -14,6 +14,7 @@ var target_pos : Vector2
 var game_over := false
 var show_ui := true
 var word_fatigue := 0
+var tween : Tween
 
 func _ready() -> void:
 	Game.score = 0
@@ -30,12 +31,10 @@ func _ready() -> void:
 	Game.new_target.connect(_on_new_target)
 	Game.invalid_move.connect(_on_invalid_move)
 	Game.game_over.connect(_game_over)
-	Game.completed_quest.connect($Sounds/Quest.play)
-
-var tween : Tween
+	Game.completed_word.connect(_on_completed_word)
 
 func _move(prev_pos: int, current_pos: int, direction: Vector2, score_change: int):
-	$Sounds/Click.play()
+	$Camera/Sounds/Click.play()
 	target_pos += direction * Corpus.font_size
 	if (tween != null):
 		tween.kill()
@@ -45,7 +44,7 @@ func _move(prev_pos: int, current_pos: int, direction: Vector2, score_change: in
 	tween.tween_callback(_flair.bind(score_change))
 
 func _on_invalid_move():
-	$Sounds/Denied.play()
+	$Camera/Sounds/Denied.play()
 
 func _on_fatigue_tick(fatigue: int, cap: int):
 	steps_to_fatigue.clear()
@@ -53,6 +52,12 @@ func _on_fatigue_tick(fatigue: int, cap: int):
 	var next_value: float = (float(fatigue) / float(cap)) * 100.0
 	tween = create_tween()
 	tween.tween_property(fatigue_bar, 'value', next_value, .2)
+
+func _on_completed_word(word: String, was_quest: bool):
+	if (was_quest):
+		$Camera/Sounds/Quest.play()
+	else:
+		$Camera/Sounds/CompleteWord.play()
 
 func _on_new_target(word : String):
 	target_ui.clear()
@@ -72,7 +77,7 @@ func _flair(amount: int):
 	f.queue_free()
 
 func _game_over():
-	$Sounds/Finished.play()
+	$Camera/Sounds/Finished.play()
 	game_over = true
 	Engine.time_scale = 0.4
 	tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
@@ -88,11 +93,11 @@ func _show_score():
 func _toggle_ui():
 	show_ui = !show_ui
 	
-	tween = create_tween().set_ease(Tween.EASE_IN)
+	var toggle_tween = create_tween().set_ease(Tween.EASE_IN)
 	if (show_ui):
-		tween.tween_property(ui, 'position:y', 588, .5)
+		toggle_tween.tween_property(ui, 'position:y', 588, .5)
 	else:
-		tween.tween_property(ui, 'position:y', 648, .5)
+		toggle_tween.tween_property(ui, 'position:y', 648, .5)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (!game_over and event.is_released()):

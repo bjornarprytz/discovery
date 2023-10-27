@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cykltnkc0oakx"]
+[gd_scene load_steps=14 format=3 uid="uid://cykltnkc0oakx"]
 
 [ext_resource type="PackedScene" uid="uid://dimlovpbn02gs" path="res://logic/text.tscn" id="1_8pnxv"]
 [ext_resource type="Script" path="res://main.gd" id="1_l7u6q"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_iivva"]
 [ext_resource type="AudioStream" uid="uid://baptchqbrwor6" path="res://assets/click.wav" id="4_28lg2"]
+[ext_resource type="AudioStream" uid="uid://8481vgpl2nyt" path="res://assets/pickup-word.mp3" id="5_7s16o"]
 [ext_resource type="AudioStream" uid="uid://d078wk84fudu7" path="res://assets/quest.wav" id="5_v4bgw"]
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="6_yi4vj"]
-[ext_resource type="AudioStream" uid="uid://eqni4bq3mka7" path="res://assets/521105__matrixxx__retro-explosion-07.wav" id="7_qmte6"]
+[ext_resource type="AudioStream" uid="uid://eqni4bq3mka7" path="res://assets/finished.wav" id="8_0jjta"]
 
 [sub_resource type="Shader" id="Shader_txto1"]
 code = "shader_type canvas_item;
@@ -126,21 +127,25 @@ bbcode_enabled = true
 text = "[right]0"
 scroll_active = false
 
-[node name="Sounds" type="Node" parent="."]
+[node name="Sounds" type="Node2D" parent="Camera"]
 
-[node name="Click" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="Click" type="AudioStreamPlayer2D" parent="Camera/Sounds"]
 stream = ExtResource("4_28lg2")
 pitch_scale = 0.5
 max_polyphony = 3
 
-[node name="Quest" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="CompleteWord" type="AudioStreamPlayer2D" parent="Camera/Sounds"]
+stream = ExtResource("5_7s16o")
+max_polyphony = 3
+
+[node name="Quest" type="AudioStreamPlayer2D" parent="Camera/Sounds"]
 stream = ExtResource("5_v4bgw")
 pitch_scale = 0.5
 
-[node name="Denied" type="AudioStreamPlayer2D" parent="Sounds"]
+[node name="Denied" type="AudioStreamPlayer2D" parent="Camera/Sounds"]
 stream = ExtResource("6_yi4vj")
 
-[node name="Finished" type="AudioStreamPlayer2D" parent="Sounds"]
-stream = ExtResource("7_qmte6")
+[node name="Finished" type="AudioStreamPlayer2D" parent="Camera/Sounds"]
+stream = ExtResource("8_0jjta")
 volume_db = -25.0
 pitch_scale = 0.75

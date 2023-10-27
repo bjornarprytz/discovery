@@ -73,7 +73,7 @@ func _visit(target_idx: int) -> int:
 	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
 	
 	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
-		Game.completed_quest.emit(word.word)
+		Game.completed_word.emit(word.word, false)
 	
 	for c in [up, right, down, left]:
 		if (c != null):

@@ -7,7 +7,7 @@ signal multiplier_changed(new_value: int)
 signal before_moving()
 signal invalid_move()
 signal fatigue_tick(fatigue: int, cap: int)
-signal completed_quest(word: String)
+signal completed_word(word: String, was_quest: bool)
 signal new_target(word: String)
 signal game_over
 
@@ -17,7 +17,7 @@ const QUEST_COLOR: Color = Color.GOLDENROD
 const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
 
 const QUEST_MULTIPLIER: int = 4
-const FATIGUE_FACTOR: int = 5
+const FATIGUE_FACTOR: int = 4
 
 var current_target : String
 var word_fatigue := 0
@@ -78,12 +78,13 @@ func force_move(target_pos: int):
 
 func _ready() -> void:
 	Corpus.load_corpus()
-	completed_quest.connect(_on_quest_complete)
+	completed_word.connect(_on_word_complete)
 	cycle_target()
 
-func _on_quest_complete(word: String):
-	cycle_target()
-
+func _on_word_complete(word: String, was_quest: bool):
+	if (was_quest):
+		cycle_target()
+	
 func _reset_fatigue():
 	word_fatigue = current_target.length() * FATIGUE_FACTOR
 	fatigue_tick.emit(word_fatigue, word_fatigue)
@@ -124,8 +125,9 @@ func _visit(target_idx: int) -> int:
 				s.quest = true
 		
 		if (is_target):
-			completed_quest.emit(word.word)
 			score_change *= QUEST_MULTIPLIER
+		
+		completed_word.emit(word.word, is_target)
 	
 	for c in [up, right, down, left]:
 		if (c != null):

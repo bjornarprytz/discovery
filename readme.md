@@ -10,6 +10,7 @@ Goal: collect specific words to increase high score
 
 TODO:
 
+- Make sure target word is chosen _after_ restart
 - Music
 
 ## Tools & Resources
