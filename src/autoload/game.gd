@@ -1,10 +1,8 @@
 extends Node2D
 class_name GameClass
 
-
 signal moved(prev_pos: int, current_pos: int, direction: Vector2, score_change: int)
 signal multiplier_changed(new_value: int)
-signal before_moving()
 signal invalid_move()
 signal fatigue_tick(fatigue: int, cap: int)
 signal completed_word(word: String, was_quest: bool)
@@ -37,6 +35,9 @@ class MoveCandidate:
 	var direction : Vector2
 
 func start(corpus: String = ""):
+	score = 0
+	word_fatigue = 0
+	multiplier = 1
 	Corpus.load_corpus(corpus)
 	cycle_target()
 
@@ -49,7 +50,7 @@ func try_move(input : String):
 	if (input.length() > 1):
 		return
 	
-	before_moving.emit()
+	_reset_word_state()
 
 	var visited = [up, right, down, left].filter(func (c: MoveCandidate): return c.state.visited)
 	var not_visited = [up, right, down, left].filter(func (c: MoveCandidate): return !c.state.visited)
@@ -75,13 +76,20 @@ func try_move(input : String):
 			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
 		invalid_move.emit()
 
-func force_move(target_pos: int):
+func force_move(target_pos: int, first_move: bool):
 	var prev_pos = current_pos
-	var score_change = _visit(target_pos)
+	var score_change = _visit(target_pos, first_move)
 	Game.moved.emit(prev_pos, current_pos, Vector2.ZERO, score_change)
 
 func _ready() -> void:
+	start()
 	completed_word.connect(_on_word_complete)
+
+func _reset_word_state():
+	var word = Corpus.get_word_of(current_pos) as CorpusClass.WordData
+	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
+		for s in word.states:
+			s.completed_word = false
 
 func _on_word_complete(word: String, was_quest: bool):
 	if (was_quest):
@@ -102,10 +110,11 @@ func _tick_fatigue():
 	else:
 		fatigue_tick.emit(word_fatigue, current_target.length() * FATIGUE_FACTOR)
 
-func _visit(target_idx: int) -> int:
-	var prev_state = Corpus.get_state(current_pos) as CorpusClass.CharState
-	prev_state.cursor = false
-	prev_state.visited = true
+func _visit(target_idx: int, first_move: bool = false) -> int:
+	if (!first_move):
+		var prev_state = Corpus.get_state(current_pos) as CorpusClass.CharState
+		prev_state.cursor = false
+		prev_state.visited = true
 	
 	var next_state = Corpus.get_state(target_idx) as CorpusClass.CharState
 	next_state.cursor = true

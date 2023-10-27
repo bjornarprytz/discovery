@@ -29,10 +29,6 @@ func refresh() -> void:
 func _append_line(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
 	
-	var prev_state: CorpusClass.CharState = CorpusClass.CharState.new()
-	
-	var w = ""
-	
 	for pos in range(Corpus.segment_width):
 		var char_idx = normalized_idx + pos
 		var letter = Corpus.get_char_at(char_idx)
@@ -77,6 +73,4 @@ func _append_line(idx: int) -> void:
 			pop()
 		if trailing_space:
 			pop()
-		
-		prev_state = char_state
 

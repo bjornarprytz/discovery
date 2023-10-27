@@ -20,7 +20,7 @@ class MoveCandidate:
 	var step : Vector2
 
 func _ready() -> void:
-	Game.start("Restart   Quit")
+	Corpus.load_corpus("Restart   Quit")
 
 	var segment = segment_spawner.instantiate() as TextSegment
 	segment.set_start_index(0)

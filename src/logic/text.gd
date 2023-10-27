@@ -17,11 +17,8 @@ var se_segment : TextSegment
 var sw_segment : TextSegment
 var nw_segment : TextSegment
 
-func _ready() -> void:
-	Corpus.load_corpus()
-	
+func _ready() -> void:	
 	Game.moved.connect(_on_moved)
-	Game.before_moving.connect(_on_moving)
 	Game.invalid_move.connect(_on_invalid_move)
 	
 	var random_start = randi_range(0, Corpus.corpus.length()-1)
@@ -45,10 +42,7 @@ func _ready() -> void:
 	south_segment = get_child(7)
 	se_segment = get_child(8)
 	
-	Game.force_move(center_segment.start_index)
-
-func _on_moving():
-	_reset_word_state()
+	Game.force_move(center_segment.start_index, true)
 
 func _on_moved(prev_pos: int, current_pos: int, step: Vector2, score_change: int):
 	if north_segment.contains_idx(current_pos):
@@ -64,12 +58,6 @@ func _on_moved(prev_pos: int, current_pos: int, step: Vector2, score_change: int
 
 func _on_invalid_move():
 	_refresh_text()
-
-func _reset_word_state():
-	var word = Corpus.get_word_of(Game.current_pos) as CorpusClass.WordData
-	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
-		for s in word.states:
-			s.completed_word = false
 
 func _refresh_text():
 	for s in get_children():

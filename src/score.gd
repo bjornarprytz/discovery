@@ -19,4 +19,5 @@ func _word_complete(w : String, was_quest: bool):
 	if (w.nocasecmp_to("quit") == 0):
 		get_tree().quit()
 	elif(w.nocasecmp_to("restart") == 0):
+		Game.start()
 		get_tree().change_scene_to_file("res://main.tscn")

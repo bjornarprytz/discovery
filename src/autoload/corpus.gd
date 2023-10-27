@@ -19,6 +19,7 @@ class CharState:
 	var completed_word : bool
 	var quest : bool
 	var local_idx : int # Only relevant for words
+	var corpus_idx : int
 
 var words : Array[String] = []
 var state : Dictionary = {}
@@ -32,6 +33,7 @@ func get_state(idx: int) -> CharState:
 		state[normalized_idx] = CharState.new()
 		
 	state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
+	state[normalized_idx].corpus_idx = normalized_idx
 		
 	return state[normalized_idx]
 
