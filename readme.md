@@ -8,11 +8,6 @@ try to find as many words as possible
 
 Goal: collect specific words to increase high score
 
-TODO:
-
-- Show multiplier?
-- Music
-
 ## Tools & Resources
 
 - Godot

@@ -55,6 +55,23 @@ theme = SubResource("Theme_jatff")
 bbcode_enabled = true
 text = "[center][rainbow freq=.2 sat=0.4]00069"
 
+[node name="Highscore" type="RichTextLabel" parent="GameOver"]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -51.0
+offset_right = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_jatff")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[right][color=gray]Best: "
+scroll_active = false
+
 [node name="ScoreTextGame" parent="." instance=ExtResource("3_t4al8")]
 modulate = Color(1, 1, 1, 0.0313726)
 

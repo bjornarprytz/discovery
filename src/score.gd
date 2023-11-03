@@ -4,8 +4,18 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var current_highscore = _load_highscore()
+	
 	$GameOver/Score.clear()
 	$GameOver/Score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
+	
+	$GameOver/Highscore.clear()
+	
+	if (current_highscore < Game.score):
+		$GameOver/Highscore.append_text("[right][wave]New highscore!")
+		_save_highscore(Game.score)
+	else:
+		$GameOver/Highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5) )
 	
 	Game.completed_word.connect(_word_complete)
 
@@ -21,3 +31,20 @@ func _word_complete(w : String, was_quest: bool):
 	elif(w.nocasecmp_to("restart") == 0):
 		Game.start()
 		get_tree().change_scene_to_file("res://main.tscn")
+
+func _load_highscore() -> int:
+	var load = FileAccess.open("user://highscore.txt", FileAccess.READ)
+	if (load == null):
+		return 0
+	
+	var highscore = load.get_64()
+	
+	if (highscore == null):
+		return 0
+	
+	return highscore
+
+func _save_highscore(score: int):
+	var save = FileAccess.open("user://highscore.txt", FileAccess.WRITE)
+	save.store_64(score)
+	save.close()

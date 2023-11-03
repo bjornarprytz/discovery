@@ -44,7 +44,7 @@ func start(corpus: String = ""):
 func cycle_target():
 	current_target = Corpus.words.pop_front()
 	_reset_fatigue()
-	new_target.emit(current_target)
+	Game.new_target.emit(current_target)
 
 func try_move(input : String):
 	if (input.length() > 1):
@@ -59,8 +59,11 @@ func try_move(input : String):
 	var valid = not_visited.filter(func (c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func (c1: MoveCandidate): return !invalid.any(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
 	
 	if valid.is_empty():
+		for d in invalid:
+			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
+		Game.invalid_move.emit()
 		Game.game_over.emit()
-	
+
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
 			var prev_pos = current_pos
@@ -74,7 +77,7 @@ func try_move(input : String):
 	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
 			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
-		invalid_move.emit()
+		Game.invalid_move.emit()
 
 func force_move(target_pos: int, first_move: bool):
 	var prev_pos = current_pos
@@ -83,7 +86,7 @@ func force_move(target_pos: int, first_move: bool):
 
 func _ready() -> void:
 	start()
-	completed_word.connect(_on_word_complete)
+	Game.completed_word.connect(_on_word_complete)
 
 func _reset_word_state():
 	var word = Corpus.get_word_of(current_pos) as CorpusClass.WordData
@@ -97,7 +100,7 @@ func _on_word_complete(word: String, was_quest: bool):
 	
 func _reset_fatigue():
 	word_fatigue = current_target.length() * FATIGUE_FACTOR
-	fatigue_tick.emit(word_fatigue, word_fatigue)
+	Game.fatigue_tick.emit(word_fatigue, word_fatigue)
 
 func _tick_fatigue():
 	if (multiplier > 1):
@@ -108,7 +111,7 @@ func _tick_fatigue():
 	if (word_fatigue <= 0):
 		cycle_target()
 	else:
-		fatigue_tick.emit(word_fatigue, current_target.length() * FATIGUE_FACTOR)
+		Game.fatigue_tick.emit(word_fatigue, current_target.length() * FATIGUE_FACTOR)
 
 func _visit(target_idx: int, first_move: bool = false) -> int:
 	if (!first_move):
@@ -138,7 +141,7 @@ func _visit(target_idx: int, first_move: bool = false) -> int:
 		if (is_target):
 			score_change *= QUEST_MULTIPLIER
 		
-		completed_word.emit(word.word, is_target)
+		Game.completed_word.emit(word.word, is_target)
 	
 	for c in [up, right, down, left]:
 		if (c != null):
