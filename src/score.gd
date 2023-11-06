@@ -4,6 +4,8 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$ScoreTextGame.start("Retry Quit Corpus", false)
+	
 	var current_highscore = _load_highscore()
 	
 	$GameOver/Score.clear()
@@ -28,9 +30,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _word_complete(w : String, was_quest: bool):
 	if (w.nocasecmp_to("quit") == 0):
 		get_tree().quit()
-	elif(w.nocasecmp_to("restart") == 0):
+	elif(w.nocasecmp_to("retry") == 0):
 		Game.start()
 		get_tree().change_scene_to_file("res://main.tscn")
+	elif(w.nocasecmp_to("corpus") == 0):
+		get_tree().change_scene_to_file("res://options.tscn")
 
 func _load_highscore() -> int:
 	var load = FileAccess.open("user://highscore.txt", FileAccess.READ)

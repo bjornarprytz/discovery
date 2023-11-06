@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://by63xypgmdorg"]
-
-[ext_resource type="Script" path="res://logic/score_text.gd" id="1_kge7p"]
-
-[node name="score_text" type="Node2D"]
-script = ExtResource("1_kge7p")

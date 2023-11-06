@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://by63xypgmdorg"]
+
+[ext_resource type="Script" path="res://logic/custom_text.gd" id="1_kge7p"]
+
+[node name="custom_text" type="Node2D"]
+script = ExtResource("1_kge7p")

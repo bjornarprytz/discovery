@@ -87,7 +87,7 @@ func normalize_idx(idx: int) -> int:
 	
 	return n
 
-func load_corpus(text: String = ""):
+func load_corpus(text: String = "", save: bool = true):
 	assert(segment_width <= corpus_line_length)
 	assert(segment_height > 0)
 	assert(segment_width > 0)
@@ -100,6 +100,9 @@ func load_corpus(text: String = ""):
 		corpus = main_corpus
 	
 	corpus = corpus.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
+	
+	if (save):
+		main_corpus = corpus # Store it for later
 	
 	words = []
 	for w in valid_regex.search_all(corpus):

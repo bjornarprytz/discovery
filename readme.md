@@ -8,6 +8,11 @@ try to find as many words as possible
 
 Goal: collect specific words to increase high score
 
+## TODO
+
+- highscore online
+- Credits
+
 ## Tools & Resources
 
 - Godot

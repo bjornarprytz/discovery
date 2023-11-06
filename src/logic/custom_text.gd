@@ -19,8 +19,8 @@ class MoveCandidate:
 	var state: CorpusClass.CharState
 	var step : Vector2
 
-func _ready() -> void:
-	Corpus.load_corpus("Restart   Quit")
+func start(corpus: String, save: bool = true) -> void:
+	Corpus.load_corpus(corpus, save)
 
 	var segment = segment_spawner.instantiate() as TextSegment
 	segment.set_start_index(0)

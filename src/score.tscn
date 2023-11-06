@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
-[ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/score_text.tscn" id="3_t4al8"]
+[ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/custom_text.tscn" id="3_t4al8"]
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="4_fidr8"]
 
 [sub_resource type="Theme" id="Theme_jatff"]
@@ -56,7 +56,7 @@ bbcode_enabled = true
 text = "[center][rainbow freq=.2 sat=0.4]00069"
 
 [node name="Highscore" type="RichTextLabel" parent="GameOver"]
-anchors_preset = -1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
