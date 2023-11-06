@@ -50,6 +50,7 @@ func _input(event: InputEvent) -> void:
 		var particles : CPUParticles2D = $GameOver/GoTime/GoBoom
 		particles.position = $GameOver/GoTime/Go.position
 		particles.emitting = true
+		$Boom.play()
 		
 		await get_tree().create_timer(particles.lifetime).timeout
 		
