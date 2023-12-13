@@ -84,6 +84,7 @@ text = "Length:"
 scroll_active = false
 
 [node name="Go" type="TextureButton" parent="GameOver/GoTime"]
+layout_mode = 0
 offset_left = 683.0
 offset_top = 324.0
 offset_right = 731.0
@@ -133,7 +134,7 @@ offset_left = 412.0
 offset_top = 270.0
 offset_right = 737.0
 offset_bottom = 320.0
-placeholder_text = "Paste here (minimum 5,184 characters)"
+placeholder_text = "Paste here"
 
 [node name="Timer" type="Timer" parent="."]
 

@@ -1,6 +1,8 @@
 extends Node2D
 class_name TextGame
 
+@export var cam : Camera2D
+
 @onready var segment_spawner = preload("res://logic/text-segment.tscn")
 @onready var LINE_LENGTH : int = Corpus.corpus_line_length
 @onready var SEGMENT_HEIGHT : int = Corpus.segment_height * Corpus.corpus_line_length
@@ -45,13 +47,16 @@ func _ready() -> void:
 	Game.force_move(center_segment.start_index, true)
 
 func _on_moved(prev_pos: int, current_pos: int, step: Vector2, score_change: int):
-	if north_segment.contains_idx(current_pos):
+
+	var camera_point = cam.position
+	
+	if north_segment.get_rect().has_point(camera_point):
 		_shift_north()
-	elif east_segment.contains_idx(current_pos):
+	elif east_segment.get_rect().has_point(camera_point):
 		_shift_east()
-	elif south_segment.contains_idx(current_pos):
+	elif south_segment.get_rect().has_point(camera_point):
 		_shift_south()
-	elif west_segment.contains_idx(current_pos):
+	elif west_segment.get_rect().has_point(camera_point):
 		_shift_west()
 	
 	_refresh_text()

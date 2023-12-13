@@ -30,7 +30,8 @@ default_font_size = 48
 [node name="Main" type="Node2D"]
 script = ExtResource("1_l7u6q")
 
-[node name="Text" parent="." instance=ExtResource("1_8pnxv")]
+[node name="Text" parent="." node_paths=PackedStringArray("cam") instance=ExtResource("1_8pnxv")]
+cam = NodePath("../Camera")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)
