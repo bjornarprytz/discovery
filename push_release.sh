@@ -55,8 +55,8 @@ else
 fi
 
 # Create a new tag and push it to GitHub
-#git tag -a $new_version -m "$release_description"
-#git push origin $new_version
+git tag -a $new_version -m "$release_description"
+git push origin $new_version
 
 echo "Created release: $release_description : $new_version"
 
