@@ -44,7 +44,7 @@ release_description="New version: $new_version"
 
 # Check if an argument is provided
 if [ -n "$1" ]; then
-    echo "Argument provided: $1"
+    release_description=$1
 else
     # If no argument is provided, prompt the user
     echo -n "Enter a release description (default: $release_description): "
@@ -58,7 +58,7 @@ fi
 git tag -a $new_version -m "$release_description"
 git push origin $new_version
 
-echo "Created release: $release_description : $new_version"
+echo "Created release ($new_version): $release_description"
 
 repo_url=$(git remote get-url origin)  # Get the repository URL
 repo_url=${repo_url%.git}  # Remove the .git extension
