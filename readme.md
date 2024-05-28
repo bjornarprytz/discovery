@@ -8,10 +8,17 @@ try to find as many words as possible
 
 Goal: collect specific words to increase high score
 
-## TODO
+## 1.0 roadmap
 
-- highscore online
+- Bigger corpus (Complete Alice in Wonderland?)
 - Credits
+  - Sound effects
+  - Font
+
+### Steam integration
+
+- Leaderboard (Global + Friends)
+- Achievements
 
 ## Tools & Resources
 

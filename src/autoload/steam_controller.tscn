@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsd5aw5p6ic78"]
+
+[ext_resource type="Script" path="res://autoload/steam_controller.gd" id="1_7m01l"]
+
+[node name="SteamController" type="Node2D"]
+script = ExtResource("1_7m01l")

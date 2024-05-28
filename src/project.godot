@@ -12,17 +12,22 @@ config_version=5
 
 config/name="Discovery"
 run/main_scene="res://main.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Corpus="*res://autoload/corpus.tscn"
 Game="*res://autoload/game.tscn"
+SteamController="*res://autoload/steam_controller.tscn"
 
 [display]
 
 window/size/resizable=false
+
+[dotnet]
+
+project/assembly_name="Discovery"
 
 [rendering]
 
