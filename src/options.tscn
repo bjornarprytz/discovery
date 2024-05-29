@@ -13,16 +13,33 @@ default_font_size = 128
 position = Vector2(1, 0)
 script = ExtResource("1_2oh6v")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -15.0
-offset_top = -12.0
-offset_right = 1155.0
-offset_bottom = 664.0
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Boom" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_qf3ah")
+volume_db = -10.0
+pitch_scale = 2.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.0196078, 0.0980392, 0.0941176, 1)
 
-[node name="GameOver" type="Node" parent="."]
+[node name="Corpus" type="Control" parent="CanvasLayer/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Heading" type="RichTextLabel" parent="GameOver"]
+[node name="Heading" type="RichTextLabel" parent="CanvasLayer/Background/Corpus"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -38,14 +55,14 @@ theme = SubResource("Theme_ltn4h")
 bbcode_enabled = true
 text = "[center][color=gray][wave]Custom Corpus[/wave]"
 
-[node name="GoTime" type="Control" parent="GameOver"]
+[node name="GoTime" type="Control" parent="CanvasLayer/Background/Corpus"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Words" type="RichTextLabel" parent="GameOver/GoTime"]
+[node name="Words" type="RichTextLabel" parent="CanvasLayer/Background/Corpus/GoTime"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -64,7 +81,7 @@ bbcode_enabled = true
 text = "Words:"
 scroll_active = false
 
-[node name="Length" type="RichTextLabel" parent="GameOver/GoTime"]
+[node name="Length" type="RichTextLabel" parent="CanvasLayer/Background/Corpus/GoTime"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -83,7 +100,7 @@ bbcode_enabled = true
 text = "Length:"
 scroll_active = false
 
-[node name="Go" type="TextureButton" parent="GameOver/GoTime"]
+[node name="Go" type="TextureButton" parent="CanvasLayer/Background/Corpus/GoTime"]
 layout_mode = 0
 offset_left = 683.0
 offset_top = 324.0
@@ -94,7 +111,7 @@ texture_normal = ExtResource("3_5su45")
 texture_pressed = ExtResource("3_5su45")
 texture_hover = ExtResource("3_5su45")
 
-[node name="GoBoom" type="CPUParticles2D" parent="GameOver/GoTime"]
+[node name="GoBoom" type="CPUParticles2D" parent="CanvasLayer/Background/Corpus/GoTime"]
 position = Vector2(683, 324)
 scale = Vector2(0.770833, 0.770833)
 emitting = false
@@ -111,16 +128,13 @@ initial_velocity_max = 801.37
 scale_amount_min = 2.0
 scale_amount_max = 5.0
 
-[node name="Loading" type="RichTextLabel" parent="GameOver"]
-anchors_preset = 3
-anchor_left = 1.0
+[node name="Loading" type="RichTextLabel" parent="CanvasLayer/Background/Corpus"]
+layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1155.0
 offset_top = -51.0
-offset_right = 5.0
-grow_horizontal = 0
+offset_right = 1160.0
 grow_vertical = 0
 theme = SubResource("Theme_ltn4h")
 theme_override_font_sizes/normal_font_size = 48
@@ -128,17 +142,10 @@ bbcode_enabled = true
 text = ".............................................................."
 scroll_active = false
 
-[node name="CustomCorpus" type="TextEdit" parent="GameOver"]
+[node name="CustomCorpus" type="TextEdit" parent="CanvasLayer/Background/Corpus"]
 custom_minimum_size = Vector2(0, 50)
 offset_left = 412.0
 offset_top = 270.0
 offset_right = 737.0
 offset_bottom = 320.0
-placeholder_text = "Paste here"
-
-[node name="Timer" type="Timer" parent="."]
-
-[node name="Boom" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_qf3ah")
-volume_db = -10.0
-pitch_scale = 2.0
+placeholder_text = "Paste corpus here.."

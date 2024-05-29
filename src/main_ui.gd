@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var target_ui: RichTextLabel = $Border/QuestBar/TargetWord
 @onready var quest_duration_label: RichTextLabel = $Border/QuestBar/QuestDuration
 @onready var next_quest_duration_label: RichTextLabel = $Border/QuestBar/QuestDuration/NextValue
+@onready var multiplier_label: RichTextLabel = $Border/QuestBar/Multiplier
 @onready var quest_bar: ProgressBar = $Border/QuestBar
 @onready var sheen: ColorRect = $Border/QuestBar/TargetWord/Sheen
 @onready var sheen_base_position = sheen.position
@@ -16,6 +17,8 @@ func _ready() -> void:
 	_on_new_target(Game.current_target)
 	Game.new_target.connect(_on_new_target)
 	_update_score()
+	Game.golden_changed.connect(_on_golden_changed)
+	Game.multiplier_changed.connect(_on_multiplier_changed)
 
 func update_score():
 	_update_score()
@@ -38,18 +41,31 @@ func _on_quest_duration_tick(duration: int, cap: int):
 	quest_duration_label.clear()
 	quest_duration_label.append_text(str(duration))
 	quest_duration_label.position.y = 0
-	
-
 
 func _on_new_target(word: String):
 	target_ui.clear()
 	target_ui.append_text("[center]>" + word + "<")
 
-	var sheen_tween = create_tween().set_ease(Tween.EASE_IN)
-	sheen_tween.tween_property(sheen, 'position:x', 545.0, 2.0)
+	var sheen_tween = create_tween()
+	sheen_tween.tween_property(sheen, 'position:x', target_ui.size.x, 2.0)
 	await sheen_tween.finished
 	sheen.position = sheen_base_position
 
 func _update_score():
 	score_board.clear()
 	score_board.append_text("[right]" + str(Game.score).pad_zeros(5))
+
+func _on_golden_changed(is_golden: bool):
+	var ui_color: Color
+
+	if (is_golden):
+		ui_color = Game.QUEST_COLOR
+	else:
+		ui_color = Game.INERT_COLOR
+
+	ui.color = ui_color
+	multiplier_label.self_modulate = ui_color
+
+func _on_multiplier_changed(multiplier: int):
+	multiplier_label.clear()
+	multiplier_label.append_text("[right]x" + str(multiplier))

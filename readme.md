@@ -10,8 +10,11 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Indicate better when a target word is found (A matching jumping effect?)
-- Show multiplier (rework multiplier to always go up by 1)
+- Show multiplier
+  - rework
+    - If you finish a quest, you become Golden
+    - When you're Golden, multiplier goes up 1 when finishing a word
+    - If you miss a quest, you lose Golden
 
 - UI
   - If player is inactive on the first move, highlight the options (scale up and down)

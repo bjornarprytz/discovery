@@ -18,6 +18,7 @@ default_font_size = 48
 script = ExtResource("1_r4clx")
 
 [node name="Border" type="ColorRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.635294)
 custom_minimum_size = Vector2(0, 60)
 anchors_preset = 12
 anchor_top = 1.0
@@ -26,7 +27,7 @@ anchor_bottom = 1.0
 offset_top = -60.0
 grow_horizontal = 2
 grow_vertical = 0
-color = Color(0.854902, 0.647059, 0.12549, 0.556863)
+color = Color(0.854902, 0.647059, 0.223529, 1)
 
 [node name="QuestBar" type="ProgressBar" parent="Border"]
 clip_contents = true
@@ -76,11 +77,13 @@ scroll_active = false
 self_modulate = Color(0.854902, 0.647059, 0.12549, 1)
 clip_children = 2
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 327.0
-offset_right = -327.0
+offset_left = 330.0
+offset_right = -330.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource("Theme_brgmk")
 bbcode_enabled = true
 text = "[center]you"
@@ -95,8 +98,21 @@ offset_right = -40.0
 offset_bottom = 59.0
 rotation = 0.241609
 
+[node name="Multiplier" type="RichTextLabel" parent="Border/QuestBar"]
+self_modulate = Color(0.854902, 0.647059, 0.12549, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 796.0
+offset_right = -194.0
+theme = SubResource("Theme_brgmk")
+bbcode_enabled = true
+text = "[right]x1"
+scroll_active = false
+
 [node name="Score" type="RichTextLabel" parent="Border/QuestBar"]
-modulate = Color(0.854902, 0.647059, 0.12549, 1)
+self_modulate = Color(0.854902, 0.647059, 0.12549, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0

@@ -7,22 +7,33 @@ signal invalid_move()
 signal quest_duration_tick(duration: int, cap: int)
 signal completed_word(word: String, was_quest: bool)
 signal new_target(word: String)
+signal golden_changed(is_golden: bool)
 signal game_over
 
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
 const QUEST_COLOR: Color = Color.GOLDENROD
-const IMPASSABLE_COLOR: Color = Color.DIM_GRAY
+const INERT_COLOR: Color = Color.DIM_GRAY
 
 const QUEST_MULTIPLIER: int = 4
 # How many vertical moves a quest word can take before it expires
 const QUEST_DURATION_FACTOR: int = 4
 
 var current_target: String
+var is_golden: bool = true:
+	set(value):
+		if (value != is_golden):
+			is_golden = value
+			golden_changed.emit(is_golden)
+
 var quest_duration := 0
 var current_pos := 0
 var score := 0
-var multiplier := 1
+var multiplier: int = 1:
+	set(value):
+		if (value != multiplier):
+			multiplier = value
+			multiplier_changed.emit(multiplier)
 
 var up: MoveCandidate
 var right: MoveCandidate
@@ -107,11 +118,9 @@ func _reset_quest_duration():
 	Game.quest_duration_tick.emit(quest_duration, quest_duration)
 
 func _tick_quest_duration():
-	if (multiplier > 1):
-		multiplier -= 1
-
 	quest_duration -= 1
 	if (quest_duration <= 0):
+		is_golden = false
 		cycle_target()
 	else:
 		Game.quest_duration_tick.emit(quest_duration, current_target.length() * QUEST_DURATION_FACTOR)
@@ -133,7 +142,6 @@ func _visit(target_idx: int, first_move: bool=false) -> int:
 	if (word != null and word.states.all(func(s: CorpusClass.CharState): return s.visited or s.cursor)):
 		score_change += word.word.length()
 		score_change *= multiplier
-		multiplier = max(multiplier, word.word.length())
 		var is_target = current_target.nocasecmp_to(word.word) == 0
 		
 		for s in word.states:
@@ -143,7 +151,10 @@ func _visit(target_idx: int, first_move: bool=false) -> int:
 		
 		if (is_target):
 			score_change *= QUEST_MULTIPLIER
+			is_golden = true
 		
+		if (is_golden):
+			multiplier += 1
 		Game.completed_word.emit(word.word, is_target)
 	
 	for c in [up, right, down, left]:
