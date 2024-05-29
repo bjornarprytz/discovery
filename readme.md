@@ -10,15 +10,15 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Indicate when quest duration is changed (like a slot machine (move it down, and the next number slides down to take its place))
+- Indicate better when a target word is found (A matching jumping effect?)
+- Show multiplier (rework multiplier to always go up by 1)
 
 - UI
   - If player is inactive on the first move, highlight the options (scale up and down)
-  - On death: Cornered!
-  - Add a few buttons to cover: Retry, quit, corpus (maybe in a later version?)
-  - Show multiplier
-  - Indicate better when a target word is found (A matching jumping effect?)
-  - Slightly faster camera movement
+  - Add a few buttons to cover: Retry, quit, options/corpus (maybe in a later version?)
+  - On death: Dead end!
+
+- Rules description: in the options menu
 
 - Bigger corpus (Complete Alice in Wonderland?)
 - Credits

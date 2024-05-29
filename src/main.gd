@@ -28,7 +28,7 @@ func _move(_prev_pos: int, _current_pos: int, direction: Vector2, score_change: 
 		camera_tween.kill()
 	ui.update_score()
 	camera_tween = create_tween()
-	camera_tween.tween_property(cam, 'position', target_pos, .2)
+	camera_tween.tween_property(cam, 'position', target_pos, .15)
 	camera_tween.tween_callback(_flair.bind(score_change))
 
 func _on_invalid_move():
