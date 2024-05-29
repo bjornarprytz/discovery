@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var target_ui: RichTextLabel = $Border/QuestBar/TargetWord
 @onready var quest_duration_label: RichTextLabel = $Border/QuestBar/QuestDuration
 @onready var quest_bar: ProgressBar = $Border/QuestBar
+@onready var sheen: ColorRect = $Border/QuestBar/TargetWord/Sheen
+@onready var sheen_base_position = sheen.position
 
 func _ready() -> void:
 	_on_quest_duration_tick(Game.quest_duration, Game.quest_duration)
@@ -34,6 +36,11 @@ func _on_quest_duration_tick(duration: int, cap: int):
 func _on_new_target(word: String):
 	target_ui.clear()
 	target_ui.append_text("[center]>" + word + "<")
+
+	var sheen_tween = create_tween().set_ease(Tween.EASE_IN_OUT)
+	sheen_tween.tween_property(sheen, 'position:x', 545.0, 1.5)
+	await sheen_tween.finished
+	sheen.position = sheen_base_position
 
 func _update_score():
 	score_board.clear()

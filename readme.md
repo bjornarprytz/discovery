@@ -10,7 +10,6 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Indicate when a new quest is begun (Sheen effect over the new word)
 - Indicate when quest duration is changed (like a slot machine (move it down, and the next number slides down to take its place))
 
 - UI
@@ -28,6 +27,9 @@ Goal: collect specific words to increase high score
 ### Steam integration
 
 - Leaderboard (Global + Friends)
+- Rich Presence
+  - Discovering %target_word% in %corpus%
+  - Between games
 - Achievements
   - First word
   - 5/10/20/40 words in one session

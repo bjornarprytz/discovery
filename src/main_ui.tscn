@@ -71,12 +71,13 @@ bbcode_enabled = true
 text = "[center]you"
 scroll_active = false
 
-[node name="ColorRect" type="ColorRect" parent="Border/QuestBar/TargetWord"]
+[node name="Sheen" type="ColorRect" parent="Border/QuestBar/TargetWord"]
+modulate = Color(0.498039, 1, 0.831373, 1)
 layout_mode = 0
-offset_left = -52.0
-offset_top = -15.0
-offset_right = -41.0
-offset_bottom = 62.0
+offset_left = -62.0
+offset_top = -18.0
+offset_right = -40.0
+offset_bottom = 59.0
 rotation = 0.241609
 
 [node name="Score" type="RichTextLabel" parent="Border/QuestBar"]
