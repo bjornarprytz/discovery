@@ -12,7 +12,6 @@ Goal: collect specific words to increase high score
 
 - UI
   - If player is inactive on the first move, highlight the options (scale up and down)
-  - Add a few buttons to cover: Retry, quit, options/corpus (maybe in a later version?)
   - On death: Dead end!
 
 - Bigger corpus (Complete Alice in Wonderland?)
@@ -20,12 +19,15 @@ Goal: collect specific words to increase high score
   - Sound effects
   - Font
 
+- Still support web export
+
 ### Steam integration
 
 - Leaderboard (Global + Friends)
 - Rich Presence
   - Discovering %target_word% in %corpus%
   - Between games
+  - Reading the rules
 - Achievements
   - First word
   - 5/10/20/40 words in one session

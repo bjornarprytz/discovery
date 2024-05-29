@@ -29,12 +29,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _word_complete(w : String, was_quest: bool):
 	if (w.nocasecmp_to("quit") == 0):
-		get_tree().quit()
+		_quit()
 	elif(w.nocasecmp_to("retry") == 0):
-		Game.start()
-		get_tree().change_scene_to_file("res://main.tscn")
+		_retry()
 	elif(w.nocasecmp_to("corpus") == 0):
-		get_tree().change_scene_to_file("res://options.tscn")
+		_settings()
 
 func _load_highscore() -> int:
 	var load = FileAccess.open("user://highscore.txt", FileAccess.READ)
@@ -52,3 +51,22 @@ func _save_highscore(score: int):
 	var save = FileAccess.open("user://highscore.txt", FileAccess.WRITE)
 	save.store_64(score)
 	save.close()
+
+func _retry():
+	Game.start()
+	get_tree().change_scene_to_file("res://main.tscn")
+
+func _settings():
+	get_tree().change_scene_to_file("res://options.tscn")
+
+func _quit():
+	get_tree().quit()
+
+func _on_retry_pressed() -> void:
+	_retry()
+
+func _on_settings_pressed() -> void:
+	_settings()
+
+func _on_quit_pressed() -> void:
+	_quit()

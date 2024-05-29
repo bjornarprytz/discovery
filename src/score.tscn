@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2xdtano7t7xb"]
+[gd_scene load_steps=9 format=3 uid="uid://d2xdtano7t7xb"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
+[ext_resource type="Texture2D" uid="uid://x8f1863tl04s" path="res://assets/play.png" id="2_bfdqy"]
+[ext_resource type="Texture2D" uid="uid://cekaat430s03d" path="res://assets/settings.png" id="3_n24qx"]
 [ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/custom_text.tscn" id="3_t4al8"]
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="4_fidr8"]
+[ext_resource type="Texture2D" uid="uid://cvb0xnpb5e30s" path="res://assets/exit.png" id="4_ijtnc"]
 
 [sub_resource type="Theme" id="Theme_jatff"]
 default_font = ExtResource("1_0iihq")
@@ -12,11 +15,14 @@ default_font_size = 128
 [node name="end_tscn" type="Node2D"]
 script = ExtResource("1_66yog")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -9.0
-offset_top = -13.0
-offset_right = 1161.0
-offset_bottom = 663.0
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.0823529, 0.0823529, 0.0823529, 1)
 
 [node name="GameOver" type="Node" parent="."]
@@ -75,5 +81,54 @@ scroll_active = false
 [node name="ScoreTextGame" parent="." instance=ExtResource("3_t4al8")]
 modulate = Color(1, 1, 1, 0.0313726)
 
+[node name="ButtonBackground" type="ColorRect" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 593.0
+offset_right = 143.0
+offset_bottom = 640.0
+grow_vertical = 0
+color = Color(0.745098, 0.745098, 0.745098, 1)
+
+[node name="Buttons" type="HBoxContainer" parent="ButtonBackground"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="Retry" type="TextureButton" parent="ButtonBackground/Buttons"]
+modulate = Color(0.498039, 1, 0.831373, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("2_bfdqy")
+stretch_mode = 4
+
+[node name="Settings" type="TextureButton" parent="ButtonBackground/Buttons"]
+modulate = Color(0.792157, 0.8, 0.478431, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("3_n24qx")
+stretch_mode = 4
+
+[node name="Quit" type="TextureButton" parent="ButtonBackground/Buttons"]
+modulate = Color(0.8, 0.478431, 0.556863, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("4_ijtnc")
+stretch_mode = 4
+
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
+
+[connection signal="pressed" from="ButtonBackground/Buttons/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="ButtonBackground/Buttons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="ButtonBackground/Buttons/Quit" to="." method="_on_quit_pressed"]
