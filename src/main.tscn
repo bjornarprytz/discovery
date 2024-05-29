@@ -52,7 +52,7 @@ grow_horizontal = 2
 grow_vertical = 0
 color = Color(0.854902, 0.647059, 0.12549, 0.556863)
 
-[node name="FatigueBar" type="ProgressBar" parent="Camera/CanvasLayer/Border"]
+[node name="QuestBar" type="ProgressBar" parent="Camera/CanvasLayer/Border"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -68,7 +68,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_pp6o0")
 value = 50.0
 show_percentage = false
 
-[node name="StepsToFatigue" type="RichTextLabel" parent="Camera/CanvasLayer/Border/FatigueBar"]
+[node name="QuestDuration" type="RichTextLabel" parent="Camera/CanvasLayer/Border/QuestBar"]
 modulate = Color(0.6, 0.6, 0.6, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -81,7 +81,7 @@ bbcode_enabled = true
 text = "69"
 scroll_active = false
 
-[node name="TargetWord" type="RichTextLabel" parent="Camera/CanvasLayer/Border/FatigueBar"]
+[node name="TargetWord" type="RichTextLabel" parent="Camera/CanvasLayer/Border/QuestBar"]
 modulate = Color(0.854902, 0.647059, 0.12549, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -94,7 +94,7 @@ bbcode_enabled = true
 text = "[center]you"
 scroll_active = false
 
-[node name="Score" type="RichTextLabel" parent="Camera/CanvasLayer/Border/FatigueBar"]
+[node name="Score" type="RichTextLabel" parent="Camera/CanvasLayer/Border/QuestBar"]
 modulate = Color(0.854902, 0.647059, 0.12549, 1)
 layout_mode = 1
 anchors_preset = -1

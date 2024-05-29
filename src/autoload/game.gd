@@ -4,7 +4,7 @@ class_name GameClass
 signal moved(prev_pos: int, current_pos: int, direction: Vector2, score_change: int)
 signal multiplier_changed(new_value: int)
 signal invalid_move()
-signal fatigue_tick(fatigue: int, cap: int)
+signal quest_duration_tick(duration: int, cap: int)
 signal completed_word(word: String, was_quest: bool)
 signal new_target(word: String)
 signal game_over
@@ -15,48 +15,49 @@ const QUEST_COLOR: Color = Color.GOLDENROD
 const IMPASSABLE_COLOR: Color = Color.DIM_GRAY
 
 const QUEST_MULTIPLIER: int = 4
-const FATIGUE_FACTOR: int = 4
+# How many vertical moves a quest word can take before it expires
+const QUEST_DURATION_FACTOR: int = 4
 
-var current_target : String
-var word_fatigue := 0
+var current_target: String
+var quest_duration := 0
 var current_pos := 0
 var score := 0
 var multiplier := 1
 
-var up : MoveCandidate
-var right : MoveCandidate
-var down : MoveCandidate
-var left : MoveCandidate
+var up: MoveCandidate
+var right: MoveCandidate
+var down: MoveCandidate
+var left: MoveCandidate
 
 class MoveCandidate:
-	var destination : int
+	var destination: int
 	var character: String
 	var state: CorpusClass.CharState
-	var direction : Vector2
+	var direction: Vector2
 
-func start(corpus: String = ""):
+func start(corpus: String=""):
 	score = 0
-	word_fatigue = 0
+	quest_duration = 0
 	multiplier = 1
 	Corpus.load_corpus(corpus)
 	cycle_target()
 
 func cycle_target():
 	current_target = Corpus.words.pop_front()
-	_reset_fatigue()
+	_reset_quest_duration()
 	Game.new_target.emit(current_target)
 
-func try_move(input : String):
+func try_move(input: String):
 	if (input.length() > 1):
 		return
 	
 	_reset_word_state()
 
-	var visited = [up, right, down, left].filter(func (c: MoveCandidate): return c.state.visited)
-	var not_visited = [up, right, down, left].filter(func (c: MoveCandidate): return !c.state.visited)
+	var visited = [up, right, down, left].filter(func(c: MoveCandidate): return c.state.visited)
+	var not_visited = [up, right, down, left].filter(func(c: MoveCandidate): return !c.state.visited)
 	
-	var invalid = not_visited.filter(func (c1: MoveCandidate): return not_visited.filter(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0).size() > 1)
-	var valid = not_visited.filter(func (c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func (c1: MoveCandidate): return !invalid.any(func (c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
+	var invalid = not_visited.filter(func(c1: MoveCandidate): return not_visited.filter(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0).size() > 1)
+	var valid = not_visited.filter(func(c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func(c1: MoveCandidate): return !invalid.any(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
 	
 	if valid.is_empty():
 		for d in invalid:
@@ -71,10 +72,10 @@ func try_move(input : String):
 			score += score_change
 			Game.moved.emit(prev_pos, current_pos, candidate.direction, score_change)
 			if (candidate.direction == Vector2.UP or candidate.direction == Vector2.DOWN):
-				_tick_fatigue()
+				_tick_quest_duration()
 			return
 			
-	if invalid.any(func (cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
+	if invalid.any(func(cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
 			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
 		Game.invalid_move.emit()
@@ -90,30 +91,29 @@ func _ready() -> void:
 
 func _reset_word_state():
 	var word = Corpus.get_word_of(current_pos) as CorpusClass.WordData
-	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
+	if (word != null and word.states.all(func(s: CorpusClass.CharState): return s.visited or s.cursor)):
 		for s in word.states:
 			s.completed_word = false
 
-func _on_word_complete(word: String, was_quest: bool):
+func _on_word_complete(_word: String, was_quest: bool):
 	if (was_quest):
 		cycle_target()
 	
-func _reset_fatigue():
-	word_fatigue = current_target.length() * FATIGUE_FACTOR
-	Game.fatigue_tick.emit(word_fatigue, word_fatigue)
+func _reset_quest_duration():
+	quest_duration = current_target.length() * QUEST_DURATION_FACTOR
+	Game.quest_duration_tick.emit(quest_duration, quest_duration)
 
-func _tick_fatigue():
+func _tick_quest_duration():
 	if (multiplier > 1):
 		multiplier -= 1
 
-	var prev_fatigue = word_fatigue
-	word_fatigue -= 1
-	if (word_fatigue <= 0):
+	quest_duration -= 1
+	if (quest_duration <= 0):
 		cycle_target()
 	else:
-		Game.fatigue_tick.emit(word_fatigue, current_target.length() * FATIGUE_FACTOR)
+		Game.quest_duration_tick.emit(quest_duration, current_target.length() * QUEST_DURATION_FACTOR)
 
-func _visit(target_idx: int, first_move: bool = false) -> int:
+func _visit(target_idx: int, first_move: bool=false) -> int:
 	if (!first_move):
 		var prev_state = Corpus.get_state(current_pos) as CorpusClass.CharState
 		prev_state.cursor = false
@@ -127,7 +127,7 @@ func _visit(target_idx: int, first_move: bool = false) -> int:
 
 	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
 	
-	if (word != null and word.states.all(func (s : CorpusClass.CharState): return s.visited or s.cursor)):
+	if (word != null and word.states.all(func(s: CorpusClass.CharState): return s.visited or s.cursor)):
 		score_change += word.word.length()
 		score_change *= multiplier
 		multiplier = max(multiplier, word.word.length())
@@ -148,12 +148,11 @@ func _visit(target_idx: int, first_move: bool = false) -> int:
 			c.state.invalid_move = false
 	
 	up = _create_candidate(current_pos - Corpus.corpus_line_length, Vector2.UP)
-	right = _create_candidate(current_pos +1, Vector2.RIGHT)
+	right = _create_candidate(current_pos + 1, Vector2.RIGHT)
 	down = _create_candidate(current_pos + Corpus.corpus_line_length, Vector2.DOWN)
-	left = _create_candidate(current_pos -1, Vector2.LEFT)
+	left = _create_candidate(current_pos - 1, Vector2.LEFT)
 
 	return score_change
-
 
 func _create_candidate(target_idx: int, direction: Vector2) -> MoveCandidate:
 	var candidate = MoveCandidate.new()
