@@ -1,71 +1,66 @@
 extends Node2D
+@export var transition_speed: float = 0.2
 
-const SHAKE_MAGNITUDE := 5
+@onready var next_button: Button = $CanvasLayer/NextButton
+@onready var prev_button: Button = $CanvasLayer/PrevButton
 
-@onready var timer: Timer = $Timer
-@onready var corpus_input: TextEdit = $CanvasLayer/Background/Corpus/CustomCorpus
-@onready var loading: RichTextLabel = $CanvasLayer/Background/Corpus/Loading
+@onready var menus: Array[Node] = $CanvasLayer/Background.get_children()
 
-@onready var go_time: Control = $CanvasLayer/Background/Corpus/GoTime
-@onready var word_count: RichTextLabel = $CanvasLayer/Background/Corpus/GoTime/Words
-@onready var length: RichTextLabel = $CanvasLayer/Background/Corpus/GoTime/Length
-@onready var go: TextureButton = $CanvasLayer/Background/Corpus/GoTime/Go
-@onready var go_boom: CPUParticles2D = $CanvasLayer/Background/Corpus/GoTime/GoBoom
-@onready var boom: AudioStreamPlayer2D = $Boom
-var sanitize_regex: RegEx
+var current_menu_index := 0
 
-# Called when the node enters the scene tree for the first time.
+var current_menu: Node:
+	get:
+		return menus[current_menu_index]
+
+var prev_menu: Node:
+	get:
+		return menus[(current_menu_index - 1) % menus.size()]
+
+var next_menu: Node:
+	get:
+		return menus[(current_menu_index + 1) % menus.size()]
+
 func _ready() -> void:
-	corpus_input.text_changed.connect(_load_corpus)
-	sanitize_regex = RegEx.new()
-	sanitize_regex.compile("\\[.*?\\]")
-	corpus_input.grab_focus()
-	
-func _load_corpus():
-	if (!timer.is_stopped()):
-		timer.start(2)
-		return
-	
-	set_loading(true)
-	timer.start(2)
-	await timer.timeout
-	timer.stop()
-	var text_without_tags = sanitize_regex.sub(corpus_input.text, "", true)
-	
-	Game.start(text_without_tags)
-	
-	go_time.visible = true
-	
-	word_count.text = "Words: " + str(Corpus.words.size() + 1) # +1 because one word is immediately popped by Game
-	length.text = "Length: " + str(Corpus.corpus.length())
-	
-	set_loading(false)
+	assert(menus.size() > 0, "No menus found.")
 
-func _input(event: InputEvent) -> void:
-	var key = event.as_text()
-	
-	if (key == "Tab"):
-		corpus_input.release_focus()
-	
-	if (!go_time.visible||key != "Enter"):
-		return
-	
-	if (event.is_pressed()):
-		corpus_input.release_focus()
-		go.position += Vector2(randf_range( - SHAKE_MAGNITUDE, SHAKE_MAGNITUDE), randf_range( - SHAKE_MAGNITUDE, SHAKE_MAGNITUDE))
-	else:
-		go.visible = false
-		go_boom.position = go.position
-		go_boom.emitting = true
-		boom.play()
-		
-		await get_tree().create_timer(go_boom.lifetime).timeout
-		
-		get_tree().change_scene_to_file("res://main.tscn")
+	current_menu.show()
 
-func set_loading(state: bool):
-	loading.clear()
-	if (state):
-		loading.append_text("[wave amp=69].............................................................")
+	if menus.size() == 1:
+		next_button.hide()
+		prev_button.hide()
 	else:
-		loading.append_text(".............................................................")
+		_update_button_text()
+
+func _on_next_button_pressed() -> void:
+	next_menu.position.x = next_menu.size.x
+	next_menu.show()
+
+	var tween = create_tween().set_parallel()
+	tween.tween_property(next_menu, "position:x", 0, transition_speed)
+	tween.tween_property(current_menu, "position:x", -current_menu.size.x, transition_speed)
+
+	await tween.finished
+
+	current_menu.hide()
+	current_menu_index = (current_menu_index + 1) % menus.size()
+
+	_update_button_text()
+
+func _on_prev_button_pressed() -> void:
+	prev_menu.position.x = -prev_menu.size.x
+	prev_menu.show()
+
+	var tween = create_tween().set_parallel()
+	tween.tween_property(prev_menu, "position:x", 0, transition_speed)
+	tween.tween_property(current_menu, "position:x", current_menu.size.x, transition_speed)
+
+	await tween.finished
+	
+	current_menu.hide()
+	current_menu_index = (current_menu_index - 1) % menus.size()
+
+	_update_button_text()
+
+func _update_button_text():
+	next_button.text = next_menu.name + ">"
+	prev_button.text = "<" + prev_menu.name

@@ -47,7 +47,7 @@ func _on_new_target(word: String):
 	target_ui.append_text("[center]>" + word + "<")
 
 	var sheen_tween = create_tween()
-	sheen_tween.tween_property(sheen, 'position:x', target_ui.size.x, 2.0)
+	sheen_tween.tween_property(sheen, 'position:x', target_ui.size.x + 50.0, 2.0)
 	await sheen_tween.finished
 	sheen.position = sheen_base_position
 

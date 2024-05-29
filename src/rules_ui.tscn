@@ -1,0 +1,84 @@
+[gd_scene load_steps=4 format=3 uid="uid://daxgah6m83e7o"]
+
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_3gvue"]
+
+[sub_resource type="Theme" id="Theme_venjl"]
+default_font = ExtResource("1_3gvue")
+default_font_size = 128
+
+[sub_resource type="Theme" id="Theme_1f4bn"]
+default_font = ExtResource("1_3gvue")
+default_font_size = 32
+
+[node name="Rules" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -246.0
+offset_right = 343.0
+offset_bottom = -109.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_venjl")
+bbcode_enabled = true
+text = "[center][color=gray][wave]Rules[/wave]"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -546.0
+offset_top = -414.0
+offset_right = 547.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 48
+
+[node name="Points" type="RichTextLabel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_1f4bn")
+bbcode_enabled = true
+text = "[center][color=gray][u]Movement[/u]
+[left]
+- Type letters (unambiguous moves only).
+
+- Game over when you reach a dead end.
+
+[center][color=gray][u]Points[/u]
+[left]
+- Move: 1 point
+- Word: length x multiplier
+- Quest Word: length x multiplier x 4
+  "
+
+[node name="Multiplier" type="RichTextLabel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_1f4bn")
+bbcode_enabled = true
+text = "[center][color=gray][u]Multiplier[/u]
+[left]
+- You start the game [color=gold]Golden[/color].
+
+- While [color=gold]Golden[/color], your multiplier increases by 1 when you finish a word.
+
+- If you fail a quest, you lose [color=gold]Golden[/color] until you complete one.
+
+- Your multiplier cannot decrease.
+"

@@ -10,21 +10,13 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Show multiplier
-  - rework
-    - If you finish a quest, you become Golden
-    - When you're Golden, multiplier goes up 1 when finishing a word
-    - If you miss a quest, you lose Golden
-
 - UI
   - If player is inactive on the first move, highlight the options (scale up and down)
   - Add a few buttons to cover: Retry, quit, options/corpus (maybe in a later version?)
   - On death: Dead end!
 
-- Rules description: in the options menu
-
 - Bigger corpus (Complete Alice in Wonderland?)
-- Credits
+- Credits under options
   - Sound effects
   - Font
 
