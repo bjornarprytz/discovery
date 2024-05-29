@@ -15,6 +15,7 @@ Goal: collect specific words to increase high score
 - UI
   - If player is inactive on the first move, highlight the options (scale up and down)
   - On death: Cornered!
+  - Add a few buttons to cover: Retry, quit, corpus (maybe in a later version?)
   - Show multiplier
   - Indicate better when a target word is found (A matching jumping effect?)
   - Slightly faster camera movement
