@@ -10,6 +10,13 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- UI
+  - If player is inactive on the first move, highlight the options (scale up and down)
+  - On death: Cornered!
+  - Show multiplier
+  - Indicate better when a target word is found
+  - Slightly faster camera movement
+
 - Bigger corpus (Complete Alice in Wonderland?)
 - Credits
   - Sound effects
@@ -19,6 +26,11 @@ Goal: collect specific words to increase high score
 
 - Leaderboard (Global + Friends)
 - Achievements
+  - First word
+  - 5/10/20/40 words in one session
+  - 50/100/150/200 words total
+  - 100/200/500/1000 letters traversed
+  - 2/3/4/5 target words in a row
 
 ## Tools & Resources
 

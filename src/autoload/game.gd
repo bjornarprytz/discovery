@@ -12,7 +12,7 @@ signal game_over
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
 const QUEST_COLOR: Color = Color.GOLDENROD
-const IMPASSABLE_COLOR: Color = Color.LIGHT_GRAY
+const IMPASSABLE_COLOR: Color = Color.DIM_GRAY
 
 const QUEST_MULTIPLIER: int = 4
 const FATIGUE_FACTOR: int = 4

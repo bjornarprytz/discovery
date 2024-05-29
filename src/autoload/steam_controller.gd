@@ -7,10 +7,4 @@ func _ready() -> void:
 	
 	var isSteamRunning = Steam.isSteamRunning()
 	
-	
 	assert(isSteamRunning, "Steam is not running!")
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

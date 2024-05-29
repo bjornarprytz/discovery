@@ -51,8 +51,9 @@ func _append_line(idx: int) -> void:
 				letter = "_"
 			push_customfx(Cursor.new(), { "color": base_color })
 			pushed_effect = true
-		elif (char_state.impassable):
-			pass
+		elif (char_state.impassable and letter != "_"):
+			push_color(Game.IMPASSABLE_COLOR)
+			pushed_effect = true
 		elif (char_state.completed_word):
 			var word = Corpus.get_word_of(char_idx)
 			push_customfx(Quest.new(), { "idx": char_state.local_idx, "len": word.word.length(), "color": base_color })
@@ -60,7 +61,7 @@ func _append_line(idx: int) -> void:
 		elif (char_state.quest):
 			push_color(Game.QUEST_COLOR)
 			pushed_effect = true
-		elif(char_state.visited):
+		elif(char_state.visited and letter != "_"):
 			push_color(Game.MARK_COLOR)
 			pushed_effect = true
 		elif (char_state.invalid_move):
