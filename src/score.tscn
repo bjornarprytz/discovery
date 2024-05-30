@@ -90,7 +90,7 @@ offset_top = 593.0
 offset_right = 143.0
 offset_bottom = 640.0
 grow_vertical = 0
-color = Color(0.745098, 0.745098, 0.745098, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="Buttons" type="HBoxContainer" parent="ButtonBackground"]
 layout_mode = 1
@@ -110,7 +110,7 @@ modulate = Color(0.498039, 1, 0.831373, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 texture_normal = ExtResource("2_bfdqy")
-stretch_mode = 4
+stretch_mode = 0
 
 [node name="Settings" type="TextureButton" parent="ButtonBackground/Buttons"]
 modulate = Color(0.792157, 0.8, 0.478431, 1)
