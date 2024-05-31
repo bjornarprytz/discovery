@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://8i32brnx6mdq"]
+[gd_scene load_steps=8 format=3 uid="uid://8i32brnx6mdq"]
 
 [ext_resource type="Script" path="res://options.gd" id="1_2oh6v"]
 [ext_resource type="PackedScene" uid="uid://b55yp7h0uty8s" path="res://corpus_ui.tscn" id="2_aa1sk"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="2_vco3a"]
 [ext_resource type="PackedScene" uid="uid://daxgah6m83e7o" path="res://rules_ui.tscn" id="3_4ifrd"]
+[ext_resource type="PackedScene" uid="uid://c7dunov8qmf6m" path="res://credits_ui.tscn" id="4_3xvev"]
 
 [sub_resource type="Theme" id="Theme_dp5r6"]
 default_font = ExtResource("2_vco3a")
@@ -35,6 +36,10 @@ visible = false
 layout_mode = 1
 
 [node name="Corpus" parent="CanvasLayer/Background" instance=ExtResource("2_aa1sk")]
+visible = false
+layout_mode = 1
+
+[node name="Credits" parent="CanvasLayer/Background" instance=ExtResource("4_3xvev")]
 visible = false
 layout_mode = 1
 

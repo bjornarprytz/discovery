@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7dunov8qmf6m"]
+
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_cvkee"]
+
+[sub_resource type="Theme" id="Theme_fxa1n"]
+default_font = ExtResource("1_cvkee")
+default_font_size = 128
+
+[sub_resource type="Theme" id="Theme_pgagx"]
+default_font = ExtResource("1_cvkee")
+default_font_size = 32
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -382.0
+offset_top = -246.0
+offset_right = 343.0
+offset_bottom = -109.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_fxa1n")
+bbcode_enabled = true
+text = "[center][color=gray][wave]Credits[/wave]"
+
+[node name="Heading2" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -353.0
+offset_top = -105.0
+offset_right = 372.0
+offset_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pgagx")
+bbcode_enabled = true
+text = "[u]Sound effects[/u]
+- https://freesound.org
+	- Select, Denied 01.wav by MATRIXXX
+    - Retro, Coin 06.wav by MATRIXXX
+    - Retro, Explosion 07.wav by MATRIXXX
+    - Diamond Click.wav by MATRIXXX
+    - Coin Pickup.mp3 by Phenala
+
+[u]Fonts[/u]
+- VT323 by Peter Hull
+- UnifontEX by St. GIGAFONT Typefaces
+
+[u]Tools[/u]
+- Godot: https://godotengine.org/"

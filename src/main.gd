@@ -4,6 +4,7 @@ extends Node2D
 @onready var flair = preload ("res://fx/flair.tscn")
 @onready var cam: Camera2D = $Camera
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
+@onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
 
 var camera_tween: Tween
 
@@ -52,10 +53,14 @@ func _flair(amount: int):
 func _game_over():
 	$Camera/Sounds/Finished.play()
 	game_over = true
-	Engine.time_scale = 0.4
+	game_over_label.show()
+	game_over_label.modulate = Color(1, 1, 1, 0)
+	Engine.time_scale = 0.5
 	camera_tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
-	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * 10.0, 2.0)
-	camera_tween.tween_property($Camera/Fade, 'color', Color.BLACK, 2.0)
+	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * 10.0, 1.8)
+	camera_tween.tween_property($Camera/Fade, 'color', Color.BLACK, 1.8)
+	camera_tween.tween_property(game_over_label, 'modulate:a', 1.0, 1.8)
+	camera_tween.tween_interval(3.0)
 	camera_tween.set_parallel(false)
 	camera_tween.tween_callback(_show_score)
 
