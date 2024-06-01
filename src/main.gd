@@ -2,12 +2,17 @@ extends Node2D
 
 @onready var score_scene = preload ("res://score.tscn")
 @onready var flair = preload ("res://fx/flair.tscn")
+@onready var tutorial_spawner = preload("res://tutorial.tscn")
 @onready var cam: Camera2D = $Camera
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
 
-var camera_tween: Tween
+@onready var text_game : TextGame = $Text
 
+var camera_tween: Tween
+var tutorial: TutorialUI
+
+var made_first_move: bool
 var target_pos: Vector2
 var game_over := false
 var show_ui := true
@@ -21,6 +26,35 @@ func _ready() -> void:
 	Game.invalid_move.connect(_on_invalid_move)
 	Game.game_over.connect(_game_over)
 	Game.completed_word.connect(_on_completed_word)
+	
+	get_tree().create_timer(10.0).timeout.connect(_show_tutorial, CONNECT_ONE_SHOT)
+
+func _show_tutorial():
+	if (made_first_move):
+		return
+		
+	if tutorial != null:
+		tutorial.queue_free()
+	
+	tutorial = tutorial_spawner.instantiate() as TutorialUI
+	ui.add_child(tutorial)
+	tutorial.modulate.a = 0.0
+	text_game.force_refresh()
+	
+	var tween = create_tween()
+	tween.tween_property(tutorial, "modulate:a", 1.0, .69)
+	
+	
+func _hide_tutorial():
+	if (tutorial == null or tutorial.is_queued_for_deletion()):
+		return
+	var tween = create_tween()
+	tween.tween_property(tutorial, "modulate:a", 0.0, .69)
+	
+	await tween.finished
+
+	tutorial.stop()
+	text_game.force_refresh()
 
 func _move(_prev_pos: int, _current_pos: int, direction: Vector2, score_change: int):
 	$Camera/Sounds/Click.play()
@@ -78,4 +112,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if (key == "Tab"):
 			_toggle_ui()
 		else:
-			Game.try_move(key)
+			if Game.try_move(key):
+				made_first_move = true
+				_hide_tutorial()

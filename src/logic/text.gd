@@ -19,7 +19,10 @@ var se_segment : TextSegment
 var sw_segment : TextSegment
 var nw_segment : TextSegment
 
-func _ready() -> void:	
+func force_refresh():
+	_refresh_text()
+
+func _ready() -> void:
 	Game.moved.connect(_on_moved)
 	Game.invalid_move.connect(_on_invalid_move)
 	

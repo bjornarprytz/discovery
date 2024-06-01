@@ -11,13 +11,17 @@ Goal: collect specific words to increase high score
 ## 1.0 roadmap
 
 - UI
-  - If player is inactive on the first move, highlight the options (scale up and down)
   - Credits autoscroll
+  - Find a better 6-letter word for settings/options etc.
 
 - Polish buttons
 - Music?
 - Cover Image
 - Bigger corpus (Complete Alice in Wonderland?)
+
+- Performance:
+  - Process text effects only when dirty, and on-screen
+  - Add Threaded on the main text (https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#performance)
 
 - Still support web export
 

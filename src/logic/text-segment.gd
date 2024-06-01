@@ -54,6 +54,9 @@ func _append_line(idx: int) -> void:
 		elif (char_state.impassable and letter != "_"):
 			push_color(Game.INERT_COLOR)
 			pushed_effect = true
+		elif (char_state.highlight):
+			push_customfx(Highlight.new(), {})
+			pushed_effect = true
 		elif (char_state.completed_word):
 			var word = Corpus.get_word_of(char_idx)
 			push_customfx(Quest.new(), {"idx": char_state.local_idx, "len": word.word.length(), "color": base_color})

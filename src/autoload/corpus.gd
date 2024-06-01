@@ -14,6 +14,7 @@ class WordData:
 class CharState:
 	var visited : bool
 	var cursor : bool
+	var highlight : bool # For tutorial
 	var impassable : bool
 	var invalid_move : bool
 	var completed_word : bool

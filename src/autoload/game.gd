@@ -61,9 +61,9 @@ func cycle_target():
 	_reset_quest_duration()
 	Game.new_target.emit(current_target)
 
-func try_move(input: String):
+func try_move(input: String) -> bool:
 	if (input.length() > 1):
-		return
+		return false
 	
 	_reset_word_state()
 
@@ -87,12 +87,14 @@ func try_move(input: String):
 			Game.moved.emit(prev_pos, current_pos, candidate.direction, score_change)
 			if (candidate.direction == Vector2.UP or candidate.direction == Vector2.DOWN):
 				_tick_quest_duration()
-			return
+			return true
 			
 	if invalid.any(func(cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:
 			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
 		Game.invalid_move.emit()
+	
+	return false
 
 func force_move(target_pos: int, first_move: bool):
 	var prev_pos = current_pos

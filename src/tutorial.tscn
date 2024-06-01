@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4mtfratvoar0"]
+
+[ext_resource type="Script" path="res://tutorial.gd" id="1_qpkxd"]
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="2_wh4h7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0abf"]
+bg_color = Color(0.498039, 1, 0.831373, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.411765, 0.411765, 0.411765, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="Theme" id="Theme_b8sqc"]
+default_font = ExtResource("2_wh4h7")
+default_font_size = 24
+
+[node name="Tutorial" type="Panel"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -183.0
+offset_top = -278.0
+offset_right = 183.0
+offset_bottom = -193.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d0abf")
+script = ExtResource("1_qpkxd")
+
+[node name="Text" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_b8sqc")
+bbcode_enabled = true
