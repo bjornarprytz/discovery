@@ -16,6 +16,9 @@ Goal: collect specific words to increase high score
 
 - Polish buttons
 - Music?
+  - Game
+  - Menus
+  - Score
 - Cover Image
 - Bigger corpus (Complete Alice in Wonderland?)
 
