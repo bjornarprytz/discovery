@@ -36,11 +36,7 @@ Goal: collect specific words to increase high score
   - Between games
   - Reading the rules
 - Achievements
-  - First word
-  - 5/10/20/40 words in one session
-  - 50/100/150/200 words total
-  - 100/200/500/1000 letters traversed
-  - 2/3/4/5 target words in a row
+  - Add icons
 
 ## Tools & Resources
 
