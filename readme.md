@@ -26,6 +26,7 @@ Goal: collect specific words to increase high score
   - Process text effects only when dirty, and on-screen
   - Add Threaded on the main text (https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#performance)
 
+- Finish TODOs
 - Still support web export
 
 ### Steam integration
