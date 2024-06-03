@@ -8,7 +8,7 @@ signal quest_duration_tick(duration: int, cap: int)
 signal completed_word(word: String, was_quest: bool)
 signal new_target(word: String)
 signal golden_changed(is_golden: bool)
-signal game_over
+signal game_over(score: int)
 
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
@@ -55,7 +55,7 @@ func start(corpus: String=""):
 
 func cycle_target():
 	if (Corpus.words.is_empty()):
-		Game.game_over.emit()
+		Game.game_over.emit(Game.score)
 		return
 	current_target = Corpus.words.pop_front()
 	_reset_quest_duration()
@@ -77,7 +77,7 @@ func try_move(input: String) -> bool:
 		for d in invalid:
 			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
 		Game.invalid_move.emit()
-		Game.game_over.emit()
+		Game.game_over.emit(Game.score)
 
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):

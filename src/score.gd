@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var menu : ScoreTextGame = $ScoreTextGame
+@onready var menu: ScoreTextGame = $ScoreTextGame
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,9 +17,16 @@ func _ready() -> void:
 		$GameOver/Highscore.append_text("[right][wave]New highscore!")
 		_save_highscore(Game.score)
 	else:
-		$GameOver/Highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5) )
+		$GameOver/Highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5))
 	
 	Game.completed_word.connect(_word_complete)
+	
+	var leaderboard_entries = await SteamController.get_leaderboard()
+
+	for entry in leaderboard_entries:
+		print(entry)
+	
+	pass
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
@@ -27,20 +34,20 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if (!menu.try_move(key)):
 			$Denied.play()
 
-func _word_complete(w : String, was_quest: bool):
+func _word_complete(w: String, _was_quest: bool):
 	if (w.nocasecmp_to("quit") == 0):
 		_quit()
-	elif(w.nocasecmp_to("retry") == 0):
+	elif (w.nocasecmp_to("retry") == 0):
 		_retry()
-	elif(w.nocasecmp_to("corpus") == 0):
+	elif (w.nocasecmp_to("corpus") == 0):
 		_settings()
 
 func _load_highscore() -> int:
-	var load = FileAccess.open("user://highscore.txt", FileAccess.READ)
-	if (load == null):
+	var file = FileAccess.open("user://highscore.txt", FileAccess.READ)
+	if (file == null):
 		return 0
 	
-	var highscore = load.get_64()
+	var highscore = file.get_64()
 	
 	if (highscore == null):
 		return 0

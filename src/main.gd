@@ -2,12 +2,12 @@ extends Node2D
 
 @onready var score_scene = preload ("res://score.tscn")
 @onready var flair = preload ("res://fx/flair.tscn")
-@onready var tutorial_spawner = preload("res://tutorial.tscn")
+@onready var tutorial_spawner = preload ("res://tutorial.tscn")
 @onready var cam: Camera2D = $Camera
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
 
-@onready var text_game : TextGame = $Text
+@onready var text_game: TextGame = $Text
 
 var camera_tween: Tween
 var tutorial: TutorialUI
@@ -43,7 +43,6 @@ func _show_tutorial():
 	
 	var tween = create_tween()
 	tween.tween_property(tutorial, "modulate:a", 1.0, .69)
-	
 	
 func _hide_tutorial():
 	if (tutorial == null or tutorial.is_queued_for_deletion()):
@@ -84,7 +83,7 @@ func _flair(amount: int):
 	await get_tree().create_timer(f.lifetime).timeout
 	f.queue_free()
 
-func _game_over():
+func _game_over(_score: int):
 	$Camera/Sounds/Finished.play()
 	game_over = true
 	game_over_label.show()

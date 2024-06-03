@@ -1,9 +1,20 @@
 class_name SteamConnector
 extends Node2D
 
+class LeaderBoardEntry:
+	var rank: int
+	var steam_id: int
+	var score: int
+
+	func _init(entry: Dictionary) -> void:
+		rank = entry["global_rank"]
+		steam_id = entry["steam_id"]
+		score = entry["score"]
+
 class Stats:
 	var _stat_cache: Dictionary = {}
 	var _achievement_cache: Dictionary = {}
+	var _leaderboardFound: bool
 	
 	func increment_stat(statKey: String, amount: int=1):
 		if !_stat_cache.has(statKey):
@@ -35,6 +46,51 @@ class Stats:
 			Steam.setAchievement(achievementKey)
 			_achievement_cache[achievementKey].achieved = true
 	
+	func _subscribe_to_leaderboard(leaderboardKey: String) -> bool:
+		if !_leaderboardFound:
+			Steam.findOrCreateLeaderboard(leaderboardKey, Steam.LEADERBOARD_SORT_METHOD_ASCENDING, Steam.LEADERBOARD_DISPLAY_TYPE_NUMERIC)
+			
+			var result = await Steam.leaderboard_find_result as Array
+			
+			if result.size() < 2||result[1] != 1: # Found
+				push_error("Leaderboard not found: " + leaderboardKey)
+				return false
+			
+			var handle = result[0]
+
+			print("Leaderboard found: " + handle)
+
+			_leaderboardFound = true
+		return true
+	
+	func post_score(leaderboardKey: String, score: int):
+		if !_leaderboardFound:
+			_leaderboardFound = await _subscribe_to_leaderboard(leaderboardKey)
+
+		Steam.uploadLeaderboardScore(score)
+		
+		var result = await Steam.leaderboard_score_uploaded
+
+		if result.size() < 3||result[0] == false:
+			push_error("Failed to upload score")
+			return
+	
+	func get_leaderboard(start: int, end: int) -> Array[LeaderBoardEntry]:
+		Steam.downloadLeaderboardEntries(start, end, Steam.LEADERBOARD_DATA_REQUEST_GLOBAL_AROUND_USER)
+		
+		var result = await Steam.leaderboard_scores_downloaded as Array
+		
+		if result.size() < 3:
+			push_error("Leaderboard not found")
+			return []
+
+		var entries: Array[LeaderBoardEntry] = []
+		
+		for entry in result[2]:
+			entries.append(LeaderBoardEntry.new(entry))
+
+		return entries
+
 	func clearAchievement(achievementKey: String):
 		Steam.clearAchievement(achievementKey)
 
@@ -44,6 +100,9 @@ class Stats:
 var _stats: Stats = Stats.new()
 var _words_this_session: int = 0
 var _quest_streak: int = 0
+
+func get_leaderboard() -> Array[LeaderBoardEntry]:
+	return await _stats.get_leaderboard(0, 100)
 
 func _ready() -> void:
 	Steam.steamInit()
@@ -58,6 +117,9 @@ func _ready() -> void:
 	Game.moved.connect(_on_moved)
 	Game.game_over.connect(_on_game_over)
 	Game.golden_changed.connect(_on_golden_changed)
+
+func _process(_delta: float) -> void:
+	Steam.run_callbacks() # This is necessary to get the callbacks from Steam (like leaderboards)
 
 func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")
@@ -94,9 +156,10 @@ func _on_completed_word(_word: String, was_quest: bool):
 	
 	_stats.save()
 
-func _on_game_over():
+func _on_game_over(score: int):
 	_words_this_session = 0
 	_quest_streak = 0
+	_stats.post_score("BookWormLeaderboard", score)
 
 func _on_golden_changed(_is_golden: bool):
 	if !_is_golden:

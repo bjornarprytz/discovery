@@ -10,9 +10,17 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Steam integration
+  - Expand classes a little bit. Maybe make use of the signals, instead of async await. It's a bit more readable maybe.
+
 - UI
   - Credits autoscroll
   - Find a better 6-letter word for settings/options etc.
+  - Score Screen
+    - Open leaderboard
+      - Friends
+      - Around user
+      - Global
 
 - Polish buttons
 - Music?

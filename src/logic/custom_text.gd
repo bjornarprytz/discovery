@@ -40,7 +40,7 @@ func try_move(input: String) -> bool:
 	var valid = not_visited.filter(func(c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func(c1: MoveCandidate): return !invalid.any(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
 	
 	if valid.is_empty():
-		Game.game_over.emit()
+		Game.game_over.emit(Game.score)
 	
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
