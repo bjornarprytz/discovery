@@ -19,6 +19,12 @@ class MoveCandidate:
 	var state: CorpusClass.CharState
 	var step: Vector2
 
+	func _init(target_idx: int, step_: Vector2):
+		character = Corpus.get_char_at(target_idx)
+		destination = target_idx
+		state = Corpus.get_state(target_idx)
+		step = step_
+
 func start(corpus: String, save: bool=true) -> void:
 	Corpus.load_corpus(corpus, save)
 
@@ -76,21 +82,13 @@ func _visit(target_idx: int) -> int:
 		if (c != null):
 			c.state.invalid_move = false
 	
-	up = _create_candidate(current_pos - LINE_LENGTH, Corpus.font_size * Vector2.UP)
-	right = _create_candidate(current_pos + 1, Corpus.font_size * Vector2.RIGHT)
-	down = _create_candidate(current_pos + LINE_LENGTH, Corpus.font_size * Vector2.DOWN)
-	left = _create_candidate(current_pos - 1, Corpus.font_size * Vector2.LEFT)
+	up = MoveCandidate.new(current_pos - LINE_LENGTH, Corpus.font_size * Vector2.UP)
+	right = MoveCandidate.new(current_pos + 1, Corpus.font_size * Vector2.RIGHT)
+	down = MoveCandidate.new(current_pos + LINE_LENGTH, Corpus.font_size * Vector2.DOWN)
+	left = MoveCandidate.new(current_pos - 1, Corpus.font_size * Vector2.LEFT)
 	
 	return score
 
 func _refresh_text():
 	for s in get_children():
 		(s as TextSegment).refresh()
-
-func _create_candidate(target_idx: int, step: Vector2) -> MoveCandidate:
-	var candidate = MoveCandidate.new()
-	candidate.character = Corpus.get_char_at(target_idx)
-	candidate.destination = target_idx
-	candidate.state = Corpus.get_state(target_idx)
-	candidate.step = step
-	return candidate

@@ -7,20 +7,20 @@ const segment_width: int = 48
 const segment_height: int = 12
 
 class WordData:
-    var word: String
-    var start_idx: int
-    var states: Array[CharState] = []
+	var word: String
+	var start_idx: int
+	var states: Array[CharState] = []
 
 class CharState:
-    var visited: bool
-    var cursor: bool
-    var highlight: bool # For tutorial
-    var impassable: bool
-    var invalid_move: bool
-    var completed_word: bool
-    var quest: bool
-    var local_idx: int # Only relevant for words
-    var corpus_idx: int
+	var visited: bool
+	var cursor: bool
+	var highlight: bool # For tutorial
+	var impassable: bool
+	var invalid_move: bool
+	var completed_word: bool
+	var quest: bool
+	var local_idx: int # Only relevant for words
+	var corpus_idx: int
 
 var words: Array[String] = []
 var state: Dictionary = {}
@@ -29,88 +29,88 @@ var state: Dictionary = {}
 var corpus: String
 
 func get_state(idx: int) -> CharState:
-    var normalized_idx = normalize_idx(idx)
-    if (!state.has(normalized_idx)):
-        state[normalized_idx] = CharState.new()
-        
-    state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
-    state[normalized_idx].corpus_idx = normalized_idx
-        
-    return state[normalized_idx]
+	var normalized_idx = normalize_idx(idx)
+	if (!state.has(normalized_idx)):
+		state[normalized_idx] = CharState.new()
+		
+	state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
+	state[normalized_idx].corpus_idx = normalized_idx
+		
+	return state[normalized_idx]
 
 func get_char_at(idx: int) -> String:
-    var normalized_idx = normalize_idx(idx)
-    
-    return corpus[normalized_idx]
+	var normalized_idx = normalize_idx(idx)
+	
+	return corpus[normalized_idx]
 
 func get_word_of(idx: int) -> WordData:
-    var normalized_idx: int = normalize_idx(idx)
-    var letter = get_char_at(idx)
-    if (valid_regex.search(letter) == null):
-        return null
-    
-    var data = WordData.new()
-    
-    var start := ""
-    var end := ""
-    
-    var pointer := normalized_idx + 1
-    
-    while valid_regex.search(letter) != null:
-        end += letter
-        data.states.push_back(get_state(pointer - 1))
-        letter = get_char_at(pointer)
-        pointer += 1
-    
-    pointer = normalized_idx - 1
-    letter = get_char_at(pointer)
-    while valid_regex.search(letter) != null:
-        start = letter + start
-        data.states.push_front(get_state(pointer))
-        pointer -= 1
-        letter = get_char_at(pointer)
-    
-    data.start_idx = pointer + 1
-    data.word = start + end
-    
-    var i := 0
-    for s in data.states:
-        s.local_idx = i
-        i += 1
-    
-    return data
+	var normalized_idx: int = normalize_idx(idx)
+	var letter = get_char_at(idx)
+	if (valid_regex.search(letter) == null):
+		return null
+	
+	var data = WordData.new()
+	
+	var start := ""
+	var end := ""
+	
+	var pointer := normalized_idx + 1
+	
+	while valid_regex.search(letter) != null:
+		end += letter
+		data.states.push_back(get_state(pointer - 1))
+		letter = get_char_at(pointer)
+		pointer += 1
+	
+	pointer = normalized_idx - 1
+	letter = get_char_at(pointer)
+	while valid_regex.search(letter) != null:
+		start = letter + start
+		data.states.push_front(get_state(pointer))
+		pointer -= 1
+		letter = get_char_at(pointer)
+	
+	data.start_idx = pointer + 1
+	data.word = start + end
+	
+	var i := 0
+	for s in data.states:
+		s.local_idx = i
+		i += 1
+	
+	return data
 
 func normalize_idx(idx: int) -> int:
-    var n = idx % corpus.length()
-    
-    while n < 0:
-        n += corpus.length()
-    
-    return n
+	var n = idx % corpus.length()
+	
+	while n < 0:
+		n += corpus.length()
+	
+	return n
 
 func load_corpus(text: String="", save: bool=true):
-    assert(segment_width <= corpus_line_length)
-    assert(segment_height > 0)
-    assert(segment_width > 0)
-    
-    valid_regex.compile("\\w+")
-    
-    if (text.length() > 0):
-        corpus = text
-    else:
-        corpus = main_corpus
-    
-    corpus = corpus.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
-    
-    if (save):
-        main_corpus = corpus # Store it for later
-    
-    words = []
-    for w in valid_regex.search_all(corpus):
-        words.push_back(w.get_string().to_lower())
-    words.shuffle()
-    
-    state = {}
+	assert(segment_width <= corpus_line_length)
+	assert(segment_height > 0)
+	assert(segment_width > 0)
+	
+	valid_regex.compile("\\w+")
+	
+	if (text.length() > 0):
+		corpus = text
+	else:
+		corpus = main_corpus
+	
+	corpus = corpus.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
+	
+	if (save):
+		main_corpus = corpus # Store it for later
+	
+	words = []
+	for w in valid_regex.search_all(corpus):
+		words.push_back(w.get_string().to_lower())
+	words.shuffle()
+	
+	state = {}
 
 @onready var main_corpus = "
 A Mad Tea-Party

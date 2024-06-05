@@ -20,13 +20,6 @@ func _ready() -> void:
 		$GameOver/Highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5))
 	
 	Game.completed_word.connect(_word_complete)
-	
-	var leaderboard_entries = await SteamController.get_leaderboard()
-
-	for entry in leaderboard_entries:
-		print(entry)
-	
-	pass
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
