@@ -11,7 +11,17 @@ Goal: collect specific words to increase high score
 ## 1.0 roadmap
 
 - Steam integration
+  - Refactor into useful components
+    - Leaderboard
+      - GetLeaderBoard (return cached, or await)
+        - Friends, Global
+      - PostScore
+    - Achievements & Stats
+      - Denne er komplett, må bare re-wire, og sjekke at alt funker
+
   - Expand classes a little bit. Maybe make use of the signals, instead of async await. It's a bit more readable maybe.
+
+- Smarter quest selection. Maybe complete randomness is not the way to go. It should be a word that's within reach at least.
 
 - UI
   - Credits autoscroll
@@ -45,6 +55,10 @@ Goal: collect specific words to increase high score
   - Between games
   - Reading the rules
 - Achievements
+  - 100% (all achievements)
+  - Finn det lengste ordet i corpus
+  - Finn det korteste ordet i corpus
+  - Finn White+Rabbit
   - Add icons
 
 ## Tools & Resources

@@ -1,116 +1,116 @@
 extends Node2D
 class_name CorpusClass
 
-const font_size : Vector2 = Vector2(32.0, 64.0)
-const corpus_line_length : int = 128
-const segment_width : int = 48
-const segment_height : int = 12
+const font_size: Vector2 = Vector2(32.0, 64.0)
+const corpus_line_length: int = 128
+const segment_width: int = 48
+const segment_height: int = 12
 
 class WordData:
-	var word : String
-	var start_idx : int
-	var states : Array[CharState] = []
+    var word: String
+    var start_idx: int
+    var states: Array[CharState] = []
 
 class CharState:
-	var visited : bool
-	var cursor : bool
-	var highlight : bool # For tutorial
-	var impassable : bool
-	var invalid_move : bool
-	var completed_word : bool
-	var quest : bool
-	var local_idx : int # Only relevant for words
-	var corpus_idx : int
+    var visited: bool
+    var cursor: bool
+    var highlight: bool # For tutorial
+    var impassable: bool
+    var invalid_move: bool
+    var completed_word: bool
+    var quest: bool
+    var local_idx: int # Only relevant for words
+    var corpus_idx: int
 
-var words : Array[String] = []
-var state : Dictionary = {}
+var words: Array[String] = []
+var state: Dictionary = {}
 
-@onready var valid_regex : RegEx = RegEx.new()
-var corpus : String
+@onready var valid_regex: RegEx = RegEx.new()
+var corpus: String
 
 func get_state(idx: int) -> CharState:
-	var normalized_idx = normalize_idx(idx)
-	if (!state.has(normalized_idx)):
-		state[normalized_idx] = CharState.new()
-		
-	state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
-	state[normalized_idx].corpus_idx = normalized_idx
-		
-	return state[normalized_idx]
+    var normalized_idx = normalize_idx(idx)
+    if (!state.has(normalized_idx)):
+        state[normalized_idx] = CharState.new()
+        
+    state[normalized_idx].impassable = (valid_regex.search(get_char_at(idx)) == null)
+    state[normalized_idx].corpus_idx = normalized_idx
+        
+    return state[normalized_idx]
 
 func get_char_at(idx: int) -> String:
-	var normalized_idx = normalize_idx(idx)
-	
-	return corpus[normalized_idx]
+    var normalized_idx = normalize_idx(idx)
+    
+    return corpus[normalized_idx]
 
 func get_word_of(idx: int) -> WordData:
-	var normalized_idx: int = normalize_idx(idx)
-	var letter = get_char_at(idx)
-	if (valid_regex.search(letter) == null):
-		return null
-	
-	var data = WordData.new()
-	
-	var start := ""
-	var end := ""
-	
-	var pointer := normalized_idx +1
-	
-	while valid_regex.search(letter) != null:
-		end += letter
-		data.states.push_back(get_state(pointer-1))
-		letter = get_char_at(pointer)
-		pointer+=1
-	
-	pointer = normalized_idx-1
-	letter = get_char_at(pointer)
-	while valid_regex.search(letter) != null:
-		start = letter + start
-		data.states.push_front(get_state(pointer))
-		pointer-=1
-		letter = get_char_at(pointer)
-	
-	data.start_idx = pointer+1
-	data.word = start+end
-	
-	var i :=0
-	for s in data.states:
-		s.local_idx = i
-		i += 1
-	
-	return data
+    var normalized_idx: int = normalize_idx(idx)
+    var letter = get_char_at(idx)
+    if (valid_regex.search(letter) == null):
+        return null
+    
+    var data = WordData.new()
+    
+    var start := ""
+    var end := ""
+    
+    var pointer := normalized_idx + 1
+    
+    while valid_regex.search(letter) != null:
+        end += letter
+        data.states.push_back(get_state(pointer - 1))
+        letter = get_char_at(pointer)
+        pointer += 1
+    
+    pointer = normalized_idx - 1
+    letter = get_char_at(pointer)
+    while valid_regex.search(letter) != null:
+        start = letter + start
+        data.states.push_front(get_state(pointer))
+        pointer -= 1
+        letter = get_char_at(pointer)
+    
+    data.start_idx = pointer + 1
+    data.word = start + end
+    
+    var i := 0
+    for s in data.states:
+        s.local_idx = i
+        i += 1
+    
+    return data
 
 func normalize_idx(idx: int) -> int:
-	var n = idx % corpus.length()
-	
-	while n < 0:
-		n += corpus.length()
-	
-	return n
+    var n = idx % corpus.length()
+    
+    while n < 0:
+        n += corpus.length()
+    
+    return n
 
-func load_corpus(text: String = "", save: bool = true):
-	assert(segment_width <= corpus_line_length)
-	assert(segment_height > 0)
-	assert(segment_width > 0)
-	
-	valid_regex.compile("\\w+")
-	
-	if (text.length() > 0):
-		corpus = text
-	else:
-		corpus = main_corpus
-	
-	corpus = corpus.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
-	
-	if (save):
-		main_corpus = corpus # Store it for later
-	
-	words = []
-	for w in valid_regex.search_all(corpus):
-		words.push_back(w.get_string().to_lower())
-	words.shuffle()
-	
-	state = {}
+func load_corpus(text: String="", save: bool=true):
+    assert(segment_width <= corpus_line_length)
+    assert(segment_height > 0)
+    assert(segment_width > 0)
+    
+    valid_regex.compile("\\w+")
+    
+    if (text.length() > 0):
+        corpus = text
+    else:
+        corpus = main_corpus
+    
+    corpus = corpus.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
+    
+    if (save):
+        main_corpus = corpus # Store it for later
+    
+    words = []
+    for w in valid_regex.search_all(corpus):
+        words.push_back(w.get_string().to_lower())
+    words.shuffle()
+    
+    state = {}
 
 @onready var main_corpus = "
 A Mad Tea-Party
@@ -169,7 +169,7 @@ Twinkle, twinkle, little bat!
 How I wonder what youre at!
 You know the song, perhaps?
 Ive heard something like it, said Alice.
-It goes on, you know, the Hatter continued, in this way: 
+It goes on, you know, the Hatter continued, in this way:
 Up above the world you fly,
 Like a tea-tray in the sky.
 Twinkle, twinkle
@@ -189,7 +189,7 @@ The Dormouse slowly opened his eyes. I wasnt asleep, he said in a hoarse, feeble
 Tell us a story! said the March Hare.
 Yes, please do! pleaded Alice.
 And be quick about it, added the Hatter, or youll be asleep again before its done.
-Once upon a time there were three little sisters, the Dormouse began in a great hurry; and their names were Elsie, Lacie, and Tillie; and they lived at the bottom of a well 
+Once upon a time there were three little sisters, the Dormouse began in a great hurry; and their names were Elsie, Lacie, and Tillie; and they lived at the bottom of a well
 What did they live on? said Alice, who always took a great interest in questions of eating and drinking.
 They lived on treacle, said the Dormouse, after thinking a minute or two.
 They couldnt have done that, you know, Alice gently remarked; theyd have been ill.
@@ -204,7 +204,7 @@ Alice did not quite know what to say to this: so she helped herself to some tea 
 The Dormouse again took a minute or two to think about it, and then said, It was a treacle-well.
 Theres no such thing! Alice was beginning very angrily, but the Hatter and the March Hare went Sh! sh! and the Dormouse sulkily remarked, If you cant be civil, youd better finish the story for yourself.
 No, please go on! Alice said very humbly; I wont interrupt again. I dare say there may be one.
-One, indeed! said the Dormouse indignantly. However, he consented to go on. And so these three little sisters they were learning to draw, you know 
+One, indeed! said the Dormouse indignantly. However, he consented to go on. And so these three little sisters they were learning to draw, you know
 What did they draw? said Alice, quite forgetting her promise.
 Treacle, said the Dormouse, without considering at all this time.
 I want a clean cup, interrupted the Hatter: lets all move one place on.
@@ -225,5 +225,5 @@ This piece of rudeness was more than Alice could bear: she got up in great disgu
 Hatter and Hare dunking Dormouse
 At any rate Ill never go there again! said Alice as she picked her way through the wood. Its the stupidest tea-party I ever was at in all my life!
 Just as she said this, she noticed that one of the trees had a door leading right into it. Thats very curious! she thought. But everythings curious today. I think I may as well go in at once. And in she went.
-Once more she found herself in the long hall, and close to the little glass table. Now, Ill manage better this time, she said to herself, and began by taking the little golden key, and unlocking the door that led into the garden. Then she went to work nibbling at the mushroom (she had kept a piece of it in her pocket) till she was about a foot high: then she walked down the little passage: and then she found herself at last in the beautiful garden, among the bright flower-beds and the cool fountains. 
+Once more she found herself in the long hall, and close to the little glass table. Now, Ill manage better this time, she said to herself, and began by taking the little golden key, and unlocking the door that led into the garden. Then she went to work nibbling at the mushroom (she had kept a piece of it in her pocket) till she was about a foot high: then she walked down the little passage: and then she found herself at last in the beautiful garden, among the bright flower-beds and the cool fountains.
 "
