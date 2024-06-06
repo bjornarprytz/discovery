@@ -10,24 +10,13 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Steam integration
-  - Refactor into useful components
-    - Leaderboard
-      - GetLeaderBoard (return cached, or await)
-        - Friends, Global
-      - PostScore
-    - Achievements & Stats
-      - Denne er komplett, må bare re-wire, og sjekke at alt funker
-
-  - Expand classes a little bit. Maybe make use of the signals, instead of async await. It's a bit more readable maybe.
-
 - Smarter quest selection. Maybe complete randomness is not the way to go. It should be a word that's within reach at least.
 
 - UI
   - Credits autoscroll
   - Find a better 6-letter word for settings/options etc.
   - Score Screen
-    - Open leaderboard
+    - Open leaderboard (Make it work without steam as well)
       - Friends
       - Around user
       - Global

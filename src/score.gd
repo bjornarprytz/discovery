@@ -21,6 +21,16 @@ func _ready() -> void:
 	
 	Game.completed_word.connect(_word_complete)
 
+	var leaderboardEntries = await SteamController.get_leaderboard(0, 10)
+
+	print("found %d entries" % leaderboardEntries.size())
+
+	for entry in leaderboardEntries:
+		var entry_label = RichTextLabel.new()
+		entry_label.fit_content = true
+		entry_label.text = "%s: %d" % [entry.name, entry.score]
+		$Leaderboard/VB.add_child(entry_label)
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
 		var key = event.as_text()

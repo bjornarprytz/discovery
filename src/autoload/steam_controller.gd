@@ -7,6 +7,9 @@ var _leaderboard: SteamLeaderboardManager
 var _words_this_session: int = 0
 var _quest_streak: int = 0
 
+func get_leaderboard(start: int, end: int) -> Array[SteamLeaderboardManager.LeaderBoardEntry]:
+	return await _leaderboard.get_leaderboard(start, end)
+
 func _ready() -> void:
 	Steam.steamInit()
 	
@@ -67,6 +70,8 @@ func _on_completed_word(_word: String, was_quest: bool):
 func _on_game_over(score: int):
 	_words_this_session = 0
 	_quest_streak = 0
+
+	await _leaderboard.post_score(score)
 
 func _on_golden_changed(_is_golden: bool):
 	if !_is_golden:

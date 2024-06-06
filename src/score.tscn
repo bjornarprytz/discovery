@@ -126,6 +126,30 @@ size_flags_horizontal = 3
 texture_normal = ExtResource("4_ijtnc")
 stretch_mode = 4
 
+[node name="Leaderboard" type="ColorRect" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 897.0
+offset_top = 202.0
+offset_right = 1131.0
+offset_bottom = 464.0
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="VB" type="VBoxContainer" parent="Leaderboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" type="RichTextLabel" parent="Leaderboard/VB"]
+layout_mode = 2
+text = "Scores"
+fit_content = true
+
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
 
