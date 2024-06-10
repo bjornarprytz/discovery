@@ -15,7 +15,6 @@ Goal: collect specific words to increase high score
 - UI
   - Credits autoscroll
   - Back button in settings
-  - Find a better 6-letter word for settings/options etc.
   - Leaderboard
     - Switch between (Friends / Around user)
 
@@ -47,6 +46,11 @@ Goal: collect specific words to increase high score
   - Finn det korteste ordet i corpus
   - Finn White+Rabbit
   - Add icons
+
+### Future Scope
+
+- Power-ups?
+- Chapters?
 
 ## Tools & Resources
 
