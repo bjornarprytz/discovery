@@ -6,7 +6,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$ScoreTextGame.start("Retry Quit Corpus", false)
+	$ScoreTextGame.start("Retry Quit Secret", false)
 	
 	var current_highscore = _load_highscore()
 	
@@ -40,7 +40,7 @@ func _word_complete(w: String, _was_quest: bool):
 		_quit()
 	elif (w.nocasecmp_to("retry") == 0):
 		_retry()
-	elif (w.nocasecmp_to("corpus") == 0):
+	elif (w.nocasecmp_to("secret") == 0):
 		_settings()
 
 func _load_highscore() -> int:
