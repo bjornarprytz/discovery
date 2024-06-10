@@ -13,22 +13,41 @@ var _stats: SteamStatsAndAchievementManager
 var _leaderboard: SteamLeaderboardManager
 var _user: SteamUser
 
+var _is_initialized: bool = false
+
 var _words_this_session: int = 0
 var _quest_streak: int = 0
 
+func is_initialized() -> bool:
+	_try_initialize()
+	
+	return _is_initialized
+
 func get_leaderboard(start: int, end: int) -> Array[SteamLeaderboardManager.LeaderboardEntry]:
+	_try_initialize()
+	
+	if !_is_initialized:
+		return []
+	
 	return await _leaderboard.get_leaderboard(start, end)
 
 func get_user() -> SteamUser:
+	_try_initialize()
+
 	return _user
 
 func _ready() -> void:
+	_try_initialize()
+
+func _try_initialize():
+	if _is_initialized:
+		return
+
 	Steam.steamInit()
 	
 	var isSteamRunning = Steam.isSteamRunning()
 	
 	if !isSteamRunning:
-		queue_free()
 		return
 
 	_stats = SteamStatsAndAchievementManager.new()
@@ -41,6 +60,8 @@ func _ready() -> void:
 	Game.moved.connect(_on_moved)
 	Game.game_over.connect(_on_game_over)
 	Game.golden_changed.connect(_on_golden_changed)
+
+	_is_initialized = true
 
 func _process(_delta: float) -> void:
 	Steam.run_callbacks() # This is necessary to get the callbacks from Steam (like leaderboards)

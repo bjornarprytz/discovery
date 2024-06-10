@@ -23,10 +23,11 @@ func _ready() -> void:
 	
 	Game.completed_word.connect(_word_complete)
 
-	if SteamController == null:
-		leaderboard.queue_free()
-	else:
+	if SteamController.is_initialized():
 		leaderboard.show()
+		$GameOver/Highscore.hide()
+	else:
+		leaderboard.queue_free()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
