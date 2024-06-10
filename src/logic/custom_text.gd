@@ -50,8 +50,9 @@ func try_move(input: String) -> bool:
 	
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
-			var score = _visit(candidate.destination)
-			Game.moved.emit(candidate.step, score, Vector2.ZERO, 0)
+			var prev_pos = current_pos
+			_visit(candidate.destination)
+			Game.moved.emit(prev_pos, current_pos, candidate.step.normalized(), 0)
 			
 	if invalid.any(func(cand: MoveCandidate): return input.nocasecmp_to(cand.character) == 0):
 		for d in invalid:

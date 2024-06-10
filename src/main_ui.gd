@@ -12,16 +12,14 @@ extends CanvasLayer
 @onready var sheen_base_position = sheen.position
 
 func _ready() -> void:
+	_set_score(Game.score)
 	_on_quest_duration_tick(Game.quest_duration, Game.quest_duration)
 	Game.quest_duration_tick.connect(_on_quest_duration_tick)
 	_on_new_target(Game.current_target)
 	Game.new_target.connect(_on_new_target)
-	_update_score()
 	Game.golden_changed.connect(_on_golden_changed)
 	Game.multiplier_changed.connect(_on_multiplier_changed)
-
-func update_score():
-	_update_score()
+	Game.moved.connect(_on_moved)
 
 func set_show(show_ui: bool) -> void:
 	var toggle_tween = create_tween().set_ease(Tween.EASE_IN)
@@ -51,9 +49,15 @@ func _on_new_target(word: String):
 	await sheen_tween.finished
 	sheen.position = sheen_base_position
 
-func _update_score():
+func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, score_change: int):
+	
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_EXPO)
+	tween.tween_method(_set_score, Game.score - score_change, Game.score, .69)
+
+func _set_score(score: int):
 	score_board.clear()
-	score_board.append_text("[right]" + str(Game.score).pad_zeros(5))
+	score_board.append_text("[right]" + str(score).pad_zeros(5))
 
 func _on_golden_changed(is_golden: bool):
 	var ui_color: Color
