@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://dk2gn713rcpbx"]
+
+[ext_resource type="Script" path="res://leaderboard_entry_ui.gd" id="1_fmkih"]
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="2_fnxm1"]
+
+[sub_resource type="Theme" id="Theme_o3stg"]
+default_font = ExtResource("2_fnxm1")
+default_font_size = 48
+
+[node name="Heading" type="HBoxContainer"]
+offset_right = 415.0
+offset_bottom = 49.0
+size_flags_horizontal = 3
+script = ExtResource("1_fmkih")
+
+[node name="Rank" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme = SubResource("Theme_o3stg")
+bbcode_enabled = true
+text = "#"
+fit_content = true
+
+[node name="Name" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme = SubResource("Theme_o3stg")
+bbcode_enabled = true
+text = "Name"
+fit_content = true
+
+[node name="Score" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_o3stg")
+bbcode_enabled = true
+text = "[right]Score"
+fit_content = true

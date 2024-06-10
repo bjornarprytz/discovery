@@ -1,14 +1,26 @@
 class_name SteamConnector
 extends Node2D
 
+class SteamUser:
+	var steam_id: int
+	var name: String
+
+	func _init(steam_id_: int, username: String):
+		steam_id = steam_id_
+		name = username
+
 var _stats: SteamStatsAndAchievementManager
 var _leaderboard: SteamLeaderboardManager
+var _user: SteamUser
 
 var _words_this_session: int = 0
 var _quest_streak: int = 0
 
-func get_leaderboard(start: int, end: int) -> Array[SteamLeaderboardManager.LeaderBoardEntry]:
+func get_leaderboard(start: int, end: int) -> Array[SteamLeaderboardManager.LeaderboardEntry]:
 	return await _leaderboard.get_leaderboard(start, end)
+
+func get_user() -> SteamUser:
+	return _user
 
 func _ready() -> void:
 	Steam.steamInit()
@@ -21,6 +33,7 @@ func _ready() -> void:
 
 	_stats = SteamStatsAndAchievementManager.new()
 	_leaderboard = SteamLeaderboardManager.new("BookWormLeaderboard")
+	_user = _fetch_user()
 	
 	_reset_progress() # TODO: Remove this once I'm done testing
 
@@ -31,6 +44,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	Steam.run_callbacks() # This is necessary to get the callbacks from Steam (like leaderboards)
+
+func _fetch_user():
+	var steamID = Steam.getSteamID()
+	var username = Steam.getFriendPersonaName(steamID)
+	var user = SteamUser.new(steamID, username)
+	return user
 
 func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")

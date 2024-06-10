@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2cgwyo06yfwn"]
+
+[ext_resource type="PackedScene" uid="uid://dk2gn713rcpbx" path="res://leaderboard_entry_ui.tscn" id="1_d3jis"]
+[ext_resource type="Script" path="res://leaderboard_ui.gd" id="1_ogaa2"]
+
+[node name="Leaderboard" type="ColorRect"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -648.0
+offset_right = 549.0
+offset_bottom = -185.0
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_ogaa2")
+
+[node name="VB" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" parent="VB" instance=ExtResource("1_d3jis")]
+modulate = Color(0.404511, 0.404511, 0.404511, 1)
+layout_mode = 2

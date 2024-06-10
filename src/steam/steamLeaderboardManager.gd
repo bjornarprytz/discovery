@@ -1,6 +1,6 @@
 class_name SteamLeaderboardManager
 
-class LeaderBoardEntry:
+class LeaderboardEntry:
     var rank: int
     var steam_id: int
     var name: String
@@ -16,7 +16,7 @@ class LeaderBoardEntry:
 var _leaderboardFound = false
 var _leaderboardName: String
 
-func get_leaderboard(start: int, end: int) -> Array[LeaderBoardEntry]:
+func get_leaderboard(start: int, end: int) -> Array[LeaderboardEntry]:
     if !_leaderboardFound:
         await _subscribe_to_leaderboard()
 
@@ -58,8 +58,8 @@ func _subscribe_to_leaderboard():
         _leaderboardFound = true
     return
 
-func _await_leaderboard_download_result() -> Array[LeaderBoardEntry]:
-    var entries: Array[LeaderBoardEntry] = []
+func _await_leaderboard_download_result() -> Array[LeaderboardEntry]:
+    var entries: Array[LeaderboardEntry] = []
     
     var result = await Steam.leaderboard_scores_downloaded as Array
     
@@ -68,6 +68,6 @@ func _await_leaderboard_download_result() -> Array[LeaderBoardEntry]:
         return []
 
     for entry in result[2]:
-        entries.append(LeaderBoardEntry.new(entry))
+        entries.append(LeaderboardEntry.new(entry))
 
     return entries

@@ -49,7 +49,7 @@ func _ready() -> void:
 	
 	Game.force_move(center_segment.start_index, true)
 
-func _on_moved(prev_pos: int, current_pos: int, step: Vector2, score_change: int):
+func _on_moved(_prev_pos: int, _current_pos: int, _step: Vector2, _score_change: int):
 
 	var camera_point = cam.position
 	
