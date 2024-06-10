@@ -128,16 +128,13 @@ texture_normal = ExtResource("4_ijtnc")
 stretch_mode = 4
 
 [node name="Leaderboard" parent="." instance=ExtResource("7_lba4x")]
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 0
 anchor_top = 0.0
-anchor_right = 1.0
 anchor_bottom = 0.0
-offset_left = 808.0
-offset_top = -2.0
-offset_right = 1149.0
-offset_bottom = 651.0
-grow_horizontal = 0
+offset_left = 800.0
+offset_top = 0.0
+offset_right = 1152.0
+offset_bottom = 648.0
 grow_vertical = 1
 
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]

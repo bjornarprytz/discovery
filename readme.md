@@ -14,12 +14,10 @@ Goal: collect specific words to increase high score
 
 - UI
   - Credits autoscroll
+  - Back button in settings
   - Find a better 6-letter word for settings/options etc.
-  - Score Screen
-    - Open leaderboard (Make it work without steam as well)
-      - Friends
-      - Around user
-      - Global
+  - Leaderboard
+    - Switch between (Friends / Around user)
 
 - Polish buttons
 - Music?

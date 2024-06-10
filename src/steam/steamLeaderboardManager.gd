@@ -20,7 +20,7 @@ func get_leaderboard(start: int, end: int) -> Array[LeaderboardEntry]:
     if !_leaderboardFound:
         await _subscribe_to_leaderboard()
 
-    Steam.downloadLeaderboardEntries(start, end, Steam.LEADERBOARD_DATA_REQUEST_GLOBAL)
+    Steam.downloadLeaderboardEntries(start, end, Steam.LEADERBOARD_DATA_REQUEST_GLOBAL_AROUND_USER)
     
     var entries = await _await_leaderboard_download_result()
 

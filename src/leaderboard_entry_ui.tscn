@@ -24,7 +24,7 @@ fit_content = true
 [node name="Name" type="RichTextLabel" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
+size_flags_stretch_ratio = 3.0
 theme = SubResource("Theme_o3stg")
 bbcode_enabled = true
 text = "Name"
@@ -33,6 +33,7 @@ fit_content = true
 [node name="Score" type="RichTextLabel" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
 theme = SubResource("Theme_o3stg")
 bbcode_enabled = true
 text = "[right]Score"

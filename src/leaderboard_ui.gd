@@ -12,5 +12,5 @@ func _ready() -> void:
 
 	for entry in leaderboardEntries:
 		var entry_label = entry_spawner.instantiate() as LeaderboardEntryUI
-		$VB.add_child(entry_label)
+		$Margin/VB.add_child(entry_label)
 		entry_label.set_entry(entry, steamUser.steam_id == entry.steam_id)
