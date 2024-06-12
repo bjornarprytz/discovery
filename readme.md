@@ -18,6 +18,7 @@ Goal: collect specific words to increase high score
   - Leaderboard
     - Mini-/maximize
     - Switch between (Friends / Around user)
+  - Skippable "Dead end" screen: Any key to speed up time
 
 - Polish buttons
 - Music?
