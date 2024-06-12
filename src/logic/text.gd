@@ -1,23 +1,26 @@
 extends Node2D
 class_name TextGame
 
-@export var cam : Camera2D
+const SEGMENT_ROWS = 3
+const SEGMENT_COLS = 3
 
-@onready var segment_spawner = preload("res://logic/text-segment.tscn")
-@onready var LINE_LENGTH : int = Corpus.corpus_line_length
-@onready var SEGMENT_HEIGHT : int = Corpus.segment_height * Corpus.corpus_line_length
-@onready var SEGMENT_WIDTH : int = Corpus.segment_width
+@export var cam: Camera2D
 
-var center_segment : TextSegment
-var north_segment : TextSegment
-var east_segment : TextSegment
-var south_segment : TextSegment
-var west_segment : TextSegment
+@onready var segment_spawner = preload ("res://logic/text-segment.tscn")
+@onready var LINE_LENGTH: int = Corpus.corpus_line_length
+@onready var SEGMENT_HEIGHT: int = Corpus.segment_height * Corpus.corpus_line_length
+@onready var SEGMENT_WIDTH: int = Corpus.segment_width
 
-var ne_segment : TextSegment
-var se_segment : TextSegment
-var sw_segment : TextSegment
-var nw_segment : TextSegment
+var center_segment: TextSegment
+var north_segment: TextSegment
+var east_segment: TextSegment
+var south_segment: TextSegment
+var west_segment: TextSegment
+
+var ne_segment: TextSegment
+var se_segment: TextSegment
+var sw_segment: TextSegment
+var nw_segment: TextSegment
 
 func force_refresh():
 	_refresh_text()
@@ -26,11 +29,11 @@ func _ready() -> void:
 	Game.moved.connect(_on_moved)
 	Game.invalid_move.connect(_on_invalid_move)
 	
-	var random_start = randi_range(0, Corpus.corpus.length()-1)
-	var upper_left : int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
+	var random_start = randi_range(0, Corpus.corpus.length() - 1)
+	var upper_left: int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
 	
-	for y in range(3):
-		for x in range(3):
+	for y in range(SEGMENT_ROWS):
+		for x in range(SEGMENT_COLS):
 			var segment = segment_spawner.instantiate() as TextSegment
 			segment.set_start_index(upper_left + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT))
 			add_child(segment)
@@ -72,8 +75,8 @@ func _refresh_text():
 		(s as TextSegment).refresh()
 
 func _shift_north():
-	var new_upper_left : int = nw_segment.start_index - (SEGMENT_HEIGHT)
-	var move_by = center_segment.size.y * 3
+	var new_upper_left: int = nw_segment.start_index - (SEGMENT_HEIGHT)
+	var move_by = center_segment.size.y * SEGMENT_ROWS
 	
 	var temp_segment = sw_segment
 	sw_segment = west_segment
@@ -95,11 +98,10 @@ func _shift_north():
 	ne_segment = temp_segment
 	ne_segment.set_start_index(new_upper_left + (SEGMENT_WIDTH * 2))
 	ne_segment.position.y -= move_by
-
 		
 func _shift_east():
-	var new_upper_right : int = ne_segment.start_index + SEGMENT_WIDTH
-	var move_by = (center_segment.size.x * 3)
+	var new_upper_right: int = ne_segment.start_index + SEGMENT_WIDTH
+	var move_by = (center_segment.size.x * SEGMENT_COLS)
 
 	var temp_segment = nw_segment
 	nw_segment = north_segment
@@ -123,8 +125,8 @@ func _shift_east():
 	se_segment.position.x += move_by
 
 func _shift_south():
-	var new_lower_left : int = sw_segment.start_index + (SEGMENT_HEIGHT)
-	var move_by = center_segment.size.y * 3
+	var new_lower_left: int = sw_segment.start_index + (SEGMENT_HEIGHT)
+	var move_by = center_segment.size.y * SEGMENT_ROWS
 
 	var temp_segment = nw_segment
 	nw_segment = west_segment
@@ -148,8 +150,8 @@ func _shift_south():
 	se_segment.position.y += move_by
 
 func _shift_west():
-	var new_upper_left : int = nw_segment.start_index - SEGMENT_WIDTH
-	var move_by = (center_segment.size.x * 3)
+	var new_upper_left: int = nw_segment.start_index - SEGMENT_WIDTH
+	var move_by = (center_segment.size.x * SEGMENT_COLS)
 	
 	var temp_segment = ne_segment
 	ne_segment = north_segment
@@ -171,4 +173,3 @@ func _shift_west():
 	sw_segment = temp_segment
 	sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
 	sw_segment.position.x -= move_by
-

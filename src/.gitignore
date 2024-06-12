@@ -2,3 +2,7 @@
 .godot/
 
 steam_appid.txt
+
+# Temporary files
+~*
+*.tmp

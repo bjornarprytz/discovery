@@ -2,8 +2,11 @@ extends Node2D
 class_name CorpusClass
 
 const font_size: Vector2 = Vector2(32.0, 64.0)
+
 const corpus_line_length: int = 128
+## How many characters per line in a segment
 const segment_width: int = 48
+## How many lines of text in a segment
 const segment_height: int = 12
 
 class WordData:
@@ -81,10 +84,11 @@ func get_word_of(idx: int) -> WordData:
 	return data
 
 func normalize_idx(idx: int) -> int:
-	var n = idx % corpus.length()
+	var l = corpus.length()
+	var n = idx % l
 	
 	while n < 0:
-		n += corpus.length()
+		n += l
 	
 	return n
 
