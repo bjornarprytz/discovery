@@ -10,12 +10,15 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Process effects per word, instead of character
+
 - Smarter quest selection. Maybe complete randomness is not the way to go. It should be a word that's within reach at least.
 
 - UI
   - Credits autoscroll
   - Back button in settings
   - Leaderboard
+    - Mini-/maximize
     - Switch between (Friends / Around user)
 
 - Polish buttons
@@ -28,6 +31,7 @@ Goal: collect specific words to increase high score
 
 - Performance:
   - Process text effects only when dirty, and on-screen
+  - Process effect per word, not character
   - Add Threaded on the main text (https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html#performance)
 
 - Finish TODOs

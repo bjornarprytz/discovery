@@ -52,7 +52,8 @@ func _hide_tutorial():
 	
 	await tween.finished
 
-	tutorial.stop()
+	if tutorial != null and !tutorial.is_queued_for_deletion():
+		tutorial.stop()
 	text_game.force_refresh()
 
 func _move(_prev_pos: int, _current_pos: int, direction: Vector2, score_change: int):
