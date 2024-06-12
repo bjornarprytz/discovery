@@ -42,6 +42,7 @@ Goal: collect specific words to increase high score
   - 100% (all achievements)
   - Finn det lengste ordet i corpus
   - Finn det korteste ordet i corpus
+  - Finn "secret" i score screen
   - Finn White+Rabbit
   - Add icons
 
