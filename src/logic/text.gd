@@ -52,7 +52,7 @@ func _ready() -> void:
 	
 	Game.force_move(center_segment.start_index, true)
 
-func _on_moved(_prev_pos: int, _current_pos: int, _step: Vector2, _score_change: int):
+func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: int):
 
 	var camera_point = cam.position
 	
@@ -65,9 +65,25 @@ func _on_moved(_prev_pos: int, _current_pos: int, _step: Vector2, _score_change:
 	elif west_segment.get_rect().has_point(camera_point):
 		_shift_west()
 	
+	for segment in _segments_containing_indexes([prev_pos, current_pos]):
+		segment.dirty = true
+
+	for prev_word_segments in _segments_touched_by_word_at(prev_pos):
+		prev_word_segments.dirty = true
+	
+	for current_word_segments in _segments_touched_by_word_at(current_pos):
+		current_word_segments.dirty = true
+
 	_refresh_text()
 
 func _on_invalid_move():
+	var neighbours: Array[int] = []
+	for move in [Game.up, Game.down, Game.left, Game.right]:
+		neighbours.append(move.destination)
+	
+	for segment in _segments_containing_indexes(neighbours):
+		segment.dirty = true
+
 	_refresh_text()
 
 func _refresh_text():
@@ -173,3 +189,31 @@ func _shift_west():
 	sw_segment = temp_segment
 	sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
 	sw_segment.position.x -= move_by
+
+func _segments_touched_by_word_at(index: int) -> Array[TextSegment]:
+	var current_word = Corpus.get_word_of(index)
+
+	if current_word == null:
+		return []
+
+	var word_start = current_word.start_idx
+	var word_end = word_start + current_word.word.length()
+	
+	return _segments_containing_indexes([word_start, word_end])
+
+func _segments_containing_indexes(indexes: Array[int]) -> Array[TextSegment]:
+	var segments: Array[TextSegment] = []
+
+	for s in get_children():
+		if indexes.is_empty():
+			break
+		var segment = s as TextSegment
+		if segments.has(segment):
+			continue
+		for i in indexes:
+			if segment.contains_idx(i):
+				segments.append(segment)
+				indexes.erase(i)
+				break
+
+	return segments

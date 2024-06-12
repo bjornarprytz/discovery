@@ -50,10 +50,6 @@ func _subscribe_to_leaderboard():
         if result.size() < 2||result[1] != 1: # Found
             push_error("Leaderboard not found: " + _leaderboardName)
             return
-        
-        var handle = result[0]
-
-        print("Leaderboard found: " + str(handle))
 
         _leaderboardFound = true
     return

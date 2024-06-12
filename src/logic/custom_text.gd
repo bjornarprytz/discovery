@@ -92,4 +92,5 @@ func _visit(target_idx: int) -> int:
 
 func _refresh_text():
 	for s in get_children():
-		(s as TextSegment).refresh()
+		var segment = s as TextSegment
+		segment.refresh(true)

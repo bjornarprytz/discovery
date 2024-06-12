@@ -3,6 +3,8 @@ class_name TextSegment
 
 var start_index: int
 
+var dirty: bool = true
+
 var t: RichTextEffect
 
 func set_start_index(idx: int) -> void:
@@ -21,10 +23,15 @@ func contains_idx(idx: int) -> bool:
 			
 	return false
 
-func refresh() -> void:
+func refresh(force: bool=false) -> void:
+	if !dirty and !force:
+		return
+
 	clear()
 	for line in range(Corpus.segment_height):
 		_append_line(start_index + (line * Corpus.corpus_line_length))
+	
+	dirty = false
 
 func _append_line(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
