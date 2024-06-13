@@ -6,7 +6,7 @@ signal multiplier_changed(new_value: int)
 signal invalid_move()
 signal quest_duration_tick(duration: int, cap: int)
 signal completed_word(word: String, was_quest: bool)
-signal new_target(word: String)
+signal new_quest(word: String)
 signal golden_changed(is_golden: bool)
 signal game_over(score: int)
 
@@ -57,21 +57,6 @@ func start(corpus: String=""):
 	quest_duration = 0
 	multiplier = 1
 	Corpus.load_corpus(corpus)
-
-func cycle_quest():
-	var next_quest: CorpusClass.WordData
-
-	var vertical_distance: int
-	var horizontal_distance: int
-
-	while (next_quest == null or next_quest.is_completed()):
-		vertical_distance = (randi() % 3) + 3
-		horizontal_distance = (randi() % 15) + 5
-		next_quest = _get_random_word(horizontal_distance, vertical_distance)
-
-	current_quest = next_quest.word
-	_reset_quest_duration()
-	Game.new_target.emit(current_quest)
 
 func try_move(input: String) -> bool:
 	if (input.length() > 1):
@@ -125,7 +110,7 @@ func _reset_word_state():
 
 func _on_word_complete(_word: String, was_quest: bool):
 	if (was_quest):
-		cycle_quest()
+		_cycle_quest()
 	
 func _reset_quest_duration():
 	quest_duration = current_quest.length() * QUEST_DURATION_FACTOR
@@ -135,7 +120,7 @@ func _tick_quest_duration():
 	quest_duration -= 1
 	if (quest_duration <= 0):
 		is_golden = false
-		cycle_quest()
+		_cycle_quest()
 	else:
 		Game.quest_duration_tick.emit(quest_duration, current_quest.length() * QUEST_DURATION_FACTOR)
 
@@ -150,6 +135,8 @@ func _visit(target_idx: int, first_move: bool=false) -> int:
 	
 	current_pos = target_idx
 	var score_change = 1 # Base score for moving
+	if (first_move):
+		_cycle_quest()
 
 	var word = Corpus.get_word_of(target_idx) as CorpusClass.WordData
 	
@@ -181,6 +168,22 @@ func _visit(target_idx: int, first_move: bool=false) -> int:
 	left = MoveCandidate.new(current_pos - 1, Vector2.LEFT)
 
 	return score_change
+
+func _cycle_quest():
+	var next_quest: CorpusClass.WordData
+
+	var vertical_distance: int
+	var horizontal_distance: int
+
+	while (next_quest == null or next_quest.is_completed()):
+		vertical_distance = (randi() % 3) + 3
+		horizontal_distance = (randi() % 15) + 5
+		next_quest = _get_random_word(horizontal_distance, vertical_distance)
+
+	current_quest = next_quest.word.to_lower()
+	
+	_reset_quest_duration()
+	Game.new_quest.emit(current_quest)
 
 func _get_random_word(vertical_distance: int, horizontal_distance: int) -> CorpusClass.WordData:
 	var target_pos := current_pos

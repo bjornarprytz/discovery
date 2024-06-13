@@ -27,9 +27,15 @@ func force_refresh():
 		var segment = s as TextSegment
 		segment.refresh(true)
 
+func queue_full_refresh():
+	for s in get_children():
+		var segment = s as TextSegment
+		segment.dirty = true
+
 func _ready() -> void:
 	Game.moved.connect(_on_moved)
 	Game.invalid_move.connect(_on_invalid_move)
+	Game.new_quest.connect(_on_new_quest)
 	
 	var random_start = randi_range(0, Corpus.corpus.length() - 1)
 	var upper_left: int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
@@ -64,26 +70,20 @@ func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: i
 		_shift_south()
 	elif west_segment.get_rect().has_point(camera_point):
 		_shift_west()
-	
-	for segment in _segments_containing_indexes([prev_pos, current_pos]):
-		segment.dirty = true
 
-	for prev_word_segment in _segments_touched_by_word_at(prev_pos):
-		prev_word_segment.dirty = true
-	
-	for current_word_segment in _segments_touched_by_word_at(current_pos):
-		current_word_segment.dirty = true
+	for segment in _segments_touched_by_word_at(current_pos):
+		segment.dirty = true
+		
+	for segment in _segments_touched_by_word_at(prev_pos):
+		segment.dirty = true
 
 	_refresh_text()
 
-func _on_invalid_move():
-	var neighbours: Array[int] = []
-	for move in [Game.up, Game.down, Game.left, Game.right]:
-		neighbours.append(move.destination)
-	
-	for segment in _segments_containing_indexes(neighbours):
-		segment.dirty = true
+func _on_new_quest(_word: String):
+	queue_full_refresh()
 
+func _on_invalid_move():
+	_set_dirty_within(2, 2)
 	_refresh_text()
 
 func _refresh_text():
@@ -190,6 +190,18 @@ func _shift_west():
 	sw_segment = temp_segment
 	sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
 	sw_segment.position.x -= move_by
+
+func _set_dirty_within(horizontal_range: int, vertical_range: int):
+	var current_pos = Game.current_pos
+	var horizon_left = current_pos - horizontal_range
+	var horizon_right = current_pos + horizontal_range
+	var horizon_up = current_pos - (vertical_range * Corpus.corpus_line_length)
+	var horizon_down = current_pos + (vertical_range * Corpus.corpus_line_length)
+
+	for segment in _segments_containing_indexes([horizon_left, horizon_right, horizon_up, horizon_down]):
+		segment.dirty = true
+
+	_refresh_text()
 
 func _segments_touched_by_word_at(index: int) -> Array[TextSegment]:
 	var current_word = Corpus.get_word_of(index)

@@ -10,8 +10,7 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Mark quest words
-  - Force refresh on all segments after completing a quest?
+- Tweak quest duration, so it's not as correlated to word length
 
 - UI
   - Credits autoscroll
