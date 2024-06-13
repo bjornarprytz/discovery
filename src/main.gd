@@ -29,6 +29,9 @@ func _ready() -> void:
 	
 	get_tree().create_timer(10.0).timeout.connect(_show_tutorial, CONNECT_ONE_SHOT)
 
+	Game.force_move(text_game.center_segment.start_index, true)
+	Game.cycle_quest()
+
 func _show_tutorial():
 	if (made_first_move):
 		return

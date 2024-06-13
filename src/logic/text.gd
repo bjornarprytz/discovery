@@ -51,8 +51,6 @@ func _ready() -> void:
 	sw_segment = get_child(6)
 	south_segment = get_child(7)
 	se_segment = get_child(8)
-	
-	Game.force_move(center_segment.start_index, true)
 
 func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: int):
 

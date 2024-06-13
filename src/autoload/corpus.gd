@@ -14,12 +14,22 @@ class WordData:
 	var start_idx: int
 	var states: Array[CharState] = []
 
+	func is_completed():
+		if states.size() == 0:
+			return false
+		var each_character_visited = states.all(func(s: CharState) -> bool:
+			return s.visited or s.quest
+		)
+		
+		return each_character_visited
+
 class CharState:
 	var visited: bool
 	var cursor: bool
 	var highlight: bool # For tutorial
 	var impassable: bool
 	var invalid_move: bool
+	# Used for the effect of completing a worod
 	var completed_word: bool
 	var quest: bool
 	var local_idx: int # Only relevant for words
@@ -112,7 +122,6 @@ func load_corpus(text: String="", save: bool=true):
 	words = []
 	for w in valid_regex.search_all(corpus):
 		words.push_back(w.get_string().to_lower())
-	words.shuffle()
 	
 	state = {}
 

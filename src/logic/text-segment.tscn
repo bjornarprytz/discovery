@@ -36,3 +36,53 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0235294, 0.0235294, 0.215686, 1)
+
+[node name="border" type="ColorRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1522.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.486824, 5.06817e-05, 0.417143, 1)
+
+[node name="border2" type="ColorRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -7.0
+offset_bottom = -757.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.486824, 5.06817e-05, 0.417143, 1)
+
+[node name="border3" type="ColorRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1517.0
+offset_right = -7.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.486824, 5.06817e-05, 0.417143, 1)
+
+[node name="border4" type="ColorRect" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 754.0
+offset_right = -7.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.486824, 5.06817e-05, 0.417143, 1)

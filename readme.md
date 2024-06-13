@@ -31,6 +31,10 @@ Goal: collect specific words to increase high score
 - Finish TODOs
 - Still support web export
 
+### Bugs
+
+- Tutorial advises invalid moves (e.g. [a, a, b, c])
+
 ### Steam integration
 
 - Leaderboard (Global + Friends)
