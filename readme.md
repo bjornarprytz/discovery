@@ -10,7 +10,8 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Smarter quest selection. Maybe complete randomness is not the way to go. It should be a word that's within reach at least.
+- Mark quest words
+  - Force refresh on all segments after completing a quest?
 
 - UI
   - Credits autoscroll
@@ -30,10 +31,6 @@ Goal: collect specific words to increase high score
 
 - Finish TODOs
 - Still support web export
-
-### Bugs
-
-- Tutorial advises invalid moves (e.g. [a, a, b, c])
 
 ### Steam integration
 

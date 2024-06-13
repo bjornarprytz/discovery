@@ -19,7 +19,7 @@ const QUEST_MULTIPLIER: int = 4
 # How many vertical moves a quest word can take before it expires
 const QUEST_DURATION_FACTOR: int = 4
 
-var current_target: String
+var current_quest: String
 var is_golden: bool = true:
 	set(value):
 		if (value != is_golden):
@@ -69,9 +69,9 @@ func cycle_quest():
 		horizontal_distance = (randi() % 15) + 5
 		next_quest = _get_random_word(horizontal_distance, vertical_distance)
 
-	current_target = next_quest.word
+	current_quest = next_quest.word
 	_reset_quest_duration()
-	Game.new_target.emit(current_target)
+	Game.new_target.emit(current_quest)
 
 func try_move(input: String) -> bool:
 	if (input.length() > 1):
@@ -128,7 +128,7 @@ func _on_word_complete(_word: String, was_quest: bool):
 		cycle_quest()
 	
 func _reset_quest_duration():
-	quest_duration = current_target.length() * QUEST_DURATION_FACTOR
+	quest_duration = current_quest.length() * QUEST_DURATION_FACTOR
 	Game.quest_duration_tick.emit(quest_duration, quest_duration)
 
 func _tick_quest_duration():
@@ -137,7 +137,7 @@ func _tick_quest_duration():
 		is_golden = false
 		cycle_quest()
 	else:
-		Game.quest_duration_tick.emit(quest_duration, current_target.length() * QUEST_DURATION_FACTOR)
+		Game.quest_duration_tick.emit(quest_duration, current_quest.length() * QUEST_DURATION_FACTOR)
 
 func _visit(target_idx: int, first_move: bool=false) -> int:
 	if (!first_move):
@@ -156,7 +156,7 @@ func _visit(target_idx: int, first_move: bool=false) -> int:
 	if (word != null and word.states.all(func(s: CorpusClass.CharState): return s.visited or s.cursor)):
 		score_change += word.word.length()
 		score_change *= multiplier
-		var is_target = current_target.nocasecmp_to(word.word) == 0
+		var is_target = current_quest.nocasecmp_to(word.word) == 0
 		
 		for s in word.states:
 			s.completed_word = true

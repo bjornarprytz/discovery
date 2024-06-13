@@ -1,7 +1,7 @@
 class_name TutorialUI
 extends Panel
 
-@onready var label : RichTextLabel = $Text
+@onready var label: RichTextLabel = $Text
 
 var _highlighted_moves: Array[GameClass.MoveCandidate] = []
 
@@ -9,10 +9,22 @@ var _highlighted_moves: Array[GameClass.MoveCandidate] = []
 func _ready() -> void:
 	label.text = "Use your keyboard to navigate. Available moves:"
 	
-	var i = 0
+	var valid_candidates = {}
 	for move in [Game.up, Game.right, Game.down, Game.left]:
 		if move.state.impassable:
 			continue
+		if valid_candidates.has(move.character):
+			valid_candidates[move.character].append(move)
+		else:
+			valid_candidates[move.character] = [move]
+	
+	var i = 0
+	for candidates in valid_candidates.values():
+		if candidates.size() != 1:
+			continue
+		
+		var move = candidates[0]
+		
 		if i > 0:
 			label.append_text(", ")
 		move.state.highlight = true

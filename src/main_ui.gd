@@ -15,7 +15,7 @@ func _ready() -> void:
 	_set_score(Game.score)
 	_on_quest_duration_tick(Game.quest_duration, Game.quest_duration)
 	Game.quest_duration_tick.connect(_on_quest_duration_tick)
-	_on_new_target(Game.current_target)
+	_on_new_target(Game.current_quest)
 	Game.new_target.connect(_on_new_target)
 	Game.golden_changed.connect(_on_golden_changed)
 	Game.multiplier_changed.connect(_on_multiplier_changed)
@@ -72,4 +72,4 @@ func _on_golden_changed(is_golden: bool):
 
 func _on_multiplier_changed(multiplier: int):
 	multiplier_label.clear()
-	multiplier_label.append_text("[right]x" + str(multiplier))
+	multiplier_label.append_text("[right]x%d" % multiplier)

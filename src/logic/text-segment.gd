@@ -77,6 +77,11 @@ func _append_line(idx: int) -> void:
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(), {})
 			pushed_effect = true
+		else:
+			var word = Corpus.get_word_of(char_idx)
+			if (word != null and Game.current_quest == word.word):
+				push_underline()
+				pushed_effect = true
 		
 		append_text(letter)
 		
