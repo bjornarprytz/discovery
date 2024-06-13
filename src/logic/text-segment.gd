@@ -10,7 +10,7 @@ var t: RichTextEffect
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
 	start_index = normalized_idx
-	refresh()
+	refresh(true)
 
 func contains_idx(idx: int) -> bool:
 	var normalized_idx = Corpus.normalize_idx(idx)
