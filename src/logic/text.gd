@@ -71,10 +71,15 @@ func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: i
 	elif west_segment.get_rect().has_point(camera_point):
 		_shift_west()
 
+	_set_dirty_within(2, 2)
+
 	for segment in _segments_touched_by_word_at(current_pos):
 		segment.dirty = true
 		
 	for segment in _segments_touched_by_word_at(prev_pos):
+		segment.dirty = true
+
+	for segment in _segments_containing_indexes([prev_pos, current_pos]):
 		segment.dirty = true
 
 	_refresh_text()
@@ -200,8 +205,6 @@ func _set_dirty_within(horizontal_range: int, vertical_range: int):
 
 	for segment in _segments_containing_indexes([horizon_left, horizon_right, horizon_up, horizon_down]):
 		segment.dirty = true
-
-	_refresh_text()
 
 func _segments_touched_by_word_at(index: int) -> Array[TextSegment]:
 	var current_word = Corpus.get_word_of(index)

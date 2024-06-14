@@ -16,7 +16,7 @@ func contains_idx(idx: int) -> bool:
 	var normalized_idx = Corpus.normalize_idx(idx)
 	
 	for l in range(Corpus.segment_height):
-		var line_start_index = start_index + (l * Corpus.corpus_line_length)
+		var line_start_index = Corpus.normalize_idx(start_index + (l * Corpus.corpus_line_length))
 		
 		if (line_start_index <= normalized_idx and normalized_idx < line_start_index + Corpus.segment_width):
 			return true

@@ -24,10 +24,9 @@ Goal: collect specific words to increase high score
 - Finish TODOs
 - Still support web export
 
-### Bugs
+### Optimization
 
-- Invalid move (on edge of segment) will sometimes go back from red text
-- Sometimes a segment "skips" update completely, even when passing through it
+- Smaller segments
 
 ### Steam integration
 

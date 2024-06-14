@@ -28,6 +28,7 @@ var is_golden: bool = true:
 			golden_changed.emit(is_golden)
 
 var quest_duration := 0
+var quest_cap := 0
 var current_pos := 0
 var score := 0
 var multiplier: int = 1:
@@ -114,14 +115,16 @@ func _on_word_complete(_word: String, was_quest: bool):
 		_cycle_quest()
 	
 func _reset_quest_duration(distance: int):
-	quest_duration = distance + current_quest.length()
-	Game.quest_duration_tick.emit(quest_duration, quest_duration)
+	quest_cap = distance + current_quest.length()
+	quest_duration = quest_cap
+	Game.quest_duration_tick.emit(quest_duration, quest_cap)
 
 func _tick_quest_duration():
 	quest_duration -= 1
 	if (quest_duration <= 0):
 		is_golden = false
 		_cycle_quest()
+	Game.quest_duration_tick.emit(quest_duration, quest_cap)
 
 func _visit(target_idx: int, first_move: bool=false) -> int:
 	if (!first_move):
