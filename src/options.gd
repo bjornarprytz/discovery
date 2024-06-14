@@ -1,6 +1,8 @@
 extends Node2D
 @export var transition_speed: float = 0.2
 
+@onready var score_scene = preload ("res://score.tscn")
+
 @onready var next_button: Button = $CanvasLayer/NextButton
 @onready var prev_button: Button = $CanvasLayer/PrevButton
 
@@ -64,3 +66,6 @@ func _on_prev_button_pressed() -> void:
 func _update_button_text():
 	next_button.text = next_menu.name + ">"
 	prev_button.text = "<" + prev_menu.name
+
+func _on_back_pressed() -> void:
+	get_tree().change_scene_to_packed(score_scene)

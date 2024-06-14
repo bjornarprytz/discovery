@@ -10,10 +10,7 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Tweak quest duration, so it's not as correlated to word length
-
 - UI
-  - Back button in settings
   - Credits autoscroll
   - Polish buttons
 
@@ -26,6 +23,11 @@ Goal: collect specific words to increase high score
 
 - Finish TODOs
 - Still support web export
+
+### Bugs
+
+- Invalid move (on edge of segment) will sometimes go back from red text
+- Sometimes a segment "skips" update completely, even when passing through it
 
 ### Steam integration
 

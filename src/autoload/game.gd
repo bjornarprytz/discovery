@@ -16,8 +16,9 @@ const QUEST_COLOR: Color = Color.GOLDENROD
 const INERT_COLOR: Color = Color.DIM_GRAY
 
 const QUEST_MULTIPLIER: int = 4
-# How many vertical moves a quest word can take before it expires
-const QUEST_DURATION_FACTOR: int = 4
+
+# How much the distance affects the quest duration
+const QUEST_DISTANCE_FACTOR: int = 2
 
 var current_quest: String
 var is_golden: bool = true:
@@ -112,8 +113,8 @@ func _on_word_complete(_word: String, was_quest: bool):
 	if (was_quest):
 		_cycle_quest()
 	
-func _reset_quest_duration():
-	quest_duration = current_quest.length() * QUEST_DURATION_FACTOR
+func _reset_quest_duration(distance: int):
+	quest_duration = distance + current_quest.length()
 	Game.quest_duration_tick.emit(quest_duration, quest_duration)
 
 func _tick_quest_duration():
@@ -121,8 +122,6 @@ func _tick_quest_duration():
 	if (quest_duration <= 0):
 		is_golden = false
 		_cycle_quest()
-	else:
-		Game.quest_duration_tick.emit(quest_duration, current_quest.length() * QUEST_DURATION_FACTOR)
 
 func _visit(target_idx: int, first_move: bool=false) -> int:
 	if (!first_move):
@@ -182,7 +181,7 @@ func _cycle_quest():
 
 	current_quest = next_quest.word.to_lower()
 	
-	_reset_quest_duration()
+	_reset_quest_duration(vertical_distance * QUEST_DISTANCE_FACTOR)
 	Game.new_quest.emit(current_quest)
 
 func _get_random_word(vertical_distance: int, horizontal_distance: int) -> CorpusClass.WordData:

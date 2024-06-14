@@ -61,5 +61,15 @@ theme = SubResource("Theme_dp5r6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5gp83")
 text = "<Corpus"
 
+[node name="Back" type="Button" parent="CanvasLayer"]
+offset_left = 8.0
+offset_top = 80.0
+offset_right = 63.0
+offset_bottom = 139.0
+theme = SubResource("Theme_dp5r6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5gp83")
+text = "<<"
+
 [connection signal="pressed" from="CanvasLayer/NextButton" to="." method="_on_next_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PrevButton" to="." method="_on_prev_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Back" to="." method="_on_back_pressed"]
