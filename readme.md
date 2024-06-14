@@ -13,7 +13,6 @@ Goal: collect specific words to increase high score
 - Tweak quest duration, so it's not as correlated to word length
 
 - UI
-  - Skippable "Dead end" screen: Any key to speed up time
   - Back button in settings
   - Credits autoscroll
   - Polish buttons
