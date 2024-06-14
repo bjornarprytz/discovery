@@ -13,14 +13,11 @@ Goal: collect specific words to increase high score
 - Tweak quest duration, so it's not as correlated to word length
 
 - UI
-  - Credits autoscroll
-  - Back button in settings
-  - Leaderboard
-    - Mini-/maximize
-    - Switch between (Friends / Around user)
   - Skippable "Dead end" screen: Any key to speed up time
+  - Back button in settings
+  - Credits autoscroll
+  - Polish buttons
 
-- Polish buttons
 - Music?
   - Game
   - Menus
@@ -33,7 +30,6 @@ Goal: collect specific words to increase high score
 
 ### Steam integration
 
-- Leaderboard (Global + Friends)
 - Rich Presence
   - Discovering %target_word% in %corpus%
   - Between games

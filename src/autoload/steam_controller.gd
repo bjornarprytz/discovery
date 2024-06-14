@@ -23,13 +23,13 @@ func is_initialized() -> bool:
 	
 	return _is_initialized
 
-func get_leaderboard(start: int, end: int) -> Array[SteamLeaderboardManager.LeaderboardEntry]:
+func get_leaderboard(start: int, end: int, scope: Steam.LeaderboardDataRequest) -> Array[SteamLeaderboardManager.LeaderboardEntry]:
 	_try_initialize()
 	
 	if !_is_initialized:
 		return []
 	
-	return await _leaderboard.get_leaderboard(start, end)
+	return await _leaderboard.get_leaderboard(start, end, scope)
 
 func get_user() -> SteamUser:
 	_try_initialize()
