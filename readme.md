@@ -12,7 +12,6 @@ Goal: collect specific words to increase high score
 
 - UI
   - Credits autoscroll
-  - Polish buttons
 
 - Music?
   - Game
@@ -22,6 +21,7 @@ Goal: collect specific words to increase high score
 - Bigger corpus (Complete Alice in Wonderland?)
 
 - Finish TODOs
+- Remove test code with steam
 - Still support web export
 
 ### Optimization

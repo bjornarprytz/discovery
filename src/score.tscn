@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2xdtano7t7xb"]
+[gd_scene load_steps=19 format=3 uid="uid://d2xdtano7t7xb"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
@@ -12,6 +12,39 @@
 [sub_resource type="Theme" id="Theme_jatff"]
 default_font = ExtResource("1_0iihq")
 default_font_size = 128
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e4ret"]
+texture = ExtResource("2_bfdqy")
+modulate_color = Color(0.821789, 0.821789, 0.821788, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iqimc"]
+texture = ExtResource("2_bfdqy")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4mlar"]
+texture = ExtResource("2_bfdqy")
+modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b0a3m"]
+texture = ExtResource("3_n24qx")
+modulate_color = Color(0.821789, 0.821789, 0.821788, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wug6k"]
+texture = ExtResource("3_n24qx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7wf6"]
+texture = ExtResource("3_n24qx")
+modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2ja8m"]
+texture = ExtResource("4_ijtnc")
+modulate_color = Color(0.821789, 0.821789, 0.821788, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2eemy"]
+texture = ExtResource("4_ijtnc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_388db"]
+texture = ExtResource("4_ijtnc")
+modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
 
 [node name="end_tscn" type="Node2D"]
 script = ExtResource("1_66yog")
@@ -91,7 +124,7 @@ offset_top = 593.0
 offset_right = 143.0
 offset_bottom = 640.0
 grow_vertical = 0
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0)
 
 [node name="Buttons" type="HBoxContainer" parent="ButtonBackground"]
 layout_mode = 1
@@ -106,26 +139,29 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 5
 
-[node name="Retry" type="TextureButton" parent="ButtonBackground/Buttons"]
+[node name="Retry" type="Button" parent="ButtonBackground/Buttons"]
 modulate = Color(0.498039, 1, 0.831373, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("2_bfdqy")
-stretch_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_e4ret")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iqimc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4mlar")
 
-[node name="Settings" type="TextureButton" parent="ButtonBackground/Buttons"]
+[node name="Settings" type="Button" parent="ButtonBackground/Buttons"]
 modulate = Color(0.792157, 0.8, 0.478431, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("3_n24qx")
-stretch_mode = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_b0a3m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wug6k")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_q7wf6")
 
-[node name="Quit" type="TextureButton" parent="ButtonBackground/Buttons"]
+[node name="Quit" type="Button" parent="ButtonBackground/Buttons"]
 modulate = Color(0.8, 0.478431, 0.556863, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-texture_normal = ExtResource("4_ijtnc")
-stretch_mode = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_2ja8m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2eemy")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_388db")
 
 [node name="Leaderboard" parent="." instance=ExtResource("7_lba4x")]
 anchors_preset = 0
