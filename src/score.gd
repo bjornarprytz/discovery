@@ -28,6 +28,8 @@ func _ready() -> void:
 		$GameOver/Highscore.hide()
 	else:
 		leaderboard.queue_free()
+	
+	Audio.play_score()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):

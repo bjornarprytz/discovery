@@ -17,7 +17,7 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 
-[node name="options" type="Node2D"]
+[node name="Options" type="Node2D"]
 position = Vector2(1, 0)
 script = ExtResource("1_2oh6v")
 

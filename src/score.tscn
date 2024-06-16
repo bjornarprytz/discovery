@@ -46,7 +46,7 @@ texture = ExtResource("4_ijtnc")
 texture = ExtResource("4_ijtnc")
 modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
 
-[node name="end_tscn" type="Node2D"]
+[node name="Score" type="Node2D"]
 script = ExtResource("1_66yog")
 
 [node name="Background" type="ColorRect" parent="."]

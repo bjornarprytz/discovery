@@ -2,6 +2,7 @@
 .godot/
 
 steam_appid.txt
+rich_presence.txt
 
 # Temporary files
 ~*

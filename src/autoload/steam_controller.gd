@@ -18,6 +18,8 @@ var _is_initialized: bool = false
 var _words_this_session: int = 0
 var _quest_streak: int = 0
 
+var _current_scene_name: String = ""
+
 func is_initialized() -> bool:
 	_try_initialize()
 	
@@ -57,9 +59,12 @@ func _try_initialize():
 	_reset_progress() # TODO: Remove this once I'm done testing
 
 	Game.completed_word.connect(_on_completed_word)
+	Game.new_quest.connect(_on_new_quest)
 	Game.moved.connect(_on_moved)
 	Game.game_over.connect(_on_game_over)
 	Game.golden_changed.connect(_on_golden_changed)
+
+	get_tree().tree_changed.connect(_on_tree_changed)
 
 	_is_initialized = true
 
@@ -71,6 +76,30 @@ func _fetch_user():
 	var username = Steam.getFriendPersonaName(steamID)
 	var user = SteamUser.new(steamID, username)
 	return user
+
+func _on_tree_changed():
+	var tree = get_tree()
+	if tree == null:
+		return
+	
+	var current_scene = tree.get_current_scene()
+	if current_scene == null:
+		return
+	
+	if current_scene.name == _current_scene_name:
+		return
+	
+	_current_scene_name = current_scene.name
+
+	if current_scene.name == "Options":
+		Steam.setRichPresence("steam_display", "#Settings")
+	elif current_scene.name == "Score":
+		Steam.setRichPresence("steam_display", "#ScoreScreen")
+
+func _on_new_quest(word: String):
+	Steam.setRichPresence("CORPUS", "A Mad Tea-Party")
+	Steam.setRichPresence("QUEST", word)
+	Steam.setRichPresence("steam_display", "#Playing")
 
 func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")
