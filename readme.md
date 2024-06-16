@@ -10,9 +10,6 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- UI
-  - Credits autoscroll
-
 - Music?
   - Game
   - Menus

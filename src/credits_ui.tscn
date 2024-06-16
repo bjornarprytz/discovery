@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7dunov8qmf6m"]
+[gd_scene load_steps=5 format=3 uid="uid://c7dunov8qmf6m"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_cvkee"]
+[ext_resource type="Script" path="res://credits_ui.gd" id="1_el80j"]
 
 [sub_resource type="Theme" id="Theme_fxa1n"]
 default_font = ExtResource("1_cvkee")
@@ -17,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_el80j")
 
 [node name="Heading" type="RichTextLabel" parent="."]
 layout_mode = 1
@@ -35,19 +37,20 @@ theme = SubResource("Theme_fxa1n")
 bbcode_enabled = true
 text = "[center][color=gray][wave]Credits[/wave]"
 
-[node name="Heading2" type="RichTextLabel" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -353.0
-offset_top = -105.0
-offset_right = 372.0
-offset_bottom = 288.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="AttributionScroll" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 223.0
+offset_top = 219.0
+offset_right = 948.0
+offset_bottom = 612.0
+scroll_vertical = 69
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Attribution" type="RichTextLabel" parent="AttributionScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = SubResource("Theme_pgagx")
 bbcode_enabled = true
 text = "[u]Sound effects[/u]
@@ -64,3 +67,5 @@ text = "[u]Sound effects[/u]
 
 [u]Tools[/u]
 - Godot: https://godotengine.org/"
+fit_content = true
+scroll_active = false
