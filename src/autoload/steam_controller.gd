@@ -59,7 +59,6 @@ func _try_initialize():
 	_reset_progress() # TODO: Remove this once I'm done testing
 
 	Game.completed_word.connect(_on_completed_word)
-	Game.new_quest.connect(_on_new_quest)
 	Game.moved.connect(_on_moved)
 	Game.game_over.connect(_on_game_over)
 	Game.golden_changed.connect(_on_golden_changed)
@@ -96,14 +95,14 @@ func _on_tree_changed():
 	elif current_scene.name == "Score":
 		Steam.setRichPresence("steam_display", "#ScoreScreen")
 
-func _on_new_quest(word: String):
-	Steam.setRichPresence("CORPUS", "A Mad Tea-Party")
-	Steam.setRichPresence("QUEST", word)
-	Steam.setRichPresence("steam_display", "#Playing")
-
 func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")
 	_stats.save()
+
+	if _current_scene_name == "Game":
+		Steam.setRichPresence("CORPUS", "A Mad Tea-Party")
+		Steam.setRichPresence("SCORE", str(Game.score))
+		Steam.setRichPresence("steam_display", "#Playing")
 
 func _on_completed_word(_word: String, was_quest: bool):
 	_stats.complete_achievement("FirstWord")

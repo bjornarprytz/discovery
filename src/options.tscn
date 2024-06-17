@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8i32brnx6mdq"]
+[gd_scene load_steps=12 format=3 uid="uid://8i32brnx6mdq"]
 
 [ext_resource type="Script" path="res://options.gd" id="1_2oh6v"]
 [ext_resource type="PackedScene" uid="uid://b55yp7h0uty8s" path="res://corpus_ui.tscn" id="2_aa1sk"]
@@ -16,6 +16,20 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
+
+[sub_resource type="InputEventKey" id="InputEventKey_va2rt"]
+device = -1
+keycode = 4194321
+
+[sub_resource type="Shortcut" id="Shortcut_shxhg"]
+events = [SubResource("InputEventKey_va2rt")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_nxacg"]
+device = -1
+keycode = 4194319
+
+[sub_resource type="Shortcut" id="Shortcut_64id1"]
+events = [SubResource("InputEventKey_nxacg")]
 
 [node name="Options" type="Node2D"]
 position = Vector2(1, 0)
@@ -50,6 +64,7 @@ offset_right = 1144.0
 offset_bottom = 69.0
 theme = SubResource("Theme_dp5r6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5gp83")
+shortcut = SubResource("Shortcut_shxhg")
 text = "Corpus>"
 
 [node name="PrevButton" type="Button" parent="CanvasLayer"]
@@ -59,6 +74,7 @@ offset_right = 160.0
 offset_bottom = 69.0
 theme = SubResource("Theme_dp5r6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5gp83")
+shortcut = SubResource("Shortcut_64id1")
 text = "<Corpus"
 
 [node name="Back" type="Button" parent="CanvasLayer"]

@@ -10,9 +10,6 @@ signal new_quest(word: String)
 signal golden_changed(is_golden: bool)
 signal game_over(score: int)
 
-signal entered_score
-signal entered_settings
-
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
 const QUEST_COLOR: Color = Color.GOLDENROD
@@ -58,6 +55,7 @@ class MoveCandidate:
 		direction = direction_
 
 func start(corpus: String=""):
+	is_golden = true
 	score = 0
 	quest_duration = 0
 	multiplier = 1
