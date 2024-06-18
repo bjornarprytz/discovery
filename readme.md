@@ -16,7 +16,7 @@ Goal: collect specific words to increase high score
   - Match Sound effects
 - Cover Image
 - Bigger corpus (Complete Alice in Wonderland?)
-  - Remember to parameterize it in rich presence (A Mad Tea-Party is now hard coded)
+  - Remember to parameterize it in rich presence ("A Mad Tea-Party" is now hard coded)
 
 - Finish TODOs
 - Remove test code with steam
@@ -29,11 +29,6 @@ Goal: collect specific words to increase high score
 ### Steam integration
 
 - Achievements
-  - 100% (all achievements)
-  - Finn det lengste ordet i corpus
-  - Finn det korteste ordet i corpus
-  - Finn "secret" i score screen
-  - Finn White+Rabbit
   - Add icons
 
 #### Rich Presence

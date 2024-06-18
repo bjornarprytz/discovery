@@ -38,6 +38,8 @@ class CharState:
 var words: Array[String] = []
 var state: Dictionary = {}
 
+var lengthOfLongestWord : int = 0
+
 @onready var valid_regex: RegEx = RegEx.new()
 var corpus: String
 
@@ -119,9 +121,13 @@ func load_corpus(text: String="", save: bool=true):
 	if (save):
 		main_corpus = corpus # Store it for later
 	
+	lengthOfLongestWord = 0
 	words = []
 	for w in valid_regex.search_all(corpus):
-		words.push_back(w.get_string().to_lower())
+		var word = w.get_string().to_lower()
+		words.push_back(word)
+		if word.length() > lengthOfLongestWord:
+			lengthOfLongestWord = word.length()
 	
 	state = {}
 

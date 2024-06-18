@@ -9,14 +9,30 @@ class SteamUser:
 		steam_id = steam_id_
 		name = username
 
+class SessionTracking:
+	var words_this_session: int
+	var quest_streak: int
+	var _white_rabbit_progress: Array[String] = []
+
+	func check_for_white_rabbit(word: String) -> bool:
+		if _white_rabbit_progress.size() < 2 and (word == "white" or word == "rabbit"):
+			if not _white_rabbit_progress.has(word):
+				_white_rabbit_progress.append(word)
+			
+			if _white_rabbit_progress.size() == 2:
+				return true
+		
+		return false
+	
+	func check_longest_word(word: String) -> bool:
+		return word.length() == Corpus.lengthOfLongestWord
+
 var _stats: SteamStatsAndAchievementManager
 var _leaderboard: SteamLeaderboardManager
 var _user: SteamUser
+var _session: SessionTracking
 
 var _is_initialized: bool = false
-
-var _words_this_session: int = 0
-var _quest_streak: int = 0
 
 var _current_scene_name: String = ""
 
@@ -54,6 +70,7 @@ func _try_initialize():
 
 	_stats = SteamStatsAndAchievementManager.new()
 	_leaderboard = SteamLeaderboardManager.new("BookWormLeaderboard")
+	_session = SessionTracking.new()
 	_user = _fetch_user()
 	
 	_reset_progress() # TODO: Remove this once I'm done testing
@@ -104,14 +121,14 @@ func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_ch
 		Steam.setRichPresence("SCORE", str(Game.score))
 		Steam.setRichPresence("steam_display", "#Playing")
 
-func _on_completed_word(_word: String, was_quest: bool):
+func _on_completed_word(word: String, was_quest: bool):
 	_stats.complete_achievement("FirstWord")
 	_stats.increment_stat("words_completed")
 	if was_quest:
 		_stats.complete_achievement("FirstQuest")
 		_stats.increment_stat("quests_completed")
-		_quest_streak += 1
-		match _quest_streak:
+		_session.quest_streak += 1
+		match _session.quest_streak:
 			2:
 				_stats.complete_achievement("QuestStreak_2")
 			4:
@@ -121,9 +138,9 @@ func _on_completed_word(_word: String, was_quest: bool):
 			16:
 				_stats.complete_achievement("QuestStreak_16")
 	
-	_words_this_session += 1 # This counts the "easter egg" retry menu, but that's fine
+	_session.words_this_session += 1 # This counts the "easter egg" retry menu, but that's fine
 
-	match _words_this_session:
+	match _session.words_this_session:
 		10:
 			_stats.complete_achievement("WordsOneSession_10")
 		20:
@@ -133,48 +150,30 @@ func _on_completed_word(_word: String, was_quest: bool):
 		100:
 			_stats.complete_achievement("WordsOneSession_100")
 	
+	if _session.check_for_white_rabbit(word):
+		_stats.complete_achievement("WhiteRabbit")
+	
+	if _current_scene_name == "Score" and word.to_lower() == "secret":
+		_stats.complete_achievement("SecretEntrance")
+		
+	if _current_scene_name == "Game" and _session.check_longest_word(word):
+		_stats.complete_achievement("LongestWord")
+
+	if _stats.has_each_achievement(achievements.filter(func(a: String): return a != "AllAchievements")):
+		_stats.complete_achievement("AllAchievements")
+
 	_stats.save()
 
 func _on_game_over(score: int):
-	_words_this_session = 0
-	_quest_streak = 0
+	_session = SessionTracking.new()
 
 	await _leaderboard.post_score(score)
 
 func _on_golden_changed(_is_golden: bool):
 	if !_is_golden:
-		_quest_streak = 0
+		_session.quest_streak = 0
 
 func _reset_progress():
-	var stats = [
-		"letters_typed",
-		"words_completed",
-		"quests_completed"
-		]
-	var achievements = [
-		"FirstWord",
-		"Words_1001",
-		"Letters_10",
-		"Letters_100",
-		"Letters_500",
-		"Letters_1000",
-		"Letters_10000",
-		"FirstQuest",
-		"Quests_5",
-		"Quests_10",
-		"Quests_20",
-		"Quests_50",
-		"Quests_100",
-		"WordsOneSession_10",
-		"WordsOneSession_20",
-		"WordsOneSession_40",
-		"WordsOneSession_100",
-		"QuestStreak_2",
-		"QuestStreak_4",
-		"QuestStreak_8",
-		"QuestStreak_16",
-	]
-
 	for stat in stats:
 		_stats.set_stat(stat, 0)
 	
@@ -182,3 +181,36 @@ func _reset_progress():
 		_stats.clearAchievement(achievement)
 	
 	_stats.save()
+
+var stats: Array[String] = [
+		"letters_typed",
+		"words_completed",
+		"quests_completed"
+		]
+var achievements: Array[String] = [
+	"FirstWord",
+	"Words_1001",
+	"Letters_10",
+	"Letters_100",
+	"Letters_500",
+	"Letters_1000",
+	"Letters_10000",
+	"FirstQuest",
+	"Quests_5",
+	"Quests_10",
+	"Quests_20",
+	"Quests_50",
+	"Quests_100",
+	"WordsOneSession_10",
+	"WordsOneSession_20",
+	"WordsOneSession_40",
+	"WordsOneSession_100",
+	"QuestStreak_2",
+	"QuestStreak_4",
+	"QuestStreak_8",
+	"QuestStreak_16",
+	"LongestWord",
+	"SecretEntrance",
+	"WhiteRabbit",
+	"AllAchievements"
+]
