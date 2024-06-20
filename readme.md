@@ -10,21 +10,17 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- [All chapters](https://gutenberg.org/cache/epub/19033/pg19033-images.html)
-  - Partition the text into chapters
-  - It should feel seamless to walk across chapters
-  - Per chapter:
-    - Remove [Pg ..]
-    - Remove illo*
-    - Remove "
+- Performance
+  - Optimize character lookup
+
+- UI
+  - Chapter transition
 
 - Music
   - Master
   - Transitions
   - Match Sound effects
 - Cover Image
-- Bigger corpus (Complete Alice in Wonderland?)
-  - Remember to parameterize it in rich presence ("A Mad Tea-Party" is now hard coded)
 
 - Finish TODOs
 - Remove test code with steam

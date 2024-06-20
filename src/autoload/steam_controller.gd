@@ -15,7 +15,7 @@ class SessionTracking:
 	var _white_rabbit_progress: Array[String] = []
 
 	func check_for_white_rabbit(word: String) -> bool:
-		if _white_rabbit_progress.size() < 2 and (word == "white" or word == "rabbit"):
+		if _white_rabbit_progress.size() < 2 and (word.nocasecmp_to("white") == 0 or word.nocasecmp_to("rabbit") == 0):
 			if not _white_rabbit_progress.has(word):
 				_white_rabbit_progress.append(word)
 			
@@ -112,12 +112,12 @@ func _on_tree_changed():
 	elif current_scene.name == "Score":
 		Steam.setRichPresence("steam_display", "#ScoreScreen")
 
-func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
+func _on_moved(_prev_pos: int, current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")
 	_stats.save()
 
 	if _current_scene_name == "Game":
-		Steam.setRichPresence("CORPUS", "A Mad Tea-Party")
+		Steam.setRichPresence("CORPUS", Corpus.get_chapter_at(current_pos).title)
 		Steam.setRichPresence("SCORE", str(Game.score))
 		Steam.setRichPresence("steam_display", "#Playing")
 
