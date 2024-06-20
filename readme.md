@@ -10,6 +10,14 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- [All chapters](https://gutenberg.org/cache/epub/19033/pg19033-images.html)
+  - Partition the text into chapters
+  - It should feel seamless to walk across chapters
+  - Per chapter:
+    - Remove [Pg ..]
+    - Remove illo*
+    - Remove "
+
 - Music
   - Master
   - Transitions
@@ -21,6 +29,12 @@ Goal: collect specific words to increase high score
 - Finish TODOs
 - Remove test code with steam
 - Still support web export
+
+### Bugs
+
+- Sound restarting in score screen
+  - Should also loop
+- Require a certian number of words/corpus length
 
 ### Optimization
 

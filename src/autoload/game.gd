@@ -71,7 +71,7 @@ func try_move(input: String) -> bool:
 	var not_visited = [up, right, down, left].filter(func(c: MoveCandidate): return !c.state.visited)
 	
 	var invalid = not_visited.filter(func(c1: MoveCandidate): return not_visited.filter(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0).size() > 1)
-	var valid = not_visited.filter(func(c: MoveCandidate): return Corpus.valid_regex.search(c.character) != null).filter(func(c1: MoveCandidate): return !invalid.any(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
+	var valid = not_visited.filter(func(c: MoveCandidate): return Corpus.is_char_valid(c.character)).filter(func(c1: MoveCandidate): return !invalid.any(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
 	
 	if valid.is_empty():
 		for d in invalid:

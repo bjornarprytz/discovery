@@ -84,6 +84,8 @@ func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: i
 
 	_refresh_text()
 
+	print(Corpus.get_chapter_at(current_pos).title)
+
 func _on_new_quest(_word: String):
 	queue_full_refresh()
 

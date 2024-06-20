@@ -55,7 +55,7 @@ theme = SubResource("Theme_pgagx")
 bbcode_enabled = true
 text = "[u]Sound effects[/u]
 - https://freesound.org
-	- Select, Denied 01.wav by MATRIXXX
+    - Select, Denied 01.wav by MATRIXXX
     - Retro, Coin 06.wav by MATRIXXX
     - Retro, Explosion 07.wav by MATRIXXX
     - Diamond Click.wav by MATRIXXX
@@ -64,6 +64,10 @@ text = "[u]Sound effects[/u]
 [u]Fonts[/u]
 - VT323 by Peter Hull
 - UnifontEX by St. GIGAFONT Typefaces
+
+[u]Corpus[/u]
+- Alice's Adventures in Wonderland by Lewis Carroll
+    - https://www.gutenberg.org/
 
 [u]Tools[/u]
 - Godot: https://godotengine.org/"
