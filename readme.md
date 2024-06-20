@@ -11,7 +11,9 @@ Goal: collect specific words to increase high score
 ## 1.0 roadmap
 
 - Performance
-  - Optimize character lookup
+  - Optimize append_line
+  - Be smart about setting segment.is_dirty
+  - Have more, smaller segments
 
 - UI
   - Chapter transition
