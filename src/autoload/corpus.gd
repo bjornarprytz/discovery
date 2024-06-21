@@ -12,12 +12,11 @@ const segment_height: int = 12
 class FullText: # This should probably be called Corpus
 	var chapters: Array[Chapter]
 	var full_length: int
-	var valid_regex: RegEx = RegEx.new()
+	var longest_word_length: int = 0
 
 	var _index_ratio: float = 0.0
 
 	func _init(chapters_: Array[Chapter]):
-		valid_regex.compile("\\w+")
 		chapters = chapters_
 		full_length = 0
 		for chapter in chapters:
@@ -25,14 +24,28 @@ class FullText: # This should probably be called Corpus
 			full_length += chapter.length
 		
 		_index_ratio = chapters.size() / float(full_length)
+		
+		longest_word_length = 0
+		for w in get_words():
+			if w.length() > longest_word_length:
+				longest_word_length = w.length()
 	
 	func length():
 		return full_length
 
+	func get_word_of(idx: int) -> WordData:
+		var normalized_idx = normalize_idx(idx)
+		
+		var chapter = get_chapter_at(normalized_idx)
+
+		var word = chapter.get_word_of(normalized_idx)
+		
+		return word
+
 	func get_words() -> Array[String]:
 		var words: Array[String] = []
 		for c in chapters:
-			for w in valid_regex.search_all(c.text):
+			for w in Validation.get_matches(c.text):
 				var word = w.get_string().to_lower()
 				words.push_back(word)
 		
@@ -71,12 +84,9 @@ class FullText: # This should probably be called Corpus
 		var chapter = get_chapter_at(normalized_idx)
 		var local_idx = normalized_idx - chapter.start_index
 		return chapter.text[local_idx]
-	
-	func is_char_valid(letter: String) -> bool:
-		return valid_regex.search(letter) != null
 
 	func is_char_valid_at(idx: int) -> bool:
-		return is_char_valid(get_char_at(idx))
+		return Validation.is_char_valid(get_char_at(idx))
 	
 class Chapter:
 	var number: int
@@ -108,6 +118,27 @@ class Chapter:
 
 	func contains_index(idx: int):
 		return start_index <= idx and idx < _end_index
+
+	func get_word_of(normalized_idx: int) -> WordData:
+		var local_idx = normalized_idx - start_index
+		var letter = text[local_idx]
+		if Validation.is_char_valid(letter) == false:
+			return null
+		
+		var local_start_idx = local_idx # This will land on the first letter of the word
+		var local_end_idx = local_idx # This will land on the first invalid character after the word
+
+		while local_end_idx < length and Validation.is_char_valid(text[local_end_idx]):
+			local_end_idx += 1
+		
+		while local_start_idx > 0 and Validation.is_char_valid(text[local_start_idx - 1]):
+			local_start_idx -= 1
+		
+		var data = WordData.new()
+		data.start_idx = local_start_idx + start_index
+		data.word = text.substr(local_start_idx, (local_end_idx - local_start_idx))
+
+		return data
 
 class WordData:
 	var word: String
@@ -153,7 +184,7 @@ func get_chapter_at(idx: int) -> Chapter:
 	return null
 
 func is_char_valid(letter: String) -> bool:
-	return corpus.is_char_valid(letter)
+	return Validation.is_char_valid(letter)
 
 func get_state(idx: int) -> CharState:
 	var normalized_idx = normalize_idx(idx)
@@ -166,49 +197,26 @@ func get_state(idx: int) -> CharState:
 	return state[normalized_idx]
 
 func get_char_at(idx: int) -> String:
-	var normalized_idx = normalize_idx(idx)
-	
-	return corpus.get_char_at(normalized_idx)
+	return corpus.get_char_at(idx)
 
 func get_word_of(idx: int) -> WordData:
-	var normalized_idx: int = normalize_idx(idx)
-	var letter = corpus.get_char_at(idx)
-	if (corpus.is_char_valid(letter) == false):
+	var data = corpus.get_word_of(idx)
+
+	if data == null:
 		return null
 	
-	var data = WordData.new()
-	
-	var start := ""
-	var end := ""
-	
-	var pointer := normalized_idx + 1
-	
-	while corpus.is_char_valid(letter):
-		end += letter
-		data.states.push_back(get_state(pointer - 1))
-		letter = corpus.get_char_at(pointer)
-		pointer += 1
-	
-	pointer = normalized_idx - 1
-	letter = corpus.get_char_at(pointer)
-	while corpus.is_char_valid(letter):
-		start = letter + start
-		data.states.push_front(get_state(pointer))
-		pointer -= 1
-		letter = corpus.get_char_at(pointer)
-	
-	data.start_idx = pointer + 1
-	data.word = start + end
-	
-	var i := 0
-	for s in data.states:
-		s.local_idx = i
-		i += 1
-	
+	for i in range(data.word.length()):
+		var local_state = get_state(i + data.start_idx)
+		local_state.local_idx = i
+		data.states.push_back(local_state)
+
 	return data
 
 func normalize_idx(idx: int) -> int:
 	return corpus.normalize_idx(idx)
+
+func longest_word_length():
+	return corpus.longest_word_length
 
 func load_corpus(text: String="", save: bool=true):
 	assert(segment_width <= corpus_line_length)
@@ -222,13 +230,6 @@ func load_corpus(text: String="", save: bool=true):
 	
 	if (save):
 		main_corpus = corpus # Store it for later
-	
-	lengthOfLongestWord = 0
-	words = []
-	for w in corpus.get_words():
-		words.push_back(w)
-		if w.length() > lengthOfLongestWord:
-			lengthOfLongestWord = w.length()
 	
 	state = {}
 

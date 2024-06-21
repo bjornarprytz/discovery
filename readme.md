@@ -11,8 +11,10 @@ Goal: collect specific words to increase high score
 ## 1.0 roadmap
 
 - Performance
-  - Optimize append_line
-  - Be smart about setting segment.is_dirty
+  - Optimize _refresh_text
+    - append_line (~45 (24 calls))
+    - Corpus.get_word_of (~26 ms (331 calls))
+  - Be smart about setting segment.is_dirty to minimize calls to `_refresh_text`
   - Have more, smaller segments
 
 - UI
