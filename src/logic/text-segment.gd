@@ -33,16 +33,26 @@ func refresh(force: bool=false) -> void:
 	
 	dirty = false
 
-func _append_line(idx: int) -> void: # This is the hot path.
+func _append_line(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
+
+	var current_word: CorpusClass.WordData = Corpus.get_word_of(normalized_idx) as CorpusClass.WordData
+	var current_word_is_quest: bool = current_word != null and Game.current_quest.nocasecmp_to(current_word.word) == 0
 	
 	for pos in range(Corpus.segment_width):
 		var char_idx = normalized_idx + pos
 		var letter = Corpus.get_char_at(char_idx)
 		var char_state = Corpus.get_state(char_idx) as CorpusClass.CharState
-		
+
 		var pushed_effect := false
-		
+
+		if not Validation.is_char_valid(letter):
+			current_word = null
+			current_word_is_quest = false
+		elif current_word == null:
+			current_word = Corpus.get_word_of(char_idx) as CorpusClass.WordData
+			current_word_is_quest = current_word != null and Game.current_quest.nocasecmp_to(current_word.word) == 0
+
 		var trailing_space: bool = letter == " " and !char_state.cursor and (pos == 0 or pos == Corpus.segment_width - 1)
 		if trailing_space:
 			# Hack to get around trailing spaces being removed in BBCode
@@ -65,8 +75,7 @@ func _append_line(idx: int) -> void: # This is the hot path.
 			push_customfx(Highlight.new(), {})
 			pushed_effect = true
 		elif (char_state.completed_word):
-			var word = Corpus.get_word_of(char_idx)
-			push_customfx(Quest.new(), {"idx": char_state.local_idx, "len": word.word.length(), "color": base_color})
+			push_customfx(Quest.new(), {"idx": char_state.local_idx, "len": current_word.word.length(), "color": base_color})
 			pushed_effect = true
 		elif (char_state.quest):
 			push_color(Game.QUEST_COLOR)
@@ -77,11 +86,9 @@ func _append_line(idx: int) -> void: # This is the hot path.
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(), {})
 			pushed_effect = true
-		elif (Game.current_quest.contains(letter.to_lower())):
-			var word = Corpus.get_word_of(char_idx)
-			if (word != null and Game.current_quest == word.word.to_lower()):
-				push_underline()
-				pushed_effect = true
+		elif (current_word_is_quest):
+			push_underline()
+			pushed_effect = true
 		
 		append_text(letter)
 		

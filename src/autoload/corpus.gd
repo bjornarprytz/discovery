@@ -190,9 +190,8 @@ func get_state(idx: int) -> CharState:
 	var normalized_idx = normalize_idx(idx)
 	if (!state.has(normalized_idx)):
 		state[normalized_idx] = CharState.new()
-		
-	state[normalized_idx].impassable = !corpus.is_char_valid_at(idx)
-	state[normalized_idx].corpus_idx = normalized_idx
+		state[normalized_idx].impassable = !corpus.is_char_valid_at(idx)
+		state[normalized_idx].corpus_idx = normalized_idx
 		
 	return state[normalized_idx]
 
