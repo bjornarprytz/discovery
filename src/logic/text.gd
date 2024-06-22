@@ -99,8 +99,8 @@ func _get_camera_view_rect() -> Rect2:
 	return Rect2(cam_pos, cam_size)
 
 func _refresh_text():
+	var cam_rect = _get_camera_view_rect()
 	for s in get_children():
-		var cam_rect = _get_camera_view_rect()
 		if !s.get_rect().intersects(cam_rect):
 			continue
 

@@ -1,6 +1,11 @@
 class_name AlicesAdventuresInWonderland
 
+static var full_text: CorpusClass.FullText
+
 static func create_corpus() -> CorpusClass.FullText:
+    if full_text != null:
+        return full_text
+
     var chapters: Array[CorpusClass.Chapter] = []
     chapters.append(CorpusClass.Chapter.new(1, "Down the Rabbit-Hole", "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do. Once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, and what is the use of a book, thought Alice, without pictures or conversations?
 So she was considering in her own mind (as well as she could, for the day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.
@@ -141,4 +146,6 @@ If there's no meaning in it, said the King, that saves a world of trouble, you k
 Hold your tongue! said the Queen, turning purple. I won't! said Alice. Off with her head! the Queen shouted at the top of her voice. Nobody moved. Who cares for you? said Alice (she had grown to her full size by this time). You're nothing but a pack of cards! At this, the whole pack rose up in the air and came flying down upon her; she gave a little scream, half of fright and half of anger, and tried to beat them off, and found herself lying on the bank, with her head in the lap of her sister, who was gently brushing away some dead leaves that had fluttered down from the trees upon her face.
 Wake up, Alice dear! said her sister. Why, what a long sleep you've had! Oh, I've had such a curious dream! said Alice. And she told her sister, as well as she could remember them, all these strange adventures of hers that you have just been reading about. Alice got up and ran off, thinking while she ran, as well she might, what a wonderful dream it had been."))
 
-    return CorpusClass.FullText.new(chapters)
+    full_text = CorpusClass.FullText.new(chapters)
+
+    return full_text

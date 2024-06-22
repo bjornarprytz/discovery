@@ -16,6 +16,8 @@ class FullText: # This should probably be called Corpus
 
 	var _index_ratio: float = 0.0
 
+	var words: Array[String] = []
+
 	func _init(chapters_: Array[Chapter]):
 		chapters = chapters_
 		full_length = 0
@@ -26,9 +28,12 @@ class FullText: # This should probably be called Corpus
 		_index_ratio = chapters.size() / float(full_length)
 		
 		longest_word_length = 0
-		for w in get_words():
-			if w.length() > longest_word_length:
-				longest_word_length = w.length()
+		for c in chapters:
+			for w in Validation.get_matches(c.text):
+				var word = w.get_string().to_lower()
+				words.push_back(word)
+				if word.length() > longest_word_length:
+					longest_word_length = word.length()
 	
 	func length():
 		return full_length
@@ -41,15 +46,6 @@ class FullText: # This should probably be called Corpus
 		var word = chapter.get_word_of(normalized_idx)
 		
 		return word
-
-	func get_words() -> Array[String]:
-		var words: Array[String] = []
-		for c in chapters:
-			for w in Validation.get_matches(c.text):
-				var word = w.get_string().to_lower()
-				words.push_back(word)
-		
-		return words
 
 	func normalize_idx(idx: int) -> int:
 		var n = idx % full_length
@@ -166,7 +162,6 @@ class CharState:
 	var local_idx: int # Only relevant for words
 	var corpus_idx: int
 
-var words: Array[String] = []
 var state: Dictionary = {}
 
 var lengthOfLongestWord: int = 0
@@ -216,6 +211,9 @@ func normalize_idx(idx: int) -> int:
 
 func longest_word_length():
 	return corpus.longest_word_length
+
+func get_words() -> Array[String]:
+	return corpus.words
 
 func load_corpus(text: String="", save: bool=true):
 	assert(segment_width <= corpus_line_length)

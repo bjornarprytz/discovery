@@ -12,10 +12,6 @@ Goal: collect specific words to increase high score
 
 - UI
   - Chapter transition
-  - Make sure to refresh after everything has settled
-
-- Gameplay
-  - Quests should start visible
 
 - Music
   - Master
@@ -31,7 +27,6 @@ Goal: collect specific words to increase high score
 
 - Sound restarting in score screen
   - Should also loop
-- Require a certian number of words/corpus length
 
 ### Optimization
 

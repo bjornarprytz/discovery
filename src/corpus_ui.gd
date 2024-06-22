@@ -12,9 +12,13 @@ extends Control
 @onready var go_boom: CPUParticles2D = $GoTime/GoBoom
 @onready var boom: AudioStreamPlayer2D = $Boom
 
+const SEGMENT_COUNT := 9
 const SHAKE_MAGNITUDE := 5
+@onready var minimum_corpus_length := ceil((Corpus.segment_height * Corpus.segment_width * SEGMENT_COUNT) / 1000.0) * 1000.0
+@onready var minimum_word_count := minimum_corpus_length / 20
 
 var sanitize_regex: RegEx
+var _valid_corpus = false
 
 func _ready() -> void:
 	corpus_input.text_changed.connect(_load_corpus)
@@ -36,9 +40,18 @@ func _load_corpus():
 	Game.start(text_without_tags)
 	
 	go_time.visible = true
-	
-	word_count.text = "Words: " + str(Corpus.words.size() + 1) # +1 because one word is immediately popped by Game
+	_valid_corpus = true
+
+	word_count.text = "Words: " + str(Corpus.get_words().size())
 	length.text = "Length: " + str(Corpus.corpus.length())
+
+	if Corpus.get_words().size() < minimum_word_count:
+		word_count.text += "/ %d" % minimum_word_count
+		_valid_corpus = false
+		
+	if Corpus.corpus.length() < minimum_corpus_length:
+		length.text += "/ %d" % minimum_corpus_length
+		_valid_corpus = false
 	
 	set_loading(false)
 
@@ -48,7 +61,7 @@ func _input(event: InputEvent) -> void:
 	if (key == "Tab"):
 		corpus_input.release_focus()
 	
-	if (!go_time.visible||key != "Enter"):
+	if (!_valid_corpus||!go_time.visible||key != "Enter"):
 		return
 	
 	if (event.is_pressed()):
