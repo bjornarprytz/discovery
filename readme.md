@@ -20,17 +20,11 @@ Goal: collect specific words to increase high score
 - Cover Image
 
 - Finish TODOs
-- Remove test code with steam
 - Still support web export
 
 ### Bugs
 
-- Sound restarting in score screen
-  - Should also loop
-
 ### Optimization
-
-- Smaller segments
 
 ### Steam integration
 
@@ -45,7 +39,6 @@ Goal: collect specific words to increase high score
 ### Future Scope
 
 - Power-ups?
-- Chapters?
 
 ## Tools & Resources
 
