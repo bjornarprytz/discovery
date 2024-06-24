@@ -20,7 +20,7 @@ func fade_in():
 
 func play_main():
 	await fade_out()
-	pass
+	stream = null
 
 func play_score():
 	if stream == score_track:

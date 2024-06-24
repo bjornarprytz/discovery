@@ -1,11 +1,15 @@
 extends RichTextLabel
 class_name TextSegment
 
+@onready var ambiance: AudioStreamPlayer2D = $Ambiance
 var start_index: int
 
 var dirty: bool = true
 
 var t: RichTextEffect
+
+func _ready():
+	ambiance.finished.connect(ambiance.play)
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)

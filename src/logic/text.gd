@@ -11,6 +11,18 @@ const SEGMENT_COLS = 3
 @onready var SEGMENT_HEIGHT: int = Corpus.segment_height * Corpus.corpus_line_length
 @onready var SEGMENT_WIDTH: int = Corpus.segment_width
 
+var ambiance_streams = [
+    preload ("res://assets/ambiance/crackling-fire-14759.mp3"),
+    preload ("res://assets/ambiance/forest-jungle-nature-dark-atmo-6154.mp3"),
+    preload ("res://assets/ambiance/forest-wind-and-birds-6881.mp3"),
+    preload ("res://assets/ambiance/morning-forest-ambiance-17045.mp3"),
+    preload ("res://assets/ambiance/night-woods-7012.mp3"),
+    preload ("res://assets/ambiance/river-in-the-forest-17271.mp3"),
+    preload ("res://assets/ambiance/soft-rain-ambient-111154.mp3"),
+    preload ("res://assets/ambiance/underwater-whale-and-diving-sound-ambient-116185.mp3"),
+    preload ("res://assets/ambiance/wind-winter-trees-variable-gusts-70km-mono-clean-77mel-190208-19041.mp3")
+]
+
 var center_segment: TextSegment
 var north_segment: TextSegment
 var east_segment: TextSegment
@@ -23,224 +35,248 @@ var sw_segment: TextSegment
 var nw_segment: TextSegment
 
 func force_refresh():
-	for s in get_children():
-		var segment = s as TextSegment
-		segment.refresh(true)
+    for s in get_children():
+        var segment = s as TextSegment
+        segment.refresh(true)
 
 func queue_full_refresh():
-	for s in get_children():
-		var segment = s as TextSegment
-		segment.dirty = true
+    for s in get_children():
+        var segment = s as TextSegment
+        segment.dirty = true
 
 func _ready() -> void:
-	Game.ready_to_move.connect(_refresh_text)
-	Game.moved.connect(_on_moved)
-	Game.invalid_move.connect(_on_invalid_move)
-	Game.new_quest.connect(_on_new_quest)
-	
-	var random_start = randi_range(0, Corpus.corpus.length() - 1)
-	var upper_left: int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
-	
-	for y in range(SEGMENT_ROWS):
-		for x in range(SEGMENT_COLS):
-			var segment = segment_spawner.instantiate() as TextSegment
-			segment.set_start_index(upper_left + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT))
-			add_child(segment)
-			
-			segment.position = -segment.size + Vector2(segment.size.x * x, segment.size.y * y)
-			
-	nw_segment = get_child(0)
-	north_segment = get_child(1)
-	ne_segment = get_child(2)
-	west_segment = get_child(3)
-	center_segment = get_child(4)
-	east_segment = get_child(5)
-	sw_segment = get_child(6)
-	south_segment = get_child(7)
-	se_segment = get_child(8)
+    Game.ready_to_move.connect(_refresh_text)
+    Game.moved.connect(_on_moved)
+    Game.invalid_move.connect(_on_invalid_move)
+    Game.new_quest.connect(_on_new_quest)
+    
+    var random_start = randi_range(0, Corpus.corpus.length() - 1)
+    var upper_left: int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
+    
+    for y in range(SEGMENT_ROWS):
+        for x in range(SEGMENT_COLS):
+            var segment = segment_spawner.instantiate() as TextSegment
+            segment.set_start_index(upper_left + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT))
+            add_child(segment)
+            
+            segment.position = -segment.size + Vector2(segment.size.x * x, segment.size.y * y)
+            
+    nw_segment = get_child(0)
+    north_segment = get_child(1)
+    ne_segment = get_child(2)
+    west_segment = get_child(3)
+    center_segment = get_child(4)
+    east_segment = get_child(5)
+    sw_segment = get_child(6)
+    south_segment = get_child(7)
+    se_segment = get_child(8)
+
+    var segments = [
+        nw_segment,
+        north_segment,
+        ne_segment,
+        west_segment,
+        center_segment,
+        east_segment,
+        sw_segment,
+        south_segment,
+        se_segment
+    ]
+
+    segments.shuffle()
+
+    for ambiance in ambiance_streams:
+        var s = segments.pop_front() as TextSegment
+        s.ambiance.stream = ambiance
+
+        var play_from: float = randi_range(0, s.ambiance.stream.get_length() - 1)
+
+        s.ambiance.play(play_from)
+        
+    _refresh_text()
 
 func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: int):
 
-	var camera_point = cam.position
-	
-	if north_segment.get_rect().has_point(camera_point):
-		_shift_north()
-	elif east_segment.get_rect().has_point(camera_point):
-		_shift_east()
-	elif south_segment.get_rect().has_point(camera_point):
-		_shift_south()
-	elif west_segment.get_rect().has_point(camera_point):
-		_shift_west()
+    var camera_point = cam.position
+    
+    if north_segment.get_rect().has_point(camera_point):
+        _shift_north()
+    elif east_segment.get_rect().has_point(camera_point):
+        _shift_east()
+    elif south_segment.get_rect().has_point(camera_point):
+        _shift_south()
+    elif west_segment.get_rect().has_point(camera_point):
+        _shift_west()
 
-	_set_dirty_within(2, 2)
+    _set_dirty_within(2, 2)
 
-	for segment in _segments_touched_by_word_at(current_pos):
-		segment.dirty = true
-		
-	for segment in _segments_touched_by_word_at(prev_pos):
-		segment.dirty = true
+    for segment in _segments_touched_by_word_at(current_pos):
+        segment.dirty = true
+        
+    for segment in _segments_touched_by_word_at(prev_pos):
+        segment.dirty = true
 
-	for segment in _segments_containing_indexes([prev_pos, current_pos]):
-		segment.dirty = true
+    for segment in _segments_containing_indexes([prev_pos, current_pos]):
+        segment.dirty = true
 
 func _on_new_quest(_word: String):
-	queue_full_refresh()
+    queue_full_refresh()
 
 func _on_invalid_move():
-	_set_dirty_within(4, 4)
+    _set_dirty_within(4, 4)
 
 func _get_camera_view_rect() -> Rect2:
-	const cam_grace_factor = 1.2
-	var cam_transform = cam.get_global_transform()
-	var cam_size = cam_transform.get_scale() * cam.get_viewport_rect().size * cam_grace_factor
-	var cam_pos = cam_transform.origin + cam.offset
-	cam_pos = cam_pos - (cam_size / 2)
+    const cam_grace_factor = 1.2
+    var cam_transform = cam.get_global_transform()
+    var cam_size = cam_transform.get_scale() * cam.get_viewport_rect().size * cam_grace_factor
+    var cam_pos = cam_transform.origin + cam.offset
+    cam_pos = cam_pos - (cam_size / 2)
 
-	return Rect2(cam_pos, cam_size)
+    return Rect2(cam_pos, cam_size)
 
 func _refresh_text():
-	var cam_rect = _get_camera_view_rect()
-	for s in get_children():
-		if !s.get_rect().intersects(cam_rect):
-			continue
+    var cam_rect = _get_camera_view_rect()
+    for s in get_children():
+        if !s.get_rect().intersects(cam_rect):
+            continue
 
-		var segment = s as TextSegment
-		segment.refresh()
+        var segment = s as TextSegment
+        segment.refresh()
 
 func _shift_north():
-	var new_upper_left: int = nw_segment.start_index - (SEGMENT_HEIGHT)
-	var move_by = center_segment.size.y * SEGMENT_ROWS
-	
-	var temp_segment = sw_segment
-	sw_segment = west_segment
-	west_segment = nw_segment
-	nw_segment = temp_segment
-	nw_segment.set_start_index(new_upper_left)
-	nw_segment.position.y -= move_by
-	
-	temp_segment = south_segment
-	south_segment = center_segment
-	center_segment = north_segment
-	north_segment = temp_segment
-	north_segment.set_start_index(new_upper_left + SEGMENT_WIDTH)
-	north_segment.position.y -= move_by
-	
-	temp_segment = se_segment
-	se_segment = east_segment
-	east_segment = ne_segment
-	ne_segment = temp_segment
-	ne_segment.set_start_index(new_upper_left + (SEGMENT_WIDTH * 2))
-	ne_segment.position.y -= move_by
-		
+    var new_upper_left: int = nw_segment.start_index - (SEGMENT_HEIGHT)
+    var move_by = center_segment.size.y * SEGMENT_ROWS
+    
+    var temp_segment = sw_segment
+    sw_segment = west_segment
+    west_segment = nw_segment
+    nw_segment = temp_segment
+    nw_segment.set_start_index(new_upper_left)
+    nw_segment.position.y -= move_by
+    
+    temp_segment = south_segment
+    south_segment = center_segment
+    center_segment = north_segment
+    north_segment = temp_segment
+    north_segment.set_start_index(new_upper_left + SEGMENT_WIDTH)
+    north_segment.position.y -= move_by
+    
+    temp_segment = se_segment
+    se_segment = east_segment
+    east_segment = ne_segment
+    ne_segment = temp_segment
+    ne_segment.set_start_index(new_upper_left + (SEGMENT_WIDTH * 2))
+    ne_segment.position.y -= move_by
+        
 func _shift_east():
-	var new_upper_right: int = ne_segment.start_index + SEGMENT_WIDTH
-	var move_by = (center_segment.size.x * SEGMENT_COLS)
+    var new_upper_right: int = ne_segment.start_index + SEGMENT_WIDTH
+    var move_by = (center_segment.size.x * SEGMENT_COLS)
 
-	var temp_segment = nw_segment
-	nw_segment = north_segment
-	north_segment = ne_segment
-	ne_segment = temp_segment
-	ne_segment.set_start_index(new_upper_right)
-	ne_segment.position.x += move_by
+    var temp_segment = nw_segment
+    nw_segment = north_segment
+    north_segment = ne_segment
+    ne_segment = temp_segment
+    ne_segment.set_start_index(new_upper_right)
+    ne_segment.position.x += move_by
 
-	temp_segment = west_segment
-	west_segment = center_segment
-	center_segment = east_segment
-	east_segment = temp_segment
-	east_segment.set_start_index(new_upper_right + (SEGMENT_HEIGHT))
-	east_segment.position.x += move_by
+    temp_segment = west_segment
+    west_segment = center_segment
+    center_segment = east_segment
+    east_segment = temp_segment
+    east_segment.set_start_index(new_upper_right + (SEGMENT_HEIGHT))
+    east_segment.position.x += move_by
 
-	temp_segment = sw_segment
-	sw_segment = south_segment
-	south_segment = se_segment
-	se_segment = temp_segment
-	se_segment.set_start_index(new_upper_right + (2 * SEGMENT_HEIGHT))
-	se_segment.position.x += move_by
+    temp_segment = sw_segment
+    sw_segment = south_segment
+    south_segment = se_segment
+    se_segment = temp_segment
+    se_segment.set_start_index(new_upper_right + (2 * SEGMENT_HEIGHT))
+    se_segment.position.x += move_by
 
 func _shift_south():
-	var new_lower_left: int = sw_segment.start_index + (SEGMENT_HEIGHT)
-	var move_by = center_segment.size.y * SEGMENT_ROWS
+    var new_lower_left: int = sw_segment.start_index + (SEGMENT_HEIGHT)
+    var move_by = center_segment.size.y * SEGMENT_ROWS
 
-	var temp_segment = nw_segment
-	nw_segment = west_segment
-	west_segment = sw_segment
-	sw_segment = temp_segment
-	sw_segment.set_start_index(new_lower_left)
-	sw_segment.position.y += move_by
-	
-	temp_segment = north_segment
-	north_segment = center_segment
-	center_segment = south_segment
-	south_segment = temp_segment
-	south_segment.set_start_index(new_lower_left + SEGMENT_WIDTH)
-	south_segment.position.y += move_by
-	
-	temp_segment = ne_segment
-	ne_segment = east_segment
-	east_segment = se_segment
-	se_segment = temp_segment
-	se_segment.set_start_index(new_lower_left + (SEGMENT_WIDTH * 2))
-	se_segment.position.y += move_by
+    var temp_segment = nw_segment
+    nw_segment = west_segment
+    west_segment = sw_segment
+    sw_segment = temp_segment
+    sw_segment.set_start_index(new_lower_left)
+    sw_segment.position.y += move_by
+    
+    temp_segment = north_segment
+    north_segment = center_segment
+    center_segment = south_segment
+    south_segment = temp_segment
+    south_segment.set_start_index(new_lower_left + SEGMENT_WIDTH)
+    south_segment.position.y += move_by
+    
+    temp_segment = ne_segment
+    ne_segment = east_segment
+    east_segment = se_segment
+    se_segment = temp_segment
+    se_segment.set_start_index(new_lower_left + (SEGMENT_WIDTH * 2))
+    se_segment.position.y += move_by
 
 func _shift_west():
-	var new_upper_left: int = nw_segment.start_index - SEGMENT_WIDTH
-	var move_by = (center_segment.size.x * SEGMENT_COLS)
-	
-	var temp_segment = ne_segment
-	ne_segment = north_segment
-	north_segment = nw_segment
-	nw_segment = temp_segment
-	nw_segment.set_start_index(new_upper_left)
-	nw_segment.position.x -= move_by
+    var new_upper_left: int = nw_segment.start_index - SEGMENT_WIDTH
+    var move_by = (center_segment.size.x * SEGMENT_COLS)
+    
+    var temp_segment = ne_segment
+    ne_segment = north_segment
+    north_segment = nw_segment
+    nw_segment = temp_segment
+    nw_segment.set_start_index(new_upper_left)
+    nw_segment.position.x -= move_by
 
-	temp_segment = east_segment
-	east_segment = center_segment
-	center_segment = west_segment
-	west_segment = temp_segment
-	west_segment.set_start_index(new_upper_left + (SEGMENT_HEIGHT))
-	west_segment.position.x -= move_by
+    temp_segment = east_segment
+    east_segment = center_segment
+    center_segment = west_segment
+    west_segment = temp_segment
+    west_segment.set_start_index(new_upper_left + (SEGMENT_HEIGHT))
+    west_segment.position.x -= move_by
 
-	temp_segment = se_segment
-	se_segment = south_segment
-	south_segment = sw_segment
-	sw_segment = temp_segment
-	sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
-	sw_segment.position.x -= move_by
+    temp_segment = se_segment
+    se_segment = south_segment
+    south_segment = sw_segment
+    sw_segment = temp_segment
+    sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
+    sw_segment.position.x -= move_by
 
 func _set_dirty_within(horizontal_range: int, vertical_range: int):
-	var current_pos = Game.current_pos
-	var horizon_left = current_pos - horizontal_range
-	var horizon_right = current_pos + horizontal_range
-	var horizon_up = current_pos - (vertical_range * Corpus.corpus_line_length)
-	var horizon_down = current_pos + (vertical_range * Corpus.corpus_line_length)
+    var current_pos = Game.current_pos
+    var horizon_left = current_pos - horizontal_range
+    var horizon_right = current_pos + horizontal_range
+    var horizon_up = current_pos - (vertical_range * Corpus.corpus_line_length)
+    var horizon_down = current_pos + (vertical_range * Corpus.corpus_line_length)
 
-	for segment in _segments_containing_indexes([horizon_left, horizon_right, horizon_up, horizon_down]):
-		segment.dirty = true
+    for segment in _segments_containing_indexes([horizon_left, horizon_right, horizon_up, horizon_down]):
+        segment.dirty = true
 
 func _segments_touched_by_word_at(index: int) -> Array[TextSegment]:
-	var current_word = Corpus.get_word_of(index)
+    var current_word = Corpus.get_word_of(index)
 
-	if current_word == null:
-		return []
+    if current_word == null:
+        return []
 
-	var word_start = current_word.start_idx
-	var word_end = word_start + current_word.word.length() - 1
-	
-	return _segments_containing_indexes([word_start, word_end])
+    var word_start = current_word.start_idx
+    var word_end = word_start + current_word.word.length() - 1
+    
+    return _segments_containing_indexes([word_start, word_end])
 
 func _segments_containing_indexes(indexes: Array[int]) -> Array[TextSegment]:
-	var segments: Array[TextSegment] = []
+    var segments: Array[TextSegment] = []
 
-	for s in get_children():
-		if indexes.is_empty():
-			break
-		var segment = s as TextSegment
-		if segments.has(segment):
-			continue
-		for i in indexes:
-			if segment.contains_idx(i):
-				segments.append(segment)
-				indexes.erase(i)
-				break
+    for s in get_children():
+        if indexes.is_empty():
+            break
+        var segment = s as TextSegment
+        if segments.has(segment):
+            continue
+        for i in indexes:
+            if segment.contains_idx(i):
+                segments.append(segment)
+                indexes.erase(i)
+                break
 
-	return segments
+    return segments
