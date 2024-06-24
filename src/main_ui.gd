@@ -30,7 +30,7 @@ func set_show(show_ui: bool) -> void:
 		toggle_tween.tween_property(ui, 'position:y', 648, .5)
 
 func _on_new_chapter(chapter: CorpusClass.Chapter):
-	print("New chapter: %s" % chapter.title)
+	print("New chapter: %s" % chapter.title) # TODO: Update UI with chapter title
 
 func _on_quest_duration_tick(duration: int, cap: int):
 	next_quest_duration_label.clear()

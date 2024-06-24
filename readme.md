@@ -12,7 +12,7 @@ Goal: collect specific words to increase high score
 
 - UI
   - Chapter transition
-  - "Space to skip"
+  - Toggle mute ambiance
 
 - Cover Image
 

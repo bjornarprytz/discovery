@@ -6,6 +6,7 @@ extends Node2D
 @onready var cam: Camera2D = $Camera
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
+@onready var skip_label: RichTextLabel = $Camera/CanvasLayer/SkipText
 
 @onready var text_game: TextGame = $Text
 
@@ -128,5 +129,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				made_first_move = true
 				_hide_tutorial()
 			Game.ready_to_move.emit()
-	elif game_over and event.as_text() == "Space":
-		Engine.time_scale = 2.0
+	elif game_over and event.is_pressed():
+		if event.as_text() == "Space":
+			Engine.time_scale = 2.0
+		else:
+			_show_skip()
+
+func _show_skip():
+	skip_label.modulate.a = 0.0
+	skip_label.show()
+
+	var tween = create_tween()
+	tween.tween_property(skip_label, "modulate:a", 1.0, .2)
