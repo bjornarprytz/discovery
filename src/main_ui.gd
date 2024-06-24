@@ -20,6 +20,7 @@ func _ready() -> void:
 	Game.golden_changed.connect(_on_golden_changed)
 	Game.multiplier_changed.connect(_on_multiplier_changed)
 	Game.moved.connect(_on_moved)
+	Game.new_chapter.connect(_on_new_chapter)
 
 func set_show(show_ui: bool) -> void:
 	var toggle_tween = create_tween().set_ease(Tween.EASE_IN)
@@ -27,6 +28,9 @@ func set_show(show_ui: bool) -> void:
 		toggle_tween.tween_property(ui, 'position:y', 588, .5)
 	else:
 		toggle_tween.tween_property(ui, 'position:y', 648, .5)
+
+func _on_new_chapter(chapter: CorpusClass.Chapter):
+	print("New chapter: %s" % chapter.title)
 
 func _on_quest_duration_tick(duration: int, cap: int):
 	next_quest_duration_label.clear()

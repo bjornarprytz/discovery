@@ -12,11 +12,8 @@ Goal: collect specific words to increase high score
 
 - UI
   - Chapter transition
+  - "Space to skip"
 
-- Music
-  - Master
-  - Transitions
-  - Match Sound effects
 - Cover Image
 
 - Finish TODOs

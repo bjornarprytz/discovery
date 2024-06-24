@@ -10,6 +10,7 @@ signal completed_word(word: String, was_quest: bool)
 signal new_quest(word: String)
 signal golden_changed(is_golden: bool)
 signal game_over(score: int)
+signal new_chapter(chapter: CorpusClass.Chapter)
 
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE

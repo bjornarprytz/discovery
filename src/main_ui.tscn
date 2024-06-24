@@ -128,3 +128,111 @@ theme = SubResource("Theme_brgmk")
 bbcode_enabled = true
 text = "[right]0"
 scroll_active = false
+
+[node name="Chapter" type="ColorRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.635294)
+custom_minimum_size = Vector2(0, 60)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -708.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.854902, 0.647059, 0.223529, 1)
+
+[node name="QuestBar" type="ProgressBar" parent="Chapter"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bi1r6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pp6o0")
+value = 50.0
+show_percentage = false
+
+[node name="QuestDuration" type="RichTextLabel" parent="Chapter/QuestBar"]
+modulate = Color(0.6, 0.6, 0.6, 1)
+clip_contents = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_right = -998.0
+theme = SubResource("Theme_brgmk")
+bbcode_enabled = true
+text = "69"
+scroll_active = false
+
+[node name="NextValue" type="RichTextLabel" parent="Chapter/QuestBar/QuestDuration"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = -61.0
+offset_bottom = -50.0
+theme = SubResource("Theme_brgmk")
+bbcode_enabled = true
+text = "69"
+scroll_active = false
+
+[node name="TargetWord" type="RichTextLabel" parent="Chapter/QuestBar"]
+self_modulate = Color(0.854902, 0.647059, 0.12549, 1)
+clip_children = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 330.0
+offset_top = -5.0
+offset_right = -330.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_gms3q")
+bbcode_enabled = true
+text = "[center]you"
+scroll_active = false
+
+[node name="Sheen" type="ColorRect" parent="Chapter/QuestBar/TargetWord"]
+layout_mode = 0
+offset_left = -62.0
+offset_top = -18.0
+offset_right = -40.0
+offset_bottom = 59.0
+rotation = 0.241609
+color = Color(0.498039, 1, 0.831373, 1)
+
+[node name="Multiplier" type="RichTextLabel" parent="Chapter/QuestBar"]
+self_modulate = Color(0.854902, 0.647059, 0.12549, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 796.0
+offset_right = -194.0
+theme = SubResource("Theme_brgmk")
+bbcode_enabled = true
+text = "[right]x1"
+scroll_active = false
+
+[node name="Score" type="RichTextLabel" parent="Chapter/QuestBar"]
+self_modulate = Color(0.854902, 0.647059, 0.12549, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 953.0
+theme = SubResource("Theme_brgmk")
+bbcode_enabled = true
+text = "[right]0"
+scroll_active = false

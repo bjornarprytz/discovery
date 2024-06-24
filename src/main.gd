@@ -12,6 +12,7 @@ extends Node2D
 var camera_tween: Tween
 var tutorial: TutorialUI
 
+var _current_chapter: CorpusClass.Chapter
 var made_first_move: bool
 var target_pos: Vector2
 var game_over := false
@@ -61,7 +62,7 @@ func _hide_tutorial():
 		tutorial.stop()
 	text_game.queue_full_refresh()
 
-func _move(_prev_pos: int, _current_pos: int, direction: Vector2, score_change: int):
+func _move(_prev_pos: int, current_pos: int, direction: Vector2, score_change: int):
 	$Camera/Sounds/Click.play()
 	target_pos += direction * Corpus.font_size
 	if (camera_tween != null):
@@ -69,6 +70,12 @@ func _move(_prev_pos: int, _current_pos: int, direction: Vector2, score_change: 
 	camera_tween = create_tween()
 	camera_tween.tween_property(cam, 'position', target_pos, .2)
 	camera_tween.tween_callback(_flair.bind(score_change))
+
+	var next_chapter = Corpus.get_chapter_at(current_pos)
+
+	if (_current_chapter != next_chapter):
+		_current_chapter = next_chapter
+		Game.new_chapter.emit(_current_chapter)
 
 func _on_invalid_move():
 	$Camera/Sounds/Denied.play()
