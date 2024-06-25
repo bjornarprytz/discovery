@@ -11,6 +11,7 @@ signal new_quest(word: String)
 signal golden_changed(is_golden: bool)
 signal game_over(score: int)
 signal new_chapter(chapter: CorpusClass.Chapter)
+signal mute_toggled(muted: bool)
 
 const ERROR_COLOR: Color = Color.CRIMSON
 const MARK_COLOR: Color = Color.AQUAMARINE
@@ -22,6 +23,11 @@ const QUEST_MULTIPLIER: int = 4
 # How much the distance affects the quest duration
 const QUEST_DISTANCE_FACTOR: int = 2
 
+var is_muted: bool:
+	set(value):
+		if value != is_muted:
+			is_muted = value
+			mute_toggled.emit(is_muted)
 var current_quest: String
 var is_golden: bool = true:
 	set(value):

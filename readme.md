@@ -11,15 +11,17 @@ Goal: collect specific words to increase high score
 ## 1.0 roadmap
 
 - UI
-  - Chapter transition
-  - Toggle mute ambiance
+  - Leaderboard starter minimized, Medalje-ikon
 
 - Cover Image
 
 - Finish TODOs
 - Still support web export
+  - Add steam link
 
 ### Bugs
+
+### Feedback
 
 ### Optimization
 
@@ -36,6 +38,7 @@ Goal: collect specific words to increase high score
 ### Future Scope
 
 - Power-ups?
+- Chapter transition
 
 ## Tools & Resources
 

@@ -7,9 +7,13 @@ var start_index: int
 var dirty: bool = true
 
 var t: RichTextEffect
+const base_volume = -10
+const muted_volume = -80
 
 func _ready():
 	ambiance.finished.connect(ambiance.play)
+	Game.mute_toggled.connect(_on_mute_toggled)
+	_on_mute_toggled(Game.is_muted)
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
@@ -100,3 +104,9 @@ func _append_line(idx: int) -> void:
 			pop()
 		if trailing_space:
 			pop()
+
+func _on_mute_toggled(muted: bool) -> void:
+	if muted:
+		ambiance.volume_db = muted_volume
+	else:
+		ambiance.volume_db = base_volume

@@ -17,7 +17,7 @@ var _current_chapter: CorpusClass.Chapter
 var made_first_move: bool
 var target_pos: Vector2
 var game_over := false
-var show_ui := true
+var show_menu := false
 var quest_duration := 0
 
 func _ready() -> void:
@@ -115,16 +115,16 @@ func _show_score():
 	Engine.time_scale = 1.0
 	get_tree().change_scene_to_packed(score_scene)
 
-func _toggle_ui():
-	show_ui = !show_ui
-	ui.set_show(show_ui)
+func _toggle_menu():
+	show_menu = !show_menu
+	ui.set_show_menu(show_menu)
 
-func _unhandled_key_input(event: InputEvent) -> void:
+func _unhandled_key_input(event: InputEvent) -> void:	
 	if (!game_over and event.is_released()):
 		var key = event.as_text()
-		if (key == "Tab"):
-			_toggle_ui()
-		else:
+		if (key == "Tab" or key == "Escape"):
+			_toggle_menu()
+		elif !show_menu:
 			if Game.try_move(key):
 				made_first_move = true
 				_hide_tutorial()

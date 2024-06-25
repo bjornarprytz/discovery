@@ -38,5 +38,5 @@ grow_vertical = 2
 color = Color(0.0235294, 0.0235294, 0.215686, 1)
 
 [node name="Ambiance" type="AudioStreamPlayer2D" parent="."]
-position = Vector2(768, 384)
+volume_db = -10.0
 max_distance = 1000.0
