@@ -7,7 +7,7 @@ var start_index: int
 var dirty: bool = true
 
 var t: RichTextEffect
-const base_volume = -10
+const base_volume = 0
 const muted_volume = -80
 
 func _ready():
