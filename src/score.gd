@@ -1,31 +1,34 @@
 extends Node2D
 
-@onready var menu: ScoreTextGame = $ScoreTextGame
+@onready var menu: ScoreTextGame = $Background/ScoreTextGame
 
-@onready var leaderboard: LeaderboardUI = $Leaderboard
+@onready var leaderboard: LeaderboardUI = $Background/Leaderboard
+
+@onready var score: RichTextLabel = $Background/GameOver/Score
+@onready var highscore: RichTextLabel = $Background/GameOver/Highscore
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$ScoreTextGame.start("Retry Quit Secret", false)
+	menu.start("Retry Quit Secret", false)
 	
 	var current_highscore = _load_highscore()
 	
-	$GameOver/Score.clear()
-	$GameOver/Score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
+	score.clear()
+	score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
 	
-	$GameOver/Highscore.clear()
+	highscore.clear()
 	
 	if (current_highscore < Game.score):
-		$GameOver/Highscore.append_text("[right][wave]New highscore!")
+		highscore.append_text("[right][wave]New highscore!")
 		_save_highscore(Game.score)
 	else:
-		$GameOver/Highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5))
+		highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5))
 	
 	Game.completed_word.connect(_word_complete)
 
 	if SteamController.is_initialized():
 		leaderboard.show()
-		$GameOver/Highscore.hide()
+		highscore.hide()
 	else:
 		leaderboard.queue_free()
 	
@@ -34,8 +37,7 @@ func _ready() -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
 		var key = event.as_text()
-		if (!menu.try_move(key)):
-			$Denied.play()
+		menu.try_move(key)
 
 func _word_complete(w: String, _was_quest: bool):
 	if (w.nocasecmp_to("quit") == 0):
@@ -50,16 +52,16 @@ func _load_highscore() -> int:
 	if (file == null):
 		return 0
 	
-	var highscore = file.get_64()
+	var highscore_value = file.get_64()
 	
-	if (highscore == null):
+	if (highscore_value == null):
 		return 0
 	
-	return highscore
+	return highscore_value
 
-func _save_highscore(score: int):
+func _save_highscore(score_value: int):
 	var save = FileAccess.open("user://highscore.txt", FileAccess.WRITE)
-	save.store_64(score)
+	save.store_64(score_value)
 	save.close()
 
 func _retry():

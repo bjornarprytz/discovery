@@ -10,13 +10,10 @@ try to find as many words as possible
 
 Goal: collect specific words to increase high score
 
-
 ## 1.0 roadmap
 
 - UI
   - Leaderboard starter minimized, Medalje-ikon
-
-- Cover Image
 
 - Finish TODOs
 - Still support web export

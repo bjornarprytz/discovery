@@ -7,7 +7,7 @@ extends ColorRect
 @onready var toggle_show_button: Button = $VB/Buttons/ToggleShowButton
 @onready var entries_container: Node = $VB/Margin/VB/Entries
 
-@onready var is_hidden: bool = false
+@onready var is_hidden: bool = true
 
 var scopes: Array[Steam.LeaderboardDataRequest] = [
 	Steam.LEADERBOARD_DATA_REQUEST_FRIENDS,

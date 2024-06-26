@@ -86,7 +86,7 @@ theme = SubResource("Theme_l6bln")
 theme_override_styles/normal = SubResource("StyleBoxFlat_kj7pc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_scwtm")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_kj7pc")
-text = " > "
+text = " < "
 
 [node name="ScopeButton" type="Button" parent="VB/Buttons"]
 custom_minimum_size = Vector2(0, 30)
