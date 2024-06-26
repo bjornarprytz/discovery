@@ -33,8 +33,15 @@ func _ready() -> void:
 
 	Game.force_move(text_game.center_segment.start_index, true)
 	Game.ready_to_move.emit()
-	
-	Audio.play_main()
+
+	_fade_in()
+
+func _fade_in():
+	var tween = create_tween()
+	text_game.modulate.a = 0.0
+	tween.tween_property(text_game, 'modulate:a', 1.0, 1.69)
+
+	await Audio.play_main()
 
 func _show_tutorial():
 	if (made_first_move):
@@ -119,7 +126,7 @@ func _toggle_menu():
 	show_menu = !show_menu
 	ui.set_show_menu(show_menu)
 
-func _unhandled_key_input(event: InputEvent) -> void:	
+func _unhandled_key_input(event: InputEvent) -> void:
 	if (!game_over and event.is_released()):
 		var key = event.as_text()
 		if (key == "Tab" or key == "Escape"):

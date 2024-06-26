@@ -14,6 +14,7 @@ func _ready():
 	ambiance.finished.connect(ambiance.play)
 	Game.mute_toggled.connect(_on_mute_toggled)
 	_on_mute_toggled(Game.is_muted)
+	_fade_in_volume()
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
@@ -110,3 +111,12 @@ func _on_mute_toggled(muted: bool) -> void:
 		ambiance.volume_db = muted_volume
 	else:
 		ambiance.volume_db = base_volume
+
+func _fade_in_volume():
+	if Game.is_muted:
+		return
+
+	ambiance.volume_db = muted_volume
+	var tween = create_tween()
+
+	tween.tween_property(ambiance, "volume_db", base_volume, .69)

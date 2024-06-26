@@ -2,11 +2,14 @@
 
 "The pun is mightier than the word"
 
+[Play it here](https://thewarlock.itch.io/discovery)
+
 ## Stipulation: Text based
 
 try to find as many words as possible
 
 Goal: collect specific words to increase high score
+
 
 ## 1.0 roadmap
 

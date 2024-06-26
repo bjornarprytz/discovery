@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://djepj6ononqd"]
+
+[ext_resource type="Script" path="res://splash.gd" id="1_c0bbh"]
+[ext_resource type="Texture2D" uid="uid://c38gfeylj58d1" path="res://assets/bookworm-cover.png" id="1_nsplh"]
+
+[node name="Splash" type="CanvasLayer"]
+script = ExtResource("1_c0bbh")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.9
+one_shot = true
+autostart = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.227451, 0.290196, 1)
+
+[node name="Cover" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -457.0
+offset_right = 459.606
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nsplh")
+expand_mode = 3
+stretch_mode = 4
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

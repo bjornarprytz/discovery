@@ -184,6 +184,7 @@ grow_vertical = 2
 color = Color(0.0235294, 0.0235294, 0.215686, 1)
 
 [node name="ChapterHeader" type="RichTextLabel" parent="Menu"]
+layout_mode = 0
 offset_left = 488.0
 offset_top = 220.0
 offset_right = 664.0
