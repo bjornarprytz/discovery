@@ -19,6 +19,7 @@ script = ExtResource("3_yillp")
 clip_contents = false
 offset_right = 1536.0
 offset_bottom = 768.0
+mouse_filter = 2
 theme = SubResource("Theme_w2jmn")
 bbcode_enabled = true
 text = "EIhtaueh UHALH TAELhl tAEHluthuiahLH LhlaHFHaliUFHLAHFLS AH ll haSF HasklHF Lkas hFKLah FKLhas kFha sklFH a ksHFLa hflh alksFH kals FHaks FKH AHØEIhtaueh UHALH TAELhl tAEHluthuiahLH LhlaHFHaliUFHLAHFLS AH ll haSF HasklHF Lkas hFKLah FKLhas kFha sklFH a ksHFLa hflh alksFH kals FHaks FKH AHØEIhtaueh UHALH TAELhl tAEHluthuiahLH LhlaHFHaliUFHLAHFLS AH ll haSF HasklHF Lkas hFKLah FKLhas kFha sklFH a ksHFLa hflh alksFH kals FHaks FKH AHØEIhtaueh UHALH TAELhl tAEHluthuiahLH LhlaHFHaliUFHLAHFLS AH ll haSF HasklHF Lkas hFKLah FKLhas kFha sklFH a ksHFLa hflh alksFH kals FHaks FKds"
@@ -35,6 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.0235294, 0.0235294, 0.215686, 1)
 
 [node name="Ambiance" type="AudioStreamPlayer2D" parent="."]

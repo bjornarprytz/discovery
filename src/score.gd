@@ -2,10 +2,13 @@ extends Node2D
 
 @onready var menu: ScoreTextGame = $Background/ScoreTextGame
 
-@onready var leaderboard: LeaderboardUI = $Background/Leaderboard
+@onready var leaderboard: LeaderboardUI = $Background/HB/Leaderboard
 
-@onready var score: RichTextLabel = $Background/GameOver/Score
-@onready var highscore: RichTextLabel = $Background/GameOver/Highscore
+@onready var score: RichTextLabel = $Background/HB/GameOver/Score
+@onready var highscore: RichTextLabel = $Background/HB/GameOver/Highscore
+
+@onready var all_container: HBoxContainer = $Background/HB
+@onready var base_container_width = all_container.size.x
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,6 +34,7 @@ func _ready() -> void:
 		highscore.hide()
 	else:
 		leaderboard.queue_free()
+		all_container.size.x = get_viewport_rect().size.x
 	
 	Audio.play_score()
 
@@ -82,3 +86,15 @@ func _on_settings_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	_quit()
+
+
+func _on_leaderboard_toggle_show(show_leaderboard: bool) -> void:
+	
+	var target_width: float
+	if show_leaderboard:
+		target_width = base_container_width -leaderboard.size.x
+	else:
+		target_width = base_container_width
+	
+	var tween = create_tween()
+	tween.tween_property(all_container, "size:x", target_width, .3)

@@ -132,7 +132,7 @@ scale = Vector2(0.1, 0.1)
 mouse_filter = 2
 theme = SubResource("Theme_4xcu7")
 bbcode_enabled = true
-text = "[center][u]Friends[/u] / Proximity / Top"
+text = "[center][bgcolor=white][color=black]Friends[/color][/bgcolor] / Proximity / Top"
 fit_content = true
 
 [node name="Margin" type="MarginContainer" parent="VB"]

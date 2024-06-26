@@ -12,6 +12,8 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Make all ambiance "loopable"
+
 - Finish TODOs
 - Still support web export
   - Add steam link

@@ -1,6 +1,8 @@
 class_name LeaderboardUI
 extends ColorRect
 
+signal toggle_show(show_leaderboard: bool)
+
 @onready var entry_spawner = preload ("res://leaderboard_entry_ui.tscn")
 
 @onready var scope_button_label: RichTextLabel = $VB/Buttons/ScopeButton/Label
@@ -34,21 +36,30 @@ func _on_scope_button_pressed() -> void:
 	scope_button_label.append_text("[center]")
 
 	if current_scope == Steam.LEADERBOARD_DATA_REQUEST_FRIENDS:
-		scope_button_label.append_text("[u]Friends[/u]")
+		scope_button_label.push_bgcolor(Color.WHITE)
+		scope_button_label.push_color(Color.BLACK)
+		scope_button_label.append_text("Friends")
+		scope_button_label.pop_all()
 	else:
 		scope_button_label.append_text("Friends")
 
 	scope_button_label.append_text(" / ")
 
 	if current_scope == Steam.LEADERBOARD_DATA_REQUEST_GLOBAL_AROUND_USER:
-		scope_button_label.append_text("[u]Proximity[/u]")
+		scope_button_label.push_bgcolor(Color.WHITE)
+		scope_button_label.push_color(Color.BLACK)
+		scope_button_label.append_text("Proximity")
+		scope_button_label.pop_all()
 	else:
 		scope_button_label.append_text("Proximity")
 	
 	scope_button_label.append_text(" / ")
 
 	if current_scope == Steam.LEADERBOARD_DATA_REQUEST_GLOBAL:
-		scope_button_label.append_text("[u]Top[/u]")
+		scope_button_label.push_bgcolor(Color.WHITE)
+		scope_button_label.push_color(Color.BLACK)
+		scope_button_label.append_text("Top")
+		scope_button_label.pop_all()
 	else:
 		scope_button_label.append_text("Top")
 	
@@ -71,17 +82,13 @@ func _on_toggle_show_button_pressed() -> void:
 	trophy_icon.hide()
 	is_hidden = !is_hidden
 
-	var translation: float
 	var toggle_button_text: String
 
 	if is_hidden:
-		translation = size.x
 		toggle_button_text = " < "
 	else:
-		translation = -size.x
 		toggle_button_text = " > "
-
-	var tween = create_tween()
-	tween.tween_property(self, "position:x", position.x + translation, .3)
-
 	toggle_show_button.text = toggle_button_text
+	
+	toggle_show.emit(!is_hidden)
+

@@ -59,15 +59,16 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0823529, 0.0823529, 0.0823529, 1)
 
-[node name="GameOver" type="Control" parent="Background"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HB" type="HBoxContainer" parent="Background"]
+layout_mode = 0
+offset_right = 1752.0
+offset_bottom = 646.0
 
-[node name="Heading" type="RichTextLabel" parent="Background/GameOver"]
+[node name="GameOver" type="Control" parent="Background/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Heading" type="RichTextLabel" parent="Background/HB/GameOver"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -86,7 +87,7 @@ text = "[center][color=gray][wave]Game over[/wave]
 [font_size=96]
 Score:"
 
-[node name="Score" type="RichTextLabel" parent="Background/GameOver"]
+[node name="Score" type="RichTextLabel" parent="Background/HB/GameOver"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -103,7 +104,7 @@ theme = SubResource("Theme_jatff")
 bbcode_enabled = true
 text = "[center][rainbow freq=.2 sat=0.4]00069"
 
-[node name="Highscore" type="RichTextLabel" parent="Background/GameOver"]
+[node name="Highscore" type="RichTextLabel" parent="Background/HB/GameOver"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -121,6 +122,10 @@ theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[right][color=gray]Best: "
 scroll_active = false
+
+[node name="Leaderboard" parent="Background/HB" instance=ExtResource("7_lba4x")]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
 
 [node name="ScoreTextGame" parent="Background" instance=ExtResource("3_t4al8")]
 modulate = Color(1, 1, 1, 0.0313726)
@@ -174,20 +179,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_2ja8m")
 theme_override_styles/hover = SubResource("StyleBoxTexture_2eemy")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_388db")
 
-[node name="Leaderboard" parent="Background" instance=ExtResource("7_lba4x")]
-layout_mode = 0
-anchors_preset = 0
-anchor_top = 0.0
-anchor_bottom = 0.0
-offset_left = 1152.0
-offset_top = 0.0
-offset_right = 1504.0
-offset_bottom = 648.0
-grow_vertical = 1
-
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
 
+[connection signal="toggle_show" from="Background/HB/Leaderboard" to="." method="_on_leaderboard_toggle_show"]
 [connection signal="pressed" from="Background/ButtonBackground/Buttons/Retry" to="." method="_on_retry_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/Buttons/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/Buttons/Quit" to="." method="_on_quit_pressed"]
