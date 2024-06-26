@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://b2cgwyo06yfwn"]
+[gd_scene load_steps=12 format=3 uid="uid://b2cgwyo06yfwn"]
 
 [ext_resource type="PackedScene" uid="uid://dk2gn713rcpbx" path="res://leaderboard_entry_ui.tscn" id="1_d3jis"]
 [ext_resource type="Script" path="res://leaderboard_ui.gd" id="1_ogaa2"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_kuwja"]
+[ext_resource type="Texture2D" uid="uid://8338hn1ngri7" path="res://assets/trophy.png" id="3_nihgt"]
 
 [sub_resource type="Theme" id="Theme_l6bln"]
 default_font = ExtResource("3_kuwja")
 default_font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kj7pc"]
-bg_color = Color(0.292391, 0.209928, 0.548737, 1)
+bg_color = Color(0.445639, 0.35142, 0.7783, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -86,7 +87,24 @@ theme = SubResource("Theme_l6bln")
 theme_override_styles/normal = SubResource("StyleBoxFlat_kj7pc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_scwtm")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_kj7pc")
-text = " < "
+text = "   "
+
+[node name="Trophy" type="TextureRect" parent="VB/Buttons/ToggleShowButton"]
+modulate = Color(0.144063, 0.144063, 0.144063, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_nihgt")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="ScopeButton" type="Button" parent="VB/Buttons"]
 custom_minimum_size = Vector2(0, 30)

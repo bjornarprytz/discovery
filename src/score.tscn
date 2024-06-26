@@ -175,6 +175,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_2eemy")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_388db")
 
 [node name="Leaderboard" parent="Background" instance=ExtResource("7_lba4x")]
+layout_mode = 0
 anchors_preset = 0
 anchor_top = 0.0
 anchor_bottom = 0.0

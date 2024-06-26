@@ -12,9 +12,6 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- UI
-  - Leaderboard starter minimized, Medalje-ikon
-
 - Finish TODOs
 - Still support web export
   - Add steam link

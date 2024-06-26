@@ -6,6 +6,7 @@ extends ColorRect
 @onready var scope_button_label: RichTextLabel = $VB/Buttons/ScopeButton/Label
 @onready var toggle_show_button: Button = $VB/Buttons/ToggleShowButton
 @onready var entries_container: Node = $VB/Margin/VB/Entries
+@onready var trophy_icon : TextureRect = $VB/Buttons/ToggleShowButton/Trophy
 
 @onready var is_hidden: bool = true
 
@@ -67,6 +68,7 @@ func _fetch_leaderboard() -> void:
 		entry_label.set_entry(entry, steamUser.steam_id == entry.steam_id)
 
 func _on_toggle_show_button_pressed() -> void:
+	trophy_icon.hide()
 	is_hidden = !is_hidden
 
 	var translation: float
