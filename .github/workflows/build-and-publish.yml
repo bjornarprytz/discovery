@@ -33,7 +33,7 @@ jobs:
           name: ${{ env.GAME_NAME }}.${{ github.ref_name }}.web
           path: ${{ steps.export.outputs.build_directory }}/Web
       - name: Upload MacOS Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.GAME_NAME }}.${{ github.ref_name }}.mac
           path: ${{ steps.export.outputs.build_directory }}/macOS
