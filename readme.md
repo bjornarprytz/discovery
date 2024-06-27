@@ -12,7 +12,13 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Fix mac export
 - Make all ambiance "loopable"
+- Attribution
+  - Mia Karlsen
+  - Marja Gundersen
+  - Axel Gundersen
+  - Ola (?)
 
 - Finish TODOs
 - Still support web export

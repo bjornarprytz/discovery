@@ -32,6 +32,11 @@ jobs:
         with:
           name: ${{ env.GAME_NAME }}.${{ github.ref_name }}.web
           path: ${{ steps.export.outputs.build_directory }}/Web
+      - name: Upload MacOS Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.GAME_NAME }}.${{ github.ref_name }}.mac
+          path: ${{ steps.export.outputs.build_directory }}/macOS
 
   itch-io-upload:
     name: Upload to Itch.io
@@ -39,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [web] # Other options: windows, mac, linux
+        platform: [web, mac] # Other options: windows, mac, linux
     steps:
       - name: Download Artifact (${{ matrix.platform }})
         uses: actions/download-artifact@v4
