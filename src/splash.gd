@@ -1,13 +1,8 @@
 class_name SplashScreen
 extends CanvasLayer
 
-@onready var timer: Timer = $Timer
-
 func _ready() -> void:
 	Audio.play_score()
-
-func _on_timer_timeout() -> void:
-	_fade_out()
 
 func _input(event: InputEvent) -> void:
 	if event.is_pressed():

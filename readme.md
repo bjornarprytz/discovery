@@ -12,7 +12,6 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Fix mac export
 - Make all ambiance "loopable"
 - Attribution
   - Mia Karlsen
@@ -42,8 +41,11 @@ Goal: collect specific words to increase high score
 
 ### Future Scope
 
+- Seed
+- Workshop integration with the corpus
 - Power-ups?
 - Chapter transition
+- MacOS support?
 
 ## Tools & Resources
 
@@ -63,8 +65,6 @@ Goal: collect specific words to increase high score
 - [fontspace.com](https://www.fontspace.com/)
   - [UnifontEX](https://www.fontspace.com/unifontex-font-f26370)
 - [Pixabay](https://pixabay.com/)
-
-
 
 ### MacOS codesign/notarization
 

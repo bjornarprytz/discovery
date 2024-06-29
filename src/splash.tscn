@@ -1,15 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://djepj6ononqd"]
+[gd_scene load_steps=5 format=3 uid="uid://djepj6ononqd"]
 
 [ext_resource type="Script" path="res://splash.gd" id="1_c0bbh"]
 [ext_resource type="Texture2D" uid="uid://c38gfeylj58d1" path="res://assets/bookworm-cover.png" id="1_nsplh"]
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_xd2sc"]
+
+[sub_resource type="Theme" id="Theme_7c1m4"]
+default_font = ExtResource("3_xd2sc")
+default_font_size = 256
 
 [node name="Splash" type="CanvasLayer"]
 script = ExtResource("1_c0bbh")
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 8.9
-one_shot = true
-autostart = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -35,11 +35,30 @@ anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -457.0
-offset_right = 459.606
+offset_top = 4.0
+offset_right = 460.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_nsplh")
 expand_mode = 3
-stretch_mode = 4
+stretch_mode = 5
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="AnyKey" type="RichTextLabel" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -308.0
+offset_top = -86.0
+offset_right = 2790.0
+offset_bottom = 174.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.2, 0.2)
+mouse_filter = 2
+theme = SubResource("Theme_7c1m4")
+bbcode_enabled = true
+text = "[center][u][wave amp=100.0 freq=2.0]Press any key to continue"
