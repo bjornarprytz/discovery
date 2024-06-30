@@ -12,12 +12,24 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
 - Attribution
   - Mia Karlsen
   - Marja Gundersen
   - Axel Gundersen
   - Ola (?)
+
+```text
+[u]Programming[/u]
+- Bjørnar Prytz
+
+[u]Music[/u]
+- Marja Gundersen
+
+[u]Artwork[/u]
+- Mia Karlsen
+```
 
 - Finish TODOs
 - Still support web export
