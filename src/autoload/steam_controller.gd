@@ -116,7 +116,7 @@ func _on_moved(_prev_pos: int, current_pos: int, _direction: Vector2, _score_cha
 	_stats.increment_stat("letters_typed")
 	_stats.save()
 
-	if _current_scene_name == "Game":
+	if _current_scene_name == "Main":
 		Steam.setRichPresence("CORPUS", Corpus.get_chapter_at(current_pos).title)
 		Steam.setRichPresence("SCORE", str(Game.score))
 		Steam.setRichPresence("steam_display", "#Playing")

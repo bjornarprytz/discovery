@@ -41,4 +41,5 @@ color = Color(0.0235294, 0.0235294, 0.215686, 1)
 
 [node name="Ambiance" type="AudioStreamPlayer2D" parent="."]
 volume_db = -10.0
-max_distance = 1000.0
+max_distance = 800.0
+attenuation = 2.0

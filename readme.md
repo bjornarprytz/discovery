@@ -12,6 +12,9 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Finish Windows Export
+  - Add icon
+  - More?
 - Look into "low-res" splash screen
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
