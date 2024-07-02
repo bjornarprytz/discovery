@@ -12,6 +12,7 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
+- Look into "low-res" splash screen
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
 - Attribution
@@ -33,6 +34,7 @@ Goal: collect specific words to increase high score
 
 - Finish TODOs
 - Still support web export
+  - Branch, and remove steam references from that version, and update the export templates
   - Add steam link
 
 ### Bugs
