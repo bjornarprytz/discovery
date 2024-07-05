@@ -49,8 +49,6 @@ Goal: collect specific words to increase high score
 
 ### Steam integration
 
-- Achievements
-  - Add icons
 - Steam Release preparation
   - Minimum requirements
   - Add `steam_appid.txt`?
