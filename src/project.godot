@@ -10,10 +10,12 @@ config_version=5
 
 [application]
 
-config/name="Discovery"
+config/name="Bookworm"
+config/version="1.0"
 run/main_scene="res://splash.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://assets/icon.png"
+config/windows_native_icon="res://assets/icon.ico"
 
 [autoload]
 
