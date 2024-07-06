@@ -14,8 +14,8 @@ config/name="Bookworm"
 config/version="1.0"
 run/main_scene="res://splash.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://assets/icon.png"
-config/windows_native_icon="res://assets/icon.ico"
+config/icon="res://icon.svg"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 

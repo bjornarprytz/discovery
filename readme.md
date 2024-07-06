@@ -12,13 +12,11 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Finish Windows Export
-  - Add icon
-  - Change binary name (from Discovery)
-
 - Look into "low-res" splash screen
 - Use VisibleOnScreenNotifier2D on the text-segment
+- Check ambiance on horizontal movement
 - Make all ambiance "loopable"
+
 - Attribution
   - Mia Karlsen
   - Marja Gundersen
