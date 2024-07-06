@@ -17,6 +17,9 @@ Goal: collect specific words to increase high score
 - Check ambiance on horizontal movement
 - Make all ambiance "loopable"
 
+- Capsules
+  - Vertical capsule (Trenger bildet uten tekst)
+
 - Attribution
   - Mia Karlsen
   - Marja Gundersen
