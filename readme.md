@@ -51,8 +51,8 @@ Goal: collect specific words to increase high score
 ### Steam integration
 
 - Steam Release preparation
-  - Minimum requirements
   - Add `steam_appid.txt`?
+  - Make a deploy pipeline
 
 #### Rich Presence
 
