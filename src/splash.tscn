@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://djepj6ononqd"]
+[gd_scene load_steps=6 format=3 uid="uid://djepj6ononqd"]
 
 [ext_resource type="Script" path="res://splash.gd" id="1_c0bbh"]
-[ext_resource type="Texture2D" uid="uid://c38gfeylj58d1" path="res://assets/bookworm-cover.png" id="1_nsplh"]
+[ext_resource type="Texture2D" uid="uid://b4vn5hs5hd70k" path="res://assets/bookworm-cover-no-title.png" id="2_yfmfy"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_xd2sc"]
+[ext_resource type="Texture2D" uid="uid://16tg7uqus7kp" path="res://assets/bookworm-title.png" id="4_nc5bi"]
 
 [sub_resource type="Theme" id="Theme_7c1m4"]
 default_font = ExtResource("3_xd2sc")
@@ -26,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0431373, 0.227451, 0.290196, 1)
+color = Color(0, 0.160784, 0.219608, 1)
 
 [node name="Cover" type="TextureRect" parent="Control"]
 layout_mode = 1
@@ -37,12 +38,29 @@ anchor_bottom = 1.0
 offset_left = -457.0
 offset_top = 4.0
 offset_right = 460.0
-offset_bottom = -100.0
+offset_bottom = -68.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_nsplh")
+texture = ExtResource("2_yfmfy")
 expand_mode = 3
 stretch_mode = 5
+
+[node name="Title" type="TextureRect" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -368.5
+offset_top = -134.0
+offset_right = 368.5
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_nc5bi")
+expand_mode = 2
 
 [node name="AnyKey" type="RichTextLabel" parent="Control"]
 layout_mode = 1

@@ -26,7 +26,6 @@ Audio="*res://autoload/audio.tscn"
 
 [display]
 
-window/size/resizable=false
 window/stretch/mode="viewport"
 
 [dotnet]

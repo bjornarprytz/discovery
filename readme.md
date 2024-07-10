@@ -12,13 +12,10 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Look into "low-res" splash screen
+- Fix Tutorial jumping letters not being updated
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Check ambiance on horizontal movement
 - Make all ambiance "loopable"
-
-- Capsules
-  - Vertical capsule (Trenger bildet uten tekst)
 
 - Attribution
   - Mia Karlsen
