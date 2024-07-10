@@ -12,7 +12,6 @@ Goal: collect specific words to increase high score
 
 ## 1.0 roadmap
 
-- Fix Tutorial jumping letters not being updated
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Check ambiance on horizontal movement
 - Make all ambiance "loopable"
@@ -49,7 +48,7 @@ Goal: collect specific words to increase high score
 
 - Steam Release preparation
   - Add `steam_appid.txt`?
-  - Make a deploy pipeline
+  - Make a deploy pipeline [example](https://github.com/Reneator/github-godot-ci-test/blob/master/.github/workflows/blank.yml)
 
 #### Rich Presence
 

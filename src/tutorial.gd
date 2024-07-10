@@ -13,10 +13,13 @@ func _ready() -> void:
 	for move in [Game.up, Game.right, Game.down, Game.left]:
 		if move.state.impassable:
 			continue
-		if valid_candidates.has(move.character):
-			valid_candidates[move.character].append(move)
+		
+		var character = move.character.to_lower()
+
+		if valid_candidates.has(character):
+			valid_candidates[character].append(move)
 		else:
-			valid_candidates[move.character] = [move]
+			valid_candidates[character] = [move]
 	
 	var i = 0
 	for candidates in valid_candidates.values():
@@ -39,8 +42,14 @@ func _ready() -> void:
 		return
 
 func stop() -> void:
+
 	for move in _highlighted_moves:
 		move.state.highlight = false
+
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, .69)
+	
+	await tween.finished
 	
 	queue_free()
 

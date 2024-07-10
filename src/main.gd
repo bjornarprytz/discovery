@@ -10,6 +10,8 @@ extends Node2D
 
 @onready var text_game: TextGame = $Text
 
+const TUTORIAL_TIMER = 10.0
+
 var camera_tween: Tween
 var tutorial: TutorialUI
 
@@ -29,7 +31,7 @@ func _ready() -> void:
 	Game.game_over.connect(_game_over)
 	Game.completed_word.connect(_on_completed_word)
 	
-	get_tree().create_timer(10.0).timeout.connect(_show_tutorial, CONNECT_ONE_SHOT)
+	get_tree().create_timer(TUTORIAL_TIMER).timeout.connect(_show_tutorial, CONNECT_ONE_SHOT)
 
 	Game.force_move(text_game.center_segment.start_index, true)
 	Game.ready_to_move.emit()
@@ -61,14 +63,8 @@ func _show_tutorial():
 func _hide_tutorial():
 	if (tutorial == null or tutorial.is_queued_for_deletion()):
 		return
-	var tween = create_tween()
-	tween.tween_property(tutorial, "modulate:a", 0.0, .69)
-	
-	await tween.finished
-
-	if tutorial != null and !tutorial.is_queued_for_deletion():
-		tutorial.stop()
 	text_game.queue_full_refresh()
+	tutorial.stop()
 
 func _move(_prev_pos: int, current_pos: int, direction: Vector2, score_change: int):
 	$Camera/Sounds/Click.play()
