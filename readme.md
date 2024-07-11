@@ -13,7 +13,6 @@ Goal: collect specific words to increase high score
 ## 1.0 roadmap
 
 - Use VisibleOnScreenNotifier2D on the text-segment
-- Check ambiance on horizontal movement
 - Make all ambiance "loopable"
 
 - Attribution
