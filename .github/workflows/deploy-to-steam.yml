@@ -7,32 +7,29 @@ on:
 
 env:
   GODOT_VERSION: 4.2.1
-  EXPORT_NAME: bookworm
+  GAME_NAME: bookworm
+  PROJECT_PATH: "./src/"
 
 jobs:
   export-windows:
-    name: Windows Export
+    name: Export game for Windows
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.2.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4
+      - name: Export
+        id: export
+        uses: bjornarprytz/godot-export@v5.3.0
         with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-      - name: Windows Build
-        run: |
-          mkdir -v -p build/windows
-          godot -v --export "Windows Desktop" build/windows/$EXPORT_NAME.exe
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4.3.5
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/${{env.GODOT_VERSION}}/Godot_v${{env.GODOT_VERSION}}-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/${{env.GODOT_VERSION}}/Godot_v${{env.GODOT_VERSION}}-stable_export_templates.tpz
+          relative_project_path: ${{ env.PROJECT_PATH }}
+          use_preset_export_path: true
+      - name: Upload Web Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: windows
-          path: build/windows
+          name: ${{ env.GAME_NAME }}.${{ github.ref_name }}.windows
+          path: ${{ steps.export.outputs.build_directory }}/Windows Desktop
 
   deployToSteam:
     name: Deploy to Steam
@@ -45,8 +42,10 @@ jobs:
         run: |
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
-      - name: Download Artifact
+      - name: Download Artifact (Windows)
         uses: actions/download-artifact@v4.1.8
+        with:
+          name: ${{ env.GAME_NAME }}.${{ github.ref_name }}.windows
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v3
         with:
