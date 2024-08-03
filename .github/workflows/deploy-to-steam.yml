@@ -2,8 +2,8 @@ name: "godot-ci export"
 on:
   push:
     # Pattern matched against refs/tags
-    tags:        
-      - 'steam-v*'
+    tags:
+      - "steam-v*"
 
 env:
   GODOT_VERSION: 4.2.1
@@ -17,7 +17,7 @@ jobs:
       image: barichello/godot-ci:4.2.1
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v4.1.7
         with:
           lfs: true
       - name: Setup
@@ -29,13 +29,13 @@ jobs:
           mkdir -v -p build/windows
           godot -v --export "Windows Desktop" build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v4.3.5
         with:
           name: windows
           path: build/windows
 
   deployToSteam:
-    name: Deploy to Steam 
+    name: Deploy to Steam
     needs: [export-windows]
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
       - name: Download Artifact
-        uses:  actions/download-artifact@v3.0.0
+        uses: actions/download-artifact@v4.1.8
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v3
         with:
