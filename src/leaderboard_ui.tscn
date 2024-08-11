@@ -83,6 +83,7 @@ layout_mode = 2
 
 [node name="ToggleShowButton" type="Button" parent="VB/Buttons"]
 layout_mode = 2
+tooltip_text = "Leaderboard"
 theme = SubResource("Theme_l6bln")
 theme_override_styles/normal = SubResource("StyleBoxFlat_kj7pc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_scwtm")

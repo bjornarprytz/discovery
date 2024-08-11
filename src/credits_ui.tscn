@@ -53,7 +53,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_pgagx")
 bbcode_enabled = true
-text = "[u]Sound effects[/u]
+text = "[u]Programming[/u]
+- Bjørnar Prytz
+
+[u]Music[/u]
+- Marja Gundersen
+
+[u]Artwork[/u]
+- Mia Karlsen
+
+[u]Sound effects[/u]
 - https://freesound.org
     - Select, Denied 01.wav by MATRIXXX
     - Retro, Coin 06.wav by MATRIXXX

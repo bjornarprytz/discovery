@@ -15,23 +15,6 @@ Goal: collect specific words to increase high score
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
 
-- Attribution
-  - Mia Karlsen
-  - Marja Gundersen
-  - Axel Gundersen
-  - Ola (?)
-
-```text
-[u]Programming[/u]
-- Bjørnar Prytz
-
-[u]Music[/u]
-- Marja Gundersen
-
-[u]Artwork[/u]
-- Mia Karlsen
-```
-
 - Finish TODOs
 - Still support web export
   - Branch, and remove steam references from that version, and update the export templates
@@ -45,9 +28,7 @@ Goal: collect specific words to increase high score
 
 ### Steam integration
 
-- Steam Release preparation
-  - Add `steam_appid.txt`?
-  - Make a deploy pipeline [example](https://github.com/Reneator/github-godot-ci-test/blob/master/.github/workflows/blank.yml)
+- Push tag `steam-v*`
 
 #### Rich Presence
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://8i32brnx6mdq"]
+[gd_scene load_steps=14 format=3 uid="uid://8i32brnx6mdq"]
 
 [ext_resource type="Script" path="res://options.gd" id="1_2oh6v"]
 [ext_resource type="PackedScene" uid="uid://b55yp7h0uty8s" path="res://corpus_ui.tscn" id="2_aa1sk"]
@@ -30,6 +30,13 @@ keycode = 4194319
 
 [sub_resource type="Shortcut" id="Shortcut_64id1"]
 events = [SubResource("InputEventKey_nxacg")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_gdjpl"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_sc23u"]
+events = [SubResource("InputEventKey_gdjpl")]
 
 [node name="Options" type="Node2D"]
 position = Vector2(1, 0)
@@ -82,8 +89,10 @@ offset_left = 8.0
 offset_top = 80.0
 offset_right = 63.0
 offset_bottom = 139.0
+tooltip_text = "Back"
 theme = SubResource("Theme_dp5r6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5gp83")
+shortcut = SubResource("Shortcut_sc23u")
 text = "<<"
 
 [connection signal="pressed" from="CanvasLayer/NextButton" to="." method="_on_next_button_pressed"]
