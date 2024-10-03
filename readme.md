@@ -10,12 +10,29 @@ try to find as many words as possible
 
 Goal: collect specific words to increase high score
 
-## 1.0 roadmap
+## 1.1 roadmap (October Update)
 
+- OnDeadEnd
+  - Stats from the run
+  - Other visual representation of the run
+    - Zoom out to see the path?
+    - See every letter
+    - See the words
+- Add color palettes
+- Add [Gutenberg](https://www.gutenberg.org/) to attribution
+- Add additional texts from [Gutenberg Project](https://www.gutenberg.org/)
+  - Secret Garden
+  - Robinson Crusoe
+  - Peter Pan
+  - Possibly new ambience
+- 
+
+### Nice to have
+
+- Ingest custom texts
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
 
-- Finish TODOs
 - Still support web export
   - Branch, and remove steam references from that version, and update the export templates
   - Add steam link
@@ -24,11 +41,17 @@ Goal: collect specific words to increase high score
 
 ### Feedback
 
+- More rewards for progression
+  - Do something more with the chapters
+- More game modes
+
 ### Optimization
 
 ### Steam integration
 
 - Push tag `steam-v*`
+- Move the release branch up to default
+  - TODO: Figure out if I can deploy to 'default' branch directly
 
 #### Rich Presence
 
@@ -43,6 +66,8 @@ Goal: collect specific words to increase high score
 - Chapter transition
 - MacOS support?
 
+### Add
+
 ## Tools & Resources
 
 - Godot
@@ -55,7 +80,8 @@ Goal: collect specific words to increase high score
     - Retro, Explosion 07.wav by MATRIXXX_ -- https://freesound.org/s/521105/ -- License: Creative Commons 0
     - Diamond Click.wav by MATRIXXX_ -- https://freesound.org/s/703884/ -- License: Creative Commons 0
     - Coin Pickup.mp3 by Phenala -- https://freesound.org/s/478647/ -- License: Creative Commons 0
-    
+
+
 - [Google fonts](https://fonts.google.com/)
   - [VT323](https://fonts.google.com/specimen/VT323)
 - [fontspace.com](https://www.fontspace.com/)

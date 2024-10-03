@@ -9,15 +9,6 @@
 default_font = ExtResource("3_kuwja")
 default_font_size = 24
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kj7pc"]
-bg_color = Color(0.445639, 0.35142, 0.7783, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-shadow_size = 3
-shadow_offset = Vector2(5, 5)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_scwtm"]
 bg_color = Color(0.561846, 0.491619, 0.879667, 1)
 corner_radius_top_left = 4
@@ -27,8 +18,8 @@ corner_radius_bottom_left = 4
 shadow_size = 3
 shadow_offset = Vector2(5, 5)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amk3f"]
-bg_color = Color(0.369549, 0.554935, 0.865485, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kj7pc"]
+bg_color = Color(0.445639, 0.35142, 0.7783, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -53,6 +44,15 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 shadow_size = 3
 shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amk3f"]
+bg_color = Color(0.369549, 0.554935, 0.865485, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 3
+shadow_offset = Vector2(5, 5)
 
 [sub_resource type="Theme" id="Theme_4xcu7"]
 default_font = ExtResource("3_kuwja")
@@ -85,9 +85,9 @@ layout_mode = 2
 layout_mode = 2
 tooltip_text = "Leaderboard"
 theme = SubResource("Theme_l6bln")
-theme_override_styles/normal = SubResource("StyleBoxFlat_kj7pc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_scwtm")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_kj7pc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_kj7pc")
 text = "   "
 
 [node name="Trophy" type="TextureRect" parent="VB/Buttons/ToggleShowButton"]
@@ -111,9 +111,9 @@ stretch_mode = 4
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_amk3f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_nmj7e")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wcl5r")
+theme_override_styles/normal = SubResource("StyleBoxFlat_amk3f")
 
 [node name="Label" type="RichTextLabel" parent="VB/Buttons/ScopeButton"]
 modulate = Color(0.179382, 0.184912, 0.185655, 1)

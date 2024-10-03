@@ -91,4 +91,3 @@ func _on_toggle_show_button_pressed() -> void:
 	toggle_show_button.text = toggle_button_text
 	
 	toggle_show.emit(!is_hidden)
-

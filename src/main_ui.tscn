@@ -40,10 +40,6 @@ expand_margin_right = 10.0
 default_font = ExtResource("4_7vtqu")
 default_font_size = 32
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dfhdi"]
-texture = ExtResource("5_de3f0")
-modulate_color = Color(0.716296, 0.716296, 0.716296, 1)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_07gt5"]
 texture = ExtResource("5_de3f0")
 
@@ -51,8 +47,8 @@ texture = ExtResource("5_de3f0")
 texture = ExtResource("5_de3f0")
 modulate_color = Color(0.505344, 0.505344, 0.505344, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hteoj"]
-texture = ExtResource("6_xeavy")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dfhdi"]
+texture = ExtResource("5_de3f0")
 modulate_color = Color(0.716296, 0.716296, 0.716296, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ix1u7"]
@@ -61,6 +57,10 @@ texture = ExtResource("6_xeavy")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lb43e"]
 texture = ExtResource("6_xeavy")
 modulate_color = Color(0.505344, 0.505344, 0.505344, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hteoj"]
+texture = ExtResource("6_xeavy")
+modulate_color = Color(0.716296, 0.716296, 0.716296, 1)
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_r4clx")
@@ -221,9 +221,9 @@ offset_top = 10.0
 offset_right = 1142.0
 offset_bottom = 42.0
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_dfhdi")
 theme_override_styles/hover = SubResource("StyleBoxTexture_07gt5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_d6sc2")
+theme_override_styles/normal = SubResource("StyleBoxTexture_dfhdi")
 
 [node name="MuteOn" type="Button" parent="Menu"]
 visible = false
@@ -233,9 +233,9 @@ offset_top = 10.0
 offset_right = 1142.0
 offset_bottom = 42.0
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_hteoj")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ix1u7")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_lb43e")
+theme_override_styles/normal = SubResource("StyleBoxTexture_hteoj")
 
 [connection signal="pressed" from="Menu/MuteOff" to="." method="_on_mute_off_pressed"]
 [connection signal="pressed" from="Menu/MuteOn" to="." method="_on_mute_on_pressed"]
