@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://7st6luypoimd"]
+
+[ext_resource type="Script" path="res://autoload/refs.gd" id="1_e08ly"]
+
+[node name="Refs" type="Node"]
+script = ExtResource("1_e08ly")
+background_color = Color(0.0235294, 0.0235294, 0.215686, 1)

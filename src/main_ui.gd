@@ -82,9 +82,9 @@ func _on_golden_changed(is_golden: bool):
 	var ui_color: Color
 
 	if (is_golden):
-		ui_color = Game.QUEST_COLOR
+		ui_color = Refs.quest_color
 	else:
-		ui_color = Game.INERT_COLOR
+		ui_color = Refs.inert_color
 
 	ui.color = ui_color
 	multiplier_label.self_modulate = ui_color

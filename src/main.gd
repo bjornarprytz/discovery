@@ -103,7 +103,7 @@ func _game_over(_stats: Game.Stats):
 	$Camera/Sounds/Finished.play()
 	game_over = true
 	game_over_label.show()
-	game_over_label.modulate = Color(1, 1, 1, 0)
+	game_over_label.modulate.a = 0.0
 	Engine.time_scale = 0.5
 	camera_tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
 	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * 10.0, 1.8)
