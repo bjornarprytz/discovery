@@ -94,7 +94,7 @@ class Chapter:
 			if length == 0:
 				push_error("Cannot set start_index before setting length")
 
-			if start_index == - 1:
+			if start_index == -1:
 				start_index = value
 				_end_index = start_index + length
 			else:
@@ -141,11 +141,14 @@ class WordData:
 	var start_idx: int
 	var states: Array[CharState] = []
 
+	func is_quest():
+		return states.size() > 0 and states[0].quest
+
 	func is_completed():
 		if states.size() == 0:
 			return false
 		var each_character_visited = states.all(func(s: CharState) -> bool:
-			return s.visited or s.quest
+			return s.visited or s.quest or s.cursor
 		)
 		
 		return each_character_visited
@@ -215,7 +218,7 @@ func longest_word_length():
 func get_words() -> Array[String]:
 	return corpus.words
 
-func load_corpus(text: String="", save: bool=true):
+func load_corpus(text: String = "", save: bool = true):
 	assert(segment_width <= corpus_line_length)
 	assert(segment_height > 0)
 	assert(segment_width > 0)

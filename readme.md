@@ -10,6 +10,27 @@ try to find as many words as possible
 
 Goal: collect specific words to increase high score
 
+## Short term implementation
+
+- Add Color Palettes
+  - Apply it across the game
+    - Save choice
+  - UI for selecting palette
+  - Esc Menu + Settings
+    - Options:
+      - Maybe 3-4 predefined, and one custom
+      - Save palette
+
+- Add Extra Texts
+  - Create a simple format
+    - `# Chapter`
+  - Import from file
+
+- OnDeadEnd
+  - Show run Stats
+  - Zoom Out
+    - Add additional segments as needed in order to see the whole path
+
 ## 1.1 roadmap (October Update)
 
 - OnDeadEnd
@@ -25,7 +46,14 @@ Goal: collect specific words to increase high score
   - Robinson Crusoe
   - Peter Pan
   - Possibly new ambience
-- 
+  - How does this affect the leaderboard?
+    - Maybe one per official text?
+- New Game Mode: Vertical Limit
+  - Limited number of vertical moves
+  - New Lose condition: running out of vertical moves
+  - Get additional moves when completing a word (depending on length?)
+- OnNewQuest
+  - Highlight the quest words more?
 
 ### Nice to have
 

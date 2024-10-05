@@ -1,8 +1,8 @@
 extends Node2D
 
-@onready var score_scene = preload ("res://score.tscn")
-@onready var flair = preload ("res://fx/flair.tscn")
-@onready var tutorial_spawner = preload ("res://tutorial.tscn")
+@onready var score_scene = preload("res://score.tscn")
+@onready var flair = preload("res://fx/flair.tscn")
+@onready var tutorial_spawner = preload("res://tutorial.tscn")
 @onready var cam: Camera2D = $Camera
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
@@ -99,7 +99,7 @@ func _flair(amount: int):
 	await get_tree().create_timer(f.lifetime).timeout
 	f.queue_free()
 
-func _game_over(_score: int):
+func _game_over(_stats: Game.Stats):
 	$Camera/Sounds/Finished.play()
 	game_over = true
 	game_over_label.show()
