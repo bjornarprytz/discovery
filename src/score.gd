@@ -12,7 +12,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	menu.start("Retry Quit Secret", false)
+	menu.start(CorpusClass.FullText.new("ScoreScreen", [CorpusClass.Chapter.new(0, "ScoreScreen", "Retry Quit Secret")]), false)
 	
 	var current_highscore = _load_highscore()
 	
@@ -69,7 +69,7 @@ func _save_highscore(score_value: int):
 	save.close()
 
 func _retry():
-	Game.start()
+	Game.start(Corpus.main_corpus)
 	get_tree().change_scene_to_file("res://main.tscn")
 
 func _settings():
@@ -92,7 +92,7 @@ func _on_leaderboard_toggle_show(show_leaderboard: bool) -> void:
 	
 	var target_width: float
 	if show_leaderboard:
-		target_width = base_container_width -leaderboard.size.x
+		target_width = base_container_width - leaderboard.size.x
 	else:
 		target_width = base_container_width
 	

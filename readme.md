@@ -13,16 +13,7 @@ Goal: collect specific words to increase high score
 ## Short term implementation
 
 - Add Color Palettes
-  - Create two extra palettes
-  - UI for selecting palette
-    - Esc Menu + Settings
-      - Select between the three different palettes (1 default, + 2 extra)
-
-- Add Extra Texts
-  - Create a simple format
-    - `# ChapterTitle` '\n'
-    - ChapterText
-  - Import from file
+  - Change palette in settings
 
 - OnDeadEnd
   - Show run Stats
@@ -31,7 +22,7 @@ Goal: collect specific words to increase high score
 
 - Save User Settings
   - Color Palette
-  - Chosen text
+  - Chosen corpus
   - Run stats history ?
 
 ## 1.1 roadmap (October Update)

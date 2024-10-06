@@ -10,6 +10,7 @@ const segment_width: int = 48
 const segment_height: int = 12
 
 class FullText: # This should probably be called Corpus
+	var title: String
 	var chapters: Array[Chapter]
 	var full_length: int
 	var longest_word_length: int = 0
@@ -18,7 +19,8 @@ class FullText: # This should probably be called Corpus
 
 	var words: Array[String] = []
 
-	func _init(chapters_: Array[Chapter]):
+	func _init(title_: String, chapters_: Array[Chapter]):
+		title = title_
 		chapters = chapters_
 		full_length = 0
 		for chapter in chapters:
@@ -218,16 +220,16 @@ func longest_word_length():
 func get_words() -> Array[String]:
 	return corpus.words
 
-func load_corpus(text: String = "", save: bool = true):
+func load_corpus(text: FullText, save: bool = true):
 	assert(segment_width <= corpus_line_length)
 	assert(segment_height > 0)
 	assert(segment_width > 0)
 	
-	if (text.length() > 0):
-		corpus = FullText.new([Chapter.new(0, "CustomCorpus", text)])
-	else:
-		corpus = AlicesAdventuresInWonderland.create_corpus()
-	
+	if (text == null):
+		text = AlicesAdventuresInWonderland.create_corpus() # Default to Alice's Adventures in Wonderland
+
+	corpus = text
+
 	if (save):
 		main_corpus = corpus # Store it for later
 	

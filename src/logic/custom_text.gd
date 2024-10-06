@@ -1,7 +1,7 @@
 extends Node2D
 class_name ScoreTextGame
 
-@onready var segment_spawner = preload ("res://logic/text-segment.tscn")
+@onready var segment_spawner = preload("res://logic/text-segment.tscn")
 @onready var LINE_LENGTH: int = Corpus.corpus_line_length
 @onready var SEGMENT_HEIGHT: int = Corpus.segment_height * Corpus.corpus_line_length
 @onready var SEGMENT_WIDTH: int = Corpus.segment_width
@@ -25,7 +25,7 @@ class MoveCandidate:
 		state = Corpus.get_state(target_idx)
 		step = step_
 
-func start(corpus: String, save: bool=true) -> void:
+func start(corpus: CorpusClass.FullText, save: bool = true) -> void:
 	Corpus.load_corpus(corpus, save)
 
 	var segment = segment_spawner.instantiate() as TextSegment

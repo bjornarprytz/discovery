@@ -101,7 +101,7 @@ class MoveCandidate:
 		state = Corpus.get_state(target_idx)
 		direction = direction_
 
-func start(corpus: String = ""):
+func start(corpus: CorpusClass.FullText):
 	is_golden = true
 	score = 0
 	quest_duration = 0
@@ -151,7 +151,7 @@ func force_move(target_pos: int, first_move: bool):
 	Game.moved.emit(prev_pos, current_pos, Vector2.ZERO, score_change)
 
 func _ready() -> void:
-	start()
+	start(Corpus.main_corpus)
 	Game.completed_word.connect(_on_word_complete)
 
 func _reset_word_state():

@@ -37,7 +37,7 @@ func _load_corpus():
 	timer.stop()
 	var text_without_tags = sanitize_regex.sub(corpus_input.text, "", true)
 	
-	Game.start(text_without_tags)
+	Game.start(CorpusClass.FullText.new("CustomCorpus", [CorpusClass.Chapter.new(0, "CustomCorpus", text_without_tags)]))
 	
 	go_time.visible = true
 	_valid_corpus = true
@@ -61,12 +61,12 @@ func _input(event: InputEvent) -> void:
 	if (key == "Tab"):
 		corpus_input.release_focus()
 	
-	if (!_valid_corpus||!go_time.visible||key != "Enter"):
+	if (!_valid_corpus || !go_time.visible || key != "Enter"):
 		return
 	
 	if (event.is_pressed()):
 		corpus_input.release_focus()
-		go.position += Vector2(randf_range( - SHAKE_MAGNITUDE, SHAKE_MAGNITUDE), randf_range( - SHAKE_MAGNITUDE, SHAKE_MAGNITUDE))
+		go.position += Vector2(randf_range(-SHAKE_MAGNITUDE, SHAKE_MAGNITUDE), randf_range(-SHAKE_MAGNITUDE, SHAKE_MAGNITUDE))
 	else:
 		go.visible = false
 		go_boom.position = go.position
@@ -83,3 +83,11 @@ func set_loading(state: bool):
 		loading.append_text("[wave amp=69].............................................................")
 	else:
 		loading.append_text(".............................................................")
+
+
+func _on_alice_button_pressed() -> void:
+	Corpus.load_corpus(AlicesAdventuresInWonderland.create_corpus(), true)
+
+
+func _on_peter_pan_button_pressed() -> void:
+	Corpus.load_corpus(PeterPan.create_corpus(), true)
