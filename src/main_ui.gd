@@ -30,6 +30,7 @@ func _ready() -> void:
 	_on_mute_toggled(Game.is_muted)
 
 	Refs.palette_changed.connect(_on_palette_changed)
+	_on_palette_changed()
 	
 
 func set_show_menu(show_ui: bool) -> void:

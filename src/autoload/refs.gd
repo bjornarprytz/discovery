@@ -28,9 +28,17 @@ func palette_1() -> void:
 		Color.from_string("565554", Color.WEB_PURPLE), # Gray
 		)
 
-var palette_2_main_color = Color.from_string("060637", Color.PURPLE)
+var palette_2_main_color = Color.from_string("1B768A", Color.SEA_GREEN) # Robinson Crusoe Teal
 func palette_2() -> void:
-	set_palette(Color.from_string("060637", Color.PURPLE), Color.from_string("007c5f", Color.SEA_GREEN), Color.WHITE, Color.GOLDENROD, Color.CRIMSON, Color.AQUAMARINE, Color.DIM_GRAY)
+	set_palette(
+		Color.from_string("3E3019", Color.PURPLE), # Brown
+		Color.from_string("007c5f", Color.SEA_GREEN), # Teal
+		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
+		Color.from_string("1B768A", Color.SEA_GREEN), # Robinson Crusoe Teal
+		Color.from_string("b33001", Color.SEA_GREEN), # Rust
+		Color.from_string("b06d08", Color.SEA_GREEN), # Orange
+		Color.from_string("565554", Color.SEA_GREEN), # Gray
+		)
 
 func set_palette(
 	bg: Color = Color.from_string("060637", Color.PURPLE),
