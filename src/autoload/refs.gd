@@ -17,6 +17,7 @@ func set_palette(bg: Color = Color.from_string("060637", Color.PURPLE), txt: Col
 	error_color = err
 	mark_color = mrk
 	inert_color = inr
+	
 	palette_changed.emit()
 
 var flip_flop: bool = false
@@ -27,4 +28,4 @@ func _input(event: InputEvent) -> void:
 		if flip_flop:
 			set_palette(Color.from_string("060637", Color.PURPLE), Color.WHITE, Color.GOLDENROD, Color.CRIMSON, Color.AQUAMARINE, Color.DIM_GRAY)
 		else:
-			set_palette(Color.PURPLE, Color.BLACK, Color.BEIGE, Color.GREEN, Color.RED, Color.YELLOW)
+			set_palette(Color.PINK, Color.BLACK, Color.BEIGE, Color.GREEN, Color.RED, Color.YELLOW)

@@ -1,7 +1,9 @@
 extends RichTextLabel
 class_name TextSegment
 
+@onready var background: ColorRect = $Background
 @onready var ambiance: AudioStreamPlayer2D = $Ambiance
+
 var start_index: int
 
 var dirty: bool = true
@@ -16,6 +18,7 @@ func _ready():
 	_on_mute_toggled(Game.is_muted)
 	_fade_in_volume()
 	Refs.palette_changed.connect(refresh.bind(true))
+	background.color = Refs.background_color
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
@@ -41,6 +44,9 @@ func refresh(force: bool = false) -> void:
 	for line in range(Corpus.segment_height):
 		_append_line(start_index + (line * Corpus.corpus_line_length))
 	
+	if background != null:
+		background.color = Refs.background_color
+	add_theme_color_override("default_color", Refs.text_color)
 	dirty = false
 
 func _append_line(idx: int) -> void:
