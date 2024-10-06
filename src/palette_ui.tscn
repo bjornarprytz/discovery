@@ -1,0 +1,81 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqojxtpm0nf36"]
+
+[ext_resource type="Script" path="res://palette_ui.gd" id="1_6v6y3"]
+[ext_resource type="Texture2D" uid="uid://l1havtlaoqvw" path="res://assets/palette.png" id="1_gsn5j"]
+[ext_resource type="Texture2D" uid="uid://r2d4bo3ywynd" path="res://assets/palette-clicked.png" id="2_qh4yu"]
+[ext_resource type="Texture2D" uid="uid://bnjfdwy3orx0q" path="res://assets/palette-hover.png" id="3_jj22s"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nb7qy"]
+
+[node name="PaletteUI" type="PanelContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nb7qy")
+script = ExtResource("1_6v6y3")
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DefaultPalette" type="MarginContainer" parent="Buttons"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CenterContainer" type="CenterContainer" parent="Buttons/DefaultPalette"]
+layout_mode = 2
+
+[node name="Button" type="TextureButton" parent="Buttons/DefaultPalette/CenterContainer"]
+modulate = Color(0.854902, 0.647059, 0.223529, 1)
+texture_filter = 3
+layout_mode = 2
+texture_normal = ExtResource("1_gsn5j")
+texture_pressed = ExtResource("2_qh4yu")
+texture_hover = ExtResource("3_jj22s")
+
+[node name="Palette1" type="MarginContainer" parent="Buttons"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CenterContainer" type="CenterContainer" parent="Buttons/Palette1"]
+layout_mode = 2
+
+[node name="Button" type="TextureButton" parent="Buttons/Palette1/CenterContainer"]
+modulate = Color(0.854902, 0.647059, 0.223529, 1)
+texture_filter = 3
+layout_mode = 2
+texture_normal = ExtResource("1_gsn5j")
+texture_pressed = ExtResource("2_qh4yu")
+texture_hover = ExtResource("3_jj22s")
+
+[node name="Palette2" type="MarginContainer" parent="Buttons"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CenterContainer" type="CenterContainer" parent="Buttons/Palette2"]
+layout_mode = 2
+
+[node name="Button" type="TextureButton" parent="Buttons/Palette2/CenterContainer"]
+modulate = Color(0.854902, 0.647059, 0.223529, 1)
+texture_filter = 3
+layout_mode = 2
+texture_normal = ExtResource("1_gsn5j")
+texture_pressed = ExtResource("2_qh4yu")
+texture_hover = ExtResource("3_jj22s")
+
+[connection signal="pressed" from="Buttons/DefaultPalette/CenterContainer/Button" to="." method="_on_button_pressed" binds= [0]]
+[connection signal="pressed" from="Buttons/Palette1/CenterContainer/Button" to="." method="_on_button_pressed" binds= [1]]
+[connection signal="pressed" from="Buttons/Palette2/CenterContainer/Button" to="." method="_on_button_pressed" binds= [2]]

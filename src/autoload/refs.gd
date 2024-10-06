@@ -12,6 +12,26 @@ signal palette_changed()
 @export var inert_color: Color = Color.DIM_GRAY
 
 
+var default_main_color = Color.GOLDENROD
+func default_palette() -> void:
+	set_palette()
+
+var palette_1_main_color: Color = Color.from_string("0b6a26", Color.WEB_PURPLE) # Peter pan green
+func palette_1() -> void:
+	set_palette(
+		Color.from_string("33223D", Color.WEB_PURPLE), # Dark purple
+		Color.from_string("5FE193", Color.WEB_PURPLE), # Light green
+		Color.from_string("f6f5ae", Color.WEB_PURPLE), # Light yellow
+		Color.from_string("0b6a26", Color.WEB_PURPLE), # Peter pan green
+		Color.from_string("f2013c", Color.WEB_PURPLE), # Red
+		Color.from_string("50BAFC", Color.WEB_PURPLE), # Blue
+		Color.from_string("565554", Color.WEB_PURPLE), # Gray
+		)
+
+var palette_2_main_color = Color.from_string("060637", Color.PURPLE)
+func palette_2() -> void:
+	set_palette(Color.from_string("060637", Color.PURPLE), Color.from_string("007c5f", Color.SEA_GREEN), Color.WHITE, Color.GOLDENROD, Color.CRIMSON, Color.AQUAMARINE, Color.DIM_GRAY)
+
 func set_palette(
 	bg: Color = Color.from_string("060637", Color.PURPLE),
 	tut: Color = Color.from_string("007c5f", Color.SEA_GREEN),
