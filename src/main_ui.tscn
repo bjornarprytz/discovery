@@ -190,9 +190,10 @@ offset_top = 220.0
 offset_right = 664.0
 offset_bottom = 259.0
 theme = SubResource("Theme_n3kyf")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_rj116")
 bbcode_enabled = true
-text = "[center][color=black]Chapter"
+text = "[center]Chapter"
 scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
@@ -208,9 +209,10 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_f2kwe")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_rj116")
 bbcode_enabled = true
-text = "[center][color=black]The Rabbit Sends in a Little Bill"
+text = "[center]The Rabbit Sends in a Little Bill"
 scroll_active = false
 shortcut_keys_enabled = false
 

@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var mute_off: Button = $Menu/MuteOff
 @onready var mute_on: Button = $Menu/MuteOn
 @onready var chapter_title: RichTextLabel = $Menu/ChapterTitle
+@onready var chapter_header: RichTextLabel = $Menu/ChapterHeader
 @onready var score_board: RichTextLabel = $Border/QuestBar/Score
 @onready var target_ui: RichTextLabel = $Border/QuestBar/TargetWord
 @onready var quest_duration_label: RichTextLabel = $Border/QuestBar/QuestDuration
@@ -28,6 +29,9 @@ func _ready() -> void:
 	Game.mute_toggled.connect(_on_mute_toggled)
 	_on_mute_toggled(Game.is_muted)
 
+	Refs.palette_changed.connect(_on_palette_changed)
+	
+
 func set_show_menu(show_ui: bool) -> void:
 	var toggle_tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
 	if (show_ui):
@@ -41,10 +45,32 @@ func set_show_menu(show_ui: bool) -> void:
 		await toggle_tween.finished
 		menu.hide()
 
+func _on_palette_changed():
+	_on_golden_changed(Game.is_golden)
+	target_ui.self_modulate = Refs.quest_color
+	sheen.color = Refs.mark_color
+	score_board.self_modulate = Refs.quest_color
+	quest_duration_label.self_modulate = Refs.inert_color
+	next_quest_duration_label.self_modulate = Refs.inert_color
+	_update_chapter_font_color()
+
+func _update_chapter_font_color():
+	var contrast_color = Utils.get_contrast_color(Refs.quest_color)
+
+	chapter_title.add_theme_color_override("font_color", contrast_color)
+	var title_style = chapter_title.get_theme_stylebox("normal") as StyleBoxFlat
+	title_style.bg_color = Refs.quest_color
+	title_style.border_color = contrast_color
+	
+	chapter_header.add_theme_color_override("font_color", contrast_color)
+	var header_style = chapter_header.get_theme_stylebox("normal") as StyleBoxFlat
+	header_style.bg_color = Refs.quest_color
+	header_style.border_color = contrast_color
+
 func _on_new_chapter(chapter: CorpusClass.Chapter):
+	_update_chapter_font_color()
 	chapter_title.clear()
 	chapter_title.append_text("[center]")
-	chapter_title.push_color(Color.BLACK)
 	chapter_title.append_text(chapter.title)
 
 func _on_quest_duration_tick(duration: int, cap: int):

@@ -13,8 +13,6 @@ Goal: collect specific words to increase high score
 ## Short term implementation
 
 - Add Color Palettes
-  - Apply it across the game
-    - UI
   - Create two extra palettes
   - UI for selecting palette
     - Esc Menu + Settings
