@@ -14,22 +14,27 @@ Goal: collect specific words to increase high score
 
 - Add Color Palettes
   - Apply it across the game
-    - Save choice
+    - UI
+  - Create two extra palettes
   - UI for selecting palette
-  - Esc Menu + Settings
-    - Options:
-      - Maybe 3-4 predefined, and one custom
-      - Save palette
+    - Esc Menu + Settings
+      - Select between the three different palettes (1 default, + 2 extra)
 
 - Add Extra Texts
   - Create a simple format
-    - `# Chapter`
+    - `# ChapterTitle` '\n'
+    - ChapterText
   - Import from file
 
 - OnDeadEnd
   - Show run Stats
   - Zoom Out
     - Add additional segments as needed in order to see the whole path
+
+- Save User Settings
+  - Color Palette
+  - Chosen text
+  - Run stats history ?
 
 ## 1.1 roadmap (October Update)
 

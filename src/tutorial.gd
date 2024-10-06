@@ -7,7 +7,22 @@ var _highlighted_moves: Array[GameClass.MoveCandidate] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	label.text = "Use your keyboard to navigate. Available moves: "
+	Refs.palette_changed.connect(_update_colors)
+	_update_colors()
+	
+
+func _update_colors():
+	var style = get_theme_stylebox("panel") as StyleBoxFlat
+	if style != null:
+		style.bg_color = Refs.tutorial_color
+		style.border_color = Refs.inert_color
+	_update_label()
+
+func _update_label():
+	_highlighted_moves.clear()
+	label.clear()
+	label.add_theme_color_override("default_color", Refs.text_color)
+	label.append_text("Use your keyboard to navigate. Available moves: ")
 	
 	var valid_candidates = {}
 	for move in [Game.up, Game.right, Game.down, Game.left]:
@@ -32,12 +47,12 @@ func _ready() -> void:
 			label.append_text(", ")
 		move.state.highlight = true
 		_highlighted_moves.push_back(move)
-		label.push_bgcolor(Color.BLACK)
+		label.push_bgcolor(Utils.get_contrast_color(Refs.text_color))
 		label.append_text(move.character.to_upper())
 		label.pop()
 		i += 1
 
-	if _highlighted_moves.size() == 0:
+	if _highlighted_moves.is_empty():
 		label.text = "Oops! No moves available. Press any key to restart."
 		return
 

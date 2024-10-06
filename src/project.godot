@@ -19,6 +19,7 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
+Utils="*res://autoload/utils.gd"
 Refs="*res://autoload/refs.tscn"
 Corpus="*res://autoload/corpus.tscn"
 Game="*res://autoload/game.tscn"
