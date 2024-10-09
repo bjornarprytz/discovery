@@ -35,6 +35,7 @@ func _ready() -> void:
 
 	Game.force_move(text_game.center_segment.start_index, true)
 	Game.ready_to_move.emit()
+	Game.new_corpus.emit(Corpus.main_corpus)
 
 	_fade_in()
 

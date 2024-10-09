@@ -91,3 +91,7 @@ func _on_alice_button_pressed() -> void:
 
 func _on_peter_pan_button_pressed() -> void:
 	Corpus.load_corpus(PeterPan.create_corpus(), true)
+
+
+func _on_oz_button_pressed() -> void:
+	Corpus.load_corpus(TheWonderfulWizardOfOz.create_corpus(), true)

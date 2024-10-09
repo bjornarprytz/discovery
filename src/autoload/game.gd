@@ -10,6 +10,7 @@ signal completed_word(word: String, was_quest: bool)
 signal new_quest(word: String)
 signal golden_changed(is_golden: bool)
 signal game_over(stats: Stats)
+signal new_corpus(corpus: CorpusClass.FullText)
 signal new_chapter(chapter: CorpusClass.Chapter)
 signal mute_toggled(muted: bool)
 

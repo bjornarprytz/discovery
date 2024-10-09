@@ -3,6 +3,7 @@ extends Node
 signal palette_changed()
 
 @export var background_color: Color = Color.from_string("060637", Color.PURPLE)
+@export var background_accent_color: Color = Color.from_string("1c1c86", Color.PURPLE)
 @export var tutorial_color: Color = Color.from_string("007c5f", Color.SEA_GREEN)
 @export var text_color: Color = Color.WHITE
 @export var text_contrast_color: Color = Color.BLACK
@@ -20,6 +21,7 @@ var palette_1_main_color: Color = Color.from_string("0b6a26", Color.WEB_PURPLE) 
 func palette_peter_pan() -> void:
 	set_palette(
 		Color.from_string("33223D", Color.WEB_PURPLE), # Dark purple
+		Color.from_string("8E3DBD", Color.WEB_PURPLE), # Purple
 		Color.from_string("5FE193", Color.WEB_PURPLE), # Light green
 		Color.from_string("f6f5ae", Color.WEB_PURPLE), # Light yellow
 		Color.from_string("0b6a26", Color.WEB_PURPLE), # Peter pan green
@@ -32,6 +34,7 @@ var palette_2_main_color = Color.from_string("1B768A", Color.SEA_GREEN) # Robins
 func palette_robinson() -> void:
 	set_palette(
 		Color.from_string("3E3019", Color.PURPLE), # Brown
+		Color.from_string("604C2A", Color.PURPLE), # Lighter Brown
 		Color.from_string("007c5f", Color.SEA_GREEN), # Teal
 		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
 		Color.from_string("1B768A", Color.SEA_GREEN), # Robinson Crusoe Teal
@@ -45,16 +48,18 @@ var palette_oz_main_color = Color.from_string("4ea6f1", Color.PURPLE) # Blue
 func palette_oz() -> void:
 	set_palette(
 		Color.from_string("4ea6f1", Color.PURPLE), # Blue
+		Color.from_string("1391FF", Color.PURPLE), # Darker Blue
 		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
 		Color.WHITE,
 		Color.from_string("156E23", Color.PURPLE), # Green
 		Color.from_string("0b0706", Color.PURPLE), # Black
 		Color.from_string("fee624", Color.PURPLE), # Yellow Brick Road
-		Color.from_string("565554", Color.SEA_GREEN), # Gray
+		Color.from_string("A5A3A0", Color.SEA_GREEN), # Gray
 		)
 
 func set_palette(
 	bg: Color = Color.from_string("060637", Color.PURPLE),
+	bg_acc: Color = Color.from_string("1c1c86", Color.PURPLE),
 	tut: Color = Color.from_string("007c5f", Color.SEA_GREEN),
 	txt: Color = Color.WHITE,
 	qst: Color = Color.GOLDENROD,
@@ -63,6 +68,7 @@ func set_palette(
 	inr: Color = Color.DIM_GRAY
 	) -> void:
 	background_color = bg
+	background_accent_color = bg_acc
 	tutorial_color = tut
 	text_color = txt
 	text_contrast_color = Utils.get_contrast_color(txt)

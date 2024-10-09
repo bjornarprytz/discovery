@@ -12,9 +12,6 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
-- UI
-  - EscMenu: Add Corpus Title
-
 - Add Color Palettes
   - Change palette in settings
 
@@ -23,10 +20,13 @@ Goal: collect specific words to increase high score
   - Zoom Out
     - Add additional segments as needed in order to see the whole path
 
+- QoL
+  - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
+
 - Save User Settings
   - Color Palette
   - Chosen corpus
-  - First run ?
+  - First run (in order to show main menu only if they've played before)
   - Run stats history ?
 
 ## 1.1 roadmap (October Update)

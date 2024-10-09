@@ -164,5 +164,10 @@ text = "Alice's Adventures in Wonderland"
 layout_mode = 2
 text = "Peter pan"
 
+[node name="OzButton" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "The Wonderful Wizard of Oz"
+
 [connection signal="pressed" from="PanelContainer/VBoxContainer/AliceButton" to="." method="_on_alice_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/PeterPanButton" to="." method="_on_peter_pan_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/OzButton" to="." method="_on_oz_button_pressed"]
