@@ -17,7 +17,7 @@ func default_palette() -> void:
 	set_palette()
 
 var palette_1_main_color: Color = Color.from_string("0b6a26", Color.WEB_PURPLE) # Peter pan green
-func palette_1() -> void:
+func palette_peter_pan() -> void:
 	set_palette(
 		Color.from_string("33223D", Color.WEB_PURPLE), # Dark purple
 		Color.from_string("5FE193", Color.WEB_PURPLE), # Light green
@@ -29,7 +29,7 @@ func palette_1() -> void:
 		)
 
 var palette_2_main_color = Color.from_string("1B768A", Color.SEA_GREEN) # Robinson Crusoe Teal
-func palette_2() -> void:
+func palette_robinson() -> void:
 	set_palette(
 		Color.from_string("3E3019", Color.PURPLE), # Brown
 		Color.from_string("007c5f", Color.SEA_GREEN), # Teal
@@ -37,6 +37,19 @@ func palette_2() -> void:
 		Color.from_string("1B768A", Color.SEA_GREEN), # Robinson Crusoe Teal
 		Color.from_string("b33001", Color.SEA_GREEN), # Rust
 		Color.from_string("b06d08", Color.SEA_GREEN), # Orange
+		Color.from_string("565554", Color.SEA_GREEN), # Gray
+		)
+
+
+var palette_oz_main_color = Color.from_string("4ea6f1", Color.PURPLE) # Blue
+func palette_oz() -> void:
+	set_palette(
+		Color.from_string("4ea6f1", Color.PURPLE), # Blue
+		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
+		Color.WHITE,
+		Color.from_string("156E23", Color.PURPLE), # Green
+		Color.from_string("0b0706", Color.PURPLE), # Black
+		Color.from_string("fee624", Color.PURPLE), # Yellow Brick Road
 		Color.from_string("565554", Color.SEA_GREEN), # Gray
 		)
 

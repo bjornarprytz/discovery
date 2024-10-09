@@ -10,7 +10,7 @@ extends Node2D
 
 @onready var text_game: TextGame = $Text
 
-const TUTORIAL_TIMER = 10.0
+const TUTORIAL_TIMER = 6.9
 
 var camera_tween: Tween
 var tutorial: TutorialUI

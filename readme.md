@@ -26,25 +26,26 @@ Goal: collect specific words to increase high score
 - Save User Settings
   - Color Palette
   - Chosen corpus
+  - First run ?
   - Run stats history ?
 
 ## 1.1 roadmap (October Update)
 
+- Add main menu (after the player has done their first run)
+  - Set seed
+  - Choose corpus
 - OnDeadEnd
   - Stats from the run
   - Other visual representation of the run
     - Zoom out to see the path?
     - See every letter
     - See the words
-- Add color palettes
-- Add [Gutenberg](https://www.gutenberg.org/) to attribution
-- Add additional texts from [Gutenberg Project](https://www.gutenberg.org/)
-  - Secret Garden
-  - Robinson Crusoe
-  - Peter Pan
-  - Possibly new ambience
+  - Get seed
+- New ambience
+  - Group into themed ambiance
+- Extra Corpus
   - How does this affect the leaderboard?
-    - Maybe one per official text?
+  - Maybe one per official text?
 - New Game Mode: Vertical Limit
   - Limited number of vertical moves
   - New Lose condition: running out of vertical moves
