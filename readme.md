@@ -12,6 +12,9 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
+- UI
+  - EscMenu: Add Corpus Title
+
 - Add Color Palettes
   - Change palette in settings
 
