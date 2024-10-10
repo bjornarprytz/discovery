@@ -29,7 +29,7 @@ cam = NodePath("../Camera")
 
 [node name="Camera" type="Camera2D" parent="."]
 offset = Vector2(0, 32)
-zoom = Vector2(0.27, 0.27)
+zoom = Vector2(1.3, 1.3)
 
 [node name="Fade" type="CanvasModulate" parent="Camera"]
 material = SubResource("ShaderMaterial_d6bg2")
