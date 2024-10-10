@@ -46,10 +46,6 @@ Goal: collect specific words to increase high score
 - Extra Corpus
   - How does this affect the leaderboard?
   - Maybe one per official text?
-- New Game Mode: Vertical Limit
-  - Limited number of vertical moves
-  - New Lose condition: running out of vertical moves
-  - Get additional moves when completing a word (depending on length?)
 - OnNewQuest
   - Highlight the quest words more?
 
@@ -58,6 +54,10 @@ Goal: collect specific words to increase high score
 - Ingest custom texts
 - Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
+- New Game Mode: Vertical Limit
+  - Limited number of vertical moves
+  - New Lose condition: running out of vertical moves
+  - Get additional moves when completing a word (depending on length?)
 
 - Still support web export
   - Branch, and remove steam references from that version, and update the export templates
