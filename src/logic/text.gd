@@ -1,47 +1,40 @@
 extends Node2D
 class_name TextGame
 
-const SEGMENT_ROWS = 3
-const SEGMENT_COLS = 3
+const SEGMENT_ROWS = 5
+const SEGMENT_COLS = 5
 
 @export var cam: Camera2D
 
-@onready var segment_spawner = preload ("res://logic/text-segment.tscn")
+@onready var segment_spawner = preload("res://logic/text-segment.tscn")
 @onready var LINE_LENGTH: int = Corpus.corpus_line_length
 @onready var SEGMENT_HEIGHT: int = Corpus.segment_height * Corpus.corpus_line_length
 @onready var SEGMENT_WIDTH: int = Corpus.segment_width
 
-var ambiance_streams = [
-	preload ("res://assets/ambiance/crackling-fire-14759.mp3"),
-	preload ("res://assets/ambiance/forest-jungle-nature-dark-atmo-6154.mp3"),
-	preload ("res://assets/ambiance/forest-wind-and-birds-6881.mp3"),
-	preload ("res://assets/ambiance/morning-forest-ambiance-17045.mp3"),
-	preload ("res://assets/ambiance/night-woods-7012.mp3"),
-	preload ("res://assets/ambiance/river-in-the-forest-17271.mp3"),
-	preload ("res://assets/ambiance/soft-rain-ambient-111154.mp3"),
-	preload ("res://assets/ambiance/underwater-whale-and-diving-sound-ambient-116185.mp3"),
-	preload ("res://assets/ambiance/wind-winter-trees-variable-gusts-70km-mono-clean-77mel-190208-19041.mp3")
+var ambiance_streams: Array[AudioStream] = [
+	preload("res://assets/ambiance/crackling-fire-14759.mp3"),
+	preload("res://assets/ambiance/forest-jungle-nature-dark-atmo-6154.mp3"),
+	preload("res://assets/ambiance/forest-wind-and-birds-6881.mp3"),
+	preload("res://assets/ambiance/morning-forest-ambiance-17045.mp3"),
+	preload("res://assets/ambiance/night-woods-7012.mp3"),
+	preload("res://assets/ambiance/river-in-the-forest-17271.mp3"),
+	preload("res://assets/ambiance/soft-rain-ambient-111154.mp3"),
+	preload("res://assets/ambiance/underwater-whale-and-diving-sound-ambient-116185.mp3"),
+	preload("res://assets/ambiance/wind-winter-trees-variable-gusts-70km-mono-clean-77mel-190208-19041.mp3")
 ]
 
-var center_segment: TextSegment
-var north_segment: TextSegment
-var east_segment: TextSegment
-var south_segment: TextSegment
-var west_segment: TextSegment
+var _segments: Array = []
 
-var ne_segment: TextSegment
-var se_segment: TextSegment
-var sw_segment: TextSegment
-var nw_segment: TextSegment
+var center_segment: TextSegment:
+	get:
+		return _segments[SEGMENT_ROWS / 2][SEGMENT_COLS / 2]
 
 func force_refresh():
-	for s in get_children():
-		var segment = s as TextSegment
+	for segment in _get_flat_segments():
 		segment.refresh(true)
 
 func queue_full_refresh():
-	for s in get_children():
-		var segment = s as TextSegment
+	for segment in _get_flat_segments():
 		segment.dirty = true
 
 func _ready() -> void:
@@ -53,71 +46,73 @@ func _ready() -> void:
 	var random_start = randi_range(0, Corpus.corpus.length() - 1)
 	var upper_left: int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
 	
+	# Create grid of segments
 	for y in range(SEGMENT_ROWS):
+		var row = []
 		for x in range(SEGMENT_COLS):
 			var segment = segment_spawner.instantiate() as TextSegment
-			segment.set_start_index(upper_left + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT))
+			var start_index = upper_left + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT)
+			segment.set_start_index(start_index)
 			add_child(segment)
-			
 			segment.position = -segment.size + Vector2(segment.size.x * x, segment.size.y * y)
-			
-	nw_segment = get_child(0)
-	north_segment = get_child(1)
-	ne_segment = get_child(2)
-	west_segment = get_child(3)
-	center_segment = get_child(4)
-	east_segment = get_child(5)
-	sw_segment = get_child(6)
-	south_segment = get_child(7)
-	se_segment = get_child(8)
+			row.append(segment)
+		_segments.append(row)
 
-	var segments = [
-		nw_segment,
-		north_segment,
-		ne_segment,
-		west_segment,
-		center_segment,
-		east_segment,
-		sw_segment,
-		south_segment,
-		se_segment
-	]
-
-	segments.shuffle()
-
-	for ambiance in ambiance_streams:
-		var s = segments.pop_front() as TextSegment
-		s.ambiance.stream = ambiance
-
-		var play_from: float = randi_range(0, s.ambiance.stream.get_length() - 1)
-
-		s.ambiance.play(play_from)
+	_assign_ambiance_streams()
 		
 	_refresh_text()
 
-func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: int):
+func _assign_ambiance_streams():
+	ambiance_streams.shuffle()
 
+	for s in _get_flat_segments():
+		var ambiance = ambiance_streams.pop_front()
+		
+		s.ambiance.stream = ambiance
+		s.ambiance.play(randi_range(0, s.ambiance.stream.get_length() - 1))
+
+		ambiance_streams.append(ambiance)
+
+func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: int):
 	var camera_point = cam.position
+
+	var current_segment_index = _get_segment_under_camera(camera_point)
+
+	match current_segment_index.x:
+		0:
+			_shift_segments(Vector2.LEFT)
+		SEGMENT_COLS - 1:
+			_shift_segments(Vector2.RIGHT)
+		_:
+			pass
 	
-	if north_segment.get_rect().has_point(camera_point):
-		_shift_north()
-	elif east_segment.get_rect().has_point(camera_point):
-		_shift_east()
-	elif south_segment.get_rect().has_point(camera_point):
-		_shift_south()
-	elif west_segment.get_rect().has_point(camera_point):
-		_shift_west()
+	match current_segment_index.y:
+		0:
+			_shift_segments(Vector2.UP)
+		SEGMENT_ROWS - 1:
+			_shift_segments(Vector2.DOWN)
+		_:
+			pass
 
 	_set_dirty_within(2, 2, prev_pos)
 
 	for segment in _segments_touched_by_word_at(current_pos):
 		segment.dirty = true
-		
 	for segment in _segments_touched_by_word_at(prev_pos):
 		segment.dirty = true
-
 	for segment in _segments_containing_indexes([prev_pos, current_pos]):
 		segment.dirty = true
+
+
+func _get_segment_under_camera(camera_point: Vector2) -> Vector2i:
+	# Iterate through all segments to find the one the camera is over
+	for row in range(SEGMENT_ROWS):
+		for col in range(SEGMENT_COLS):
+			var segment = _segments[row][col]
+			if segment.get_rect().has_point(camera_point):
+				return Vector2(col, row) # Return the column and row of the segment
+	return Vector2(-1, -1) # Return an invalid position if none is found
+
 
 func _on_new_quest(_word: String):
 	queue_full_refresh()
@@ -136,115 +131,59 @@ func _get_camera_view_rect() -> Rect2:
 
 func _refresh_text():
 	var cam_rect = _get_camera_view_rect()
-	for s in get_children():
+	for s in _get_flat_segments():
 		if !s.get_rect().intersects(cam_rect):
 			continue
 
 		var segment = s as TextSegment
 		segment.refresh()
 
-func _shift_north():
-	var new_upper_left: int = nw_segment.start_index - (SEGMENT_HEIGHT)
-	var move_by = center_segment.size.y * SEGMENT_ROWS
+func _shift_segments(dir: Vector2i):
+	var vertical_text_shift: int = SEGMENT_HEIGHT * SEGMENT_ROWS
+	var horizontal_text_shift: int = SEGMENT_WIDTH * SEGMENT_COLS
+
+	var vertical_pixel_shift: float = _segments[0][0].size.y * SEGMENT_ROWS
+	var horizontal_pixel_shift: float = _segments[0][0].size.x * SEGMENT_COLS
+
+	match dir.x:
+		1:
+			for row in _segments:
+				var segment_to_shift = row.pop_front()
+
+				segment_to_shift.set_start_index(segment_to_shift.start_index + horizontal_text_shift)
+				segment_to_shift.position.x += horizontal_pixel_shift
+
+				row.push_back(segment_to_shift)
+		-1:
+			for row in _segments:
+				var segment_to_shift = row.pop_back()
+
+				segment_to_shift.set_start_index(segment_to_shift.start_index - horizontal_text_shift)
+				segment_to_shift.position.x -= horizontal_pixel_shift
+
+				row.push_front(segment_to_shift)
 	
-	var temp_segment = sw_segment
-	sw_segment = west_segment
-	west_segment = nw_segment
-	nw_segment = temp_segment
-	nw_segment.set_start_index(new_upper_left)
-	nw_segment.position.y -= move_by
-	
-	temp_segment = south_segment
-	south_segment = center_segment
-	center_segment = north_segment
-	north_segment = temp_segment
-	north_segment.set_start_index(new_upper_left + SEGMENT_WIDTH)
-	north_segment.position.y -= move_by
-	
-	temp_segment = se_segment
-	se_segment = east_segment
-	east_segment = ne_segment
-	ne_segment = temp_segment
-	ne_segment.set_start_index(new_upper_left + (SEGMENT_WIDTH * 2))
-	ne_segment.position.y -= move_by
-		
-func _shift_east():
-	var new_upper_right: int = ne_segment.start_index + SEGMENT_WIDTH
-	var move_by = (center_segment.size.x * SEGMENT_COLS)
+	match dir.y:
+		1:
+			var row_to_shift = _segments.pop_front()
+			for segment in row_to_shift:
+				segment.set_start_index(segment.start_index + vertical_text_shift)
+				segment.position.y += vertical_pixel_shift
+			_segments.push_back(row_to_shift)
+		-1:
+			var row_to_shift = _segments.pop_back()
+			for segment in row_to_shift:
+				segment.set_start_index(segment.start_index - vertical_text_shift)
+				segment.position.y -= vertical_pixel_shift
+			_segments.push_front(row_to_shift)
 
-	var temp_segment = nw_segment
-	nw_segment = north_segment
-	north_segment = ne_segment
-	ne_segment = temp_segment
-	ne_segment.set_start_index(new_upper_right)
-	ne_segment.position.x += move_by
+	_assign_ambiance_streams()
 
-	temp_segment = west_segment
-	west_segment = center_segment
-	center_segment = east_segment
-	east_segment = temp_segment
-	east_segment.set_start_index(new_upper_right + (SEGMENT_HEIGHT))
-	east_segment.position.x += move_by
+	_refresh_text()
 
-	temp_segment = sw_segment
-	sw_segment = south_segment
-	south_segment = se_segment
-	se_segment = temp_segment
-	se_segment.set_start_index(new_upper_right + (2 * SEGMENT_HEIGHT))
-	se_segment.position.x += move_by
 
-func _shift_south():
-	var new_lower_left: int = sw_segment.start_index + (SEGMENT_HEIGHT)
-	var move_by = center_segment.size.y * SEGMENT_ROWS
-
-	var temp_segment = nw_segment
-	nw_segment = west_segment
-	west_segment = sw_segment
-	sw_segment = temp_segment
-	sw_segment.set_start_index(new_lower_left)
-	sw_segment.position.y += move_by
-	
-	temp_segment = north_segment
-	north_segment = center_segment
-	center_segment = south_segment
-	south_segment = temp_segment
-	south_segment.set_start_index(new_lower_left + SEGMENT_WIDTH)
-	south_segment.position.y += move_by
-	
-	temp_segment = ne_segment
-	ne_segment = east_segment
-	east_segment = se_segment
-	se_segment = temp_segment
-	se_segment.set_start_index(new_lower_left + (SEGMENT_WIDTH * 2))
-	se_segment.position.y += move_by
-
-func _shift_west():
-	var new_upper_left: int = nw_segment.start_index - SEGMENT_WIDTH
-	var move_by = (center_segment.size.x * SEGMENT_COLS)
-	
-	var temp_segment = ne_segment
-	ne_segment = north_segment
-	north_segment = nw_segment
-	nw_segment = temp_segment
-	nw_segment.set_start_index(new_upper_left)
-	nw_segment.position.x -= move_by
-
-	temp_segment = east_segment
-	east_segment = center_segment
-	center_segment = west_segment
-	west_segment = temp_segment
-	west_segment.set_start_index(new_upper_left + (SEGMENT_HEIGHT))
-	west_segment.position.x -= move_by
-
-	temp_segment = se_segment
-	se_segment = south_segment
-	south_segment = sw_segment
-	sw_segment = temp_segment
-	sw_segment.set_start_index(new_upper_left + (2 * SEGMENT_HEIGHT))
-	sw_segment.position.x -= move_by
-
-func _set_dirty_within(horizontal_range: int, vertical_range: int, origin: int=- 1):
-	if origin == - 1:
+func _set_dirty_within(horizontal_range: int, vertical_range: int, origin: int = -1):
+	if origin == -1:
 		origin = Game.current_pos
 	var horizon_left = origin - horizontal_range
 	var horizon_right = origin + horizontal_range
@@ -266,18 +205,24 @@ func _segments_touched_by_word_at(index: int) -> Array[TextSegment]:
 	return _segments_containing_indexes([word_start, word_end])
 
 func _segments_containing_indexes(indexes: Array[int]) -> Array[TextSegment]:
-	var segments: Array[TextSegment] = []
+	var result_segments: Array[TextSegment] = []
 
-	for s in get_children():
+	for segment in _get_flat_segments():
 		if indexes.is_empty():
 			break
-		var segment = s as TextSegment
-		if segments.has(segment):
+		if result_segments.has(segment):
 			continue
 		for i in indexes:
 			if segment.contains_idx(i):
-				segments.append(segment)
+				result_segments.append(segment)
 				indexes.erase(i)
 				break
 
-	return segments
+	return result_segments
+
+func _get_flat_segments() -> Array[TextSegment]:
+	var flat_segments: Array[TextSegment] = []
+	for row in _segments:
+		for segment in row:
+			flat_segments.append(segment as TextSegment)
+	return flat_segments

@@ -10,6 +10,13 @@ func get_contrast_color(color: Color) -> Color:
 	
 	# If luminance is higher than 0.5, return black, otherwise return white
 	if luminance > 0.5:
-		return Color(0, 0, 0)  # Black
+		return Color(0, 0, 0) # Black
 	else:
-		return Color(1, 1, 1)  # White
+		return Color(1, 1, 1) # White
+
+func random_color() -> Color:
+	return Color(
+		randf_range(0, 1),
+		randf_range(0, 1),
+		randf_range(0, 1)
+	)

@@ -33,7 +33,7 @@ func _ready() -> void:
 	
 	get_tree().create_timer(TUTORIAL_TIMER).timeout.connect(_show_tutorial, CONNECT_ONE_SHOT)
 
-	Game.force_move(text_game.center_segment.start_index, true)
+	Game.force_move(text_game._segments[1][1].start_index, true)
 	Game.ready_to_move.emit()
 	Game.new_corpus.emit(Corpus.main_corpus)
 

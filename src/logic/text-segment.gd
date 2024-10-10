@@ -22,6 +22,8 @@ func _ready():
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
+	if start_index == normalized_idx:
+		return
 	start_index = normalized_idx
 	refresh(true)
 
