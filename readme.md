@@ -15,6 +15,8 @@ Goal: collect specific words to increase high score
 - Add Color Palettes
   - Change palette in settings
 
+- Show Player Run Stats
+
 - OnDeadEnd
   - Show run Stats
   - Zoom Out
@@ -23,11 +25,10 @@ Goal: collect specific words to increase high score
 - QoL
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
 
-- Save User Settings
-  - Color Palette
-  - Chosen corpus
-  - First run (in order to show main menu only if they've played before)
-  - Run stats history ?
+- Test the saved playerData
+  - Verify that the state is correct (run stats are consistent)
+  - Verify that it's synced with Steam
+    - The target folder might have to be changed to the user:// folder
 
 ## 1.1 roadmap (October Update)
 

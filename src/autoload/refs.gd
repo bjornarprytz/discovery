@@ -13,13 +13,17 @@ signal palette_changed()
 @export var inert_color: Color = Color.DIM_GRAY
 
 
+var current_palette: int = 0
+
+
 var default_main_color = Color.GOLDENROD
 func default_palette() -> void:
-	set_palette()
+	_set_palette(0)
 
 var palette_1_main_color: Color = Color.from_string("0b6a26", Color.WEB_PURPLE) # Peter pan green
 func palette_peter_pan() -> void:
-	set_palette(
+	_set_palette(
+		1,
 		Color.from_string("33223D", Color.WEB_PURPLE), # Dark purple
 		Color.from_string("8E3DBD", Color.WEB_PURPLE), # Purple
 		Color.from_string("5FE193", Color.WEB_PURPLE), # Light green
@@ -32,7 +36,8 @@ func palette_peter_pan() -> void:
 
 var palette_2_main_color = Color.from_string("1B768A", Color.SEA_GREEN) # Robinson Crusoe Teal
 func palette_robinson() -> void:
-	set_palette(
+	_set_palette(
+		2,
 		Color.from_string("3E3019", Color.PURPLE), # Brown
 		Color.from_string("604C2A", Color.PURPLE), # Lighter Brown
 		Color.from_string("007c5f", Color.SEA_GREEN), # Teal
@@ -46,7 +51,8 @@ func palette_robinson() -> void:
 
 var palette_oz_main_color = Color.from_string("4ea6f1", Color.PURPLE) # Blue
 func palette_oz() -> void:
-	set_palette(
+	_set_palette(
+		3,
 		Color.from_string("4ea6f1", Color.PURPLE), # Blue
 		Color.from_string("1391FF", Color.PURPLE), # Darker Blue
 		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
@@ -57,7 +63,8 @@ func palette_oz() -> void:
 		Color.from_string("A5A3A0", Color.SEA_GREEN), # Gray
 		)
 
-func set_palette(
+func _set_palette(
+	index: int,
 	bg: Color = Color.from_string("060637", Color.PURPLE),
 	bg_acc: Color = Color.from_string("1c1c86", Color.PURPLE),
 	tut: Color = Color.from_string("007c5f", Color.SEA_GREEN),
@@ -78,13 +85,3 @@ func set_palette(
 	inert_color = inr
 	
 	palette_changed.emit()
-
-var flip_flop: bool = false
-func _input(event: InputEvent) -> void:
-	# Toggle palette with F1
-	if event.is_action_pressed("debug_signal"):
-		flip_flop = !flip_flop
-		if flip_flop:
-			set_palette(Color.from_string("060637", Color.PURPLE), Color.from_string("007c5f", Color.SEA_GREEN), Color.WHITE, Color.GOLDENROD, Color.CRIMSON, Color.AQUAMARINE, Color.DIM_GRAY)
-		else:
-			set_palette(Color.PINK, Color.YELLOW, Color.BLACK, Color.BEIGE, Color.GREEN, Color.RED, Color.YELLOW)
