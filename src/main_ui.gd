@@ -33,7 +33,7 @@ func _ready() -> void:
 	_on_new_corpus(Corpus.main_corpus)
 
 	Refs.palette_changed.connect(_on_palette_changed)
-	_on_palette_changed()
+	_on_palette_changed(Refs.current_palette)
 	
 
 func set_show_menu(show_ui: bool) -> void:
@@ -49,38 +49,38 @@ func set_show_menu(show_ui: bool) -> void:
 		await toggle_tween.finished
 		menu.hide()
 
-func _on_palette_changed():
+func _on_palette_changed(palette: Palette):
 	_on_golden_changed(Game.is_golden)
-	target_ui.self_modulate = Refs.quest_color
-	sheen.color = Refs.mark_color
-	score_board.self_modulate = Refs.quest_color
-	quest_duration_label.self_modulate = Refs.inert_color
-	next_quest_duration_label.self_modulate = Refs.inert_color
-	_update_quest_bar_color()
-	_update_chapter_font_color()
+	target_ui.self_modulate = palette.quest_color
+	sheen.color = palette.mark_color
+	score_board.self_modulate = palette.quest_color
+	quest_duration_label.self_modulate = palette.inert_color
+	next_quest_duration_label.self_modulate = palette.inert_color
+	_update_quest_bar_color(palette)
+	_update_chapter_font_color(palette)
 
-func _update_quest_bar_color():
+func _update_quest_bar_color(palette: Palette):
 	var bg_style = quest_bar.get_theme_stylebox("background") as StyleBoxFlat
-	bg_style.bg_color = Refs.background_color
+	bg_style.bg_color = palette.background_color
 	var fill_style = quest_bar.get_theme_stylebox("fill") as StyleBoxFlat
-	fill_style.bg_color = Refs.background_accent_color
+	fill_style.bg_color = palette.background_accent_color
 
 
-func _update_chapter_font_color():
-	var contrast_color = Utils.get_contrast_color(Refs.quest_color)
+func _update_chapter_font_color(palette: Palette):
+	var contrast_color = Utils.get_contrast_color(palette.quest_color)
 
 	chapter_title.add_theme_color_override("font_color", contrast_color)
 	var chapter_style = chapter_title.get_theme_stylebox("normal") as StyleBoxFlat
-	chapter_style.bg_color = Refs.quest_color
+	chapter_style.bg_color = palette.quest_color
 	chapter_style.border_color = contrast_color
 	
 	corpus_title.add_theme_color_override("font_color", contrast_color)
 	var title_style = corpus_title.get_theme_stylebox("normal") as StyleBoxFlat
-	title_style.bg_color = Refs.quest_color
+	title_style.bg_color = palette.quest_color
 	title_style.border_color = contrast_color
 
 func _on_new_chapter(chapter: CorpusClass.Chapter):
-	_update_chapter_font_color()
+	_update_chapter_font_color(Refs.current_palette)
 	chapter_title.clear()
 	chapter_title.append_text("[center]")
 	chapter_title.append_text(chapter.title)
@@ -124,9 +124,9 @@ func _on_golden_changed(is_golden: bool):
 	var ui_color: Color
 
 	if (is_golden):
-		ui_color = Refs.quest_color
+		ui_color = Refs.current_palette.quest_color
 	else:
-		ui_color = Refs.inert_color
+		ui_color = Refs.current_palette.inert_color
 
 	ui.color = ui_color
 	multiplier_label.self_modulate = ui_color

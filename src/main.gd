@@ -100,7 +100,7 @@ func _flair(amount: int):
 	await get_tree().create_timer(f.lifetime).timeout
 	f.queue_free()
 
-func _game_over(_stats: Game.Stats):
+func _game_over(_stats: Data.Stats):
 	$Camera/Sounds/Finished.play()
 	game_over = true
 	game_over_label.show()

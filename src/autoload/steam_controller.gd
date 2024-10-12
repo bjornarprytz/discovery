@@ -164,7 +164,7 @@ func _on_completed_word(word: String, was_quest: bool):
 
 	_stats.save()
 
-func _on_game_over(run_stats: Game.Stats):
+func _on_game_over(run_stats: Data.Stats):
 	_session = SessionTracking.new()
 
 	await _leaderboard.post_score(run_stats.score)

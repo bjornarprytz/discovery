@@ -1,87 +1,18 @@
 extends Node
 
-signal palette_changed()
+signal palette_changed(palette: Palette)
 
-@export var background_color: Color = Color.from_string("060637", Color.PURPLE)
-@export var background_accent_color: Color = Color.from_string("1c1c86", Color.PURPLE)
-@export var tutorial_color: Color = Color.from_string("007c5f", Color.SEA_GREEN)
-@export var text_color: Color = Color.WHITE
-@export var text_contrast_color: Color = Color.BLACK
-@export var quest_color: Color = Color.GOLDENROD
-@export var error_color: Color = Color.CRIMSON
-@export var mark_color: Color = Color.AQUAMARINE
-@export var inert_color: Color = Color.DIM_GRAY
+var _palettes: Array[Palette] = [
+	Palette.alice(),
+	Palette.peter(),
+	Palette.robinson(),
+	Palette.oz()
+]
 
+var current_palette_idx: int = 0
+@export var current_palette: Palette = _palettes[current_palette_idx]
 
-var current_palette: int = 0
-
-
-var default_main_color = Color.GOLDENROD
-func default_palette() -> void:
-	_set_palette(0)
-
-var palette_1_main_color: Color = Color.from_string("0b6a26", Color.WEB_PURPLE) # Peter pan green
-func palette_peter_pan() -> void:
-	_set_palette(
-		1,
-		Color.from_string("33223D", Color.WEB_PURPLE), # Dark purple
-		Color.from_string("8E3DBD", Color.WEB_PURPLE), # Purple
-		Color.from_string("5FE193", Color.WEB_PURPLE), # Light green
-		Color.from_string("f6f5ae", Color.WEB_PURPLE), # Light yellow
-		Color.from_string("0b6a26", Color.WEB_PURPLE), # Peter pan green
-		Color.from_string("f2013c", Color.WEB_PURPLE), # Red
-		Color.from_string("50BAFC", Color.WEB_PURPLE), # Blue
-		Color.from_string("565554", Color.WEB_PURPLE), # Gray
-		)
-
-var palette_2_main_color = Color.from_string("1B768A", Color.SEA_GREEN) # Robinson Crusoe Teal
-func palette_robinson() -> void:
-	_set_palette(
-		2,
-		Color.from_string("3E3019", Color.PURPLE), # Brown
-		Color.from_string("604C2A", Color.PURPLE), # Lighter Brown
-		Color.from_string("007c5f", Color.SEA_GREEN), # Teal
-		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
-		Color.from_string("1B768A", Color.SEA_GREEN), # Robinson Crusoe Teal
-		Color.from_string("b33001", Color.SEA_GREEN), # Rust
-		Color.from_string("b06d08", Color.SEA_GREEN), # Orange
-		Color.from_string("565554", Color.SEA_GREEN), # Gray
-		)
-
-
-var palette_oz_main_color = Color.from_string("4ea6f1", Color.PURPLE) # Blue
-func palette_oz() -> void:
-	_set_palette(
-		3,
-		Color.from_string("4ea6f1", Color.PURPLE), # Blue
-		Color.from_string("1391FF", Color.PURPLE), # Darker Blue
-		Color.from_string("7182F0", Color.SEA_GREEN), # Indigo
-		Color.WHITE,
-		Color.from_string("156E23", Color.PURPLE), # Green
-		Color.from_string("0b0706", Color.PURPLE), # Black
-		Color.from_string("fee624", Color.PURPLE), # Yellow Brick Road
-		Color.from_string("A5A3A0", Color.SEA_GREEN), # Gray
-		)
-
-func _set_palette(
-	index: int,
-	bg: Color = Color.from_string("060637", Color.PURPLE),
-	bg_acc: Color = Color.from_string("1c1c86", Color.PURPLE),
-	tut: Color = Color.from_string("007c5f", Color.SEA_GREEN),
-	txt: Color = Color.WHITE,
-	qst: Color = Color.GOLDENROD,
-	err: Color = Color.CRIMSON,
-	mrk: Color = Color.AQUAMARINE,
-	inr: Color = Color.DIM_GRAY
-	) -> void:
-	background_color = bg
-	background_accent_color = bg_acc
-	tutorial_color = tut
-	text_color = txt
-	text_contrast_color = Utils.get_contrast_color(txt)
-	quest_color = qst
-	error_color = err
-	mark_color = mrk
-	inert_color = inr
-	
-	palette_changed.emit()
+func set_palette(index: int) -> void:
+	current_palette_idx = index
+	current_palette = _palettes[index]
+	palette_changed.emit(current_palette)

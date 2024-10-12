@@ -17,8 +17,8 @@ func _ready():
 	Game.mute_toggled.connect(_on_mute_toggled)
 	_on_mute_toggled(Game.is_muted)
 	_fade_in_volume()
-	Refs.palette_changed.connect(refresh.bind(true))
-	background.color = Refs.background_color
+	Refs.palette_changed.connect(_on_palette_changed)
+	background.color = Refs.current_palette.background_color
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)
@@ -38,6 +38,12 @@ func contains_idx(idx: int) -> bool:
 			
 	return false
 
+func _on_palette_changed(palette: Palette):
+	if background != null:
+		background.color = palette.background_color
+	add_theme_color_override("default_color", palette.text_color)
+	refresh(true)
+
 func refresh(force: bool = false) -> void:
 	if !dirty and !force:
 		return
@@ -45,10 +51,7 @@ func refresh(force: bool = false) -> void:
 	clear()
 	for line in range(Corpus.segment_height):
 		_append_line(start_index + (line * Corpus.corpus_line_length))
-	
-	if background != null:
-		background.color = Refs.background_color
-	add_theme_color_override("default_color", Refs.text_color)
+		
 	dirty = false
 
 func _append_line(idx: int) -> void:
@@ -77,9 +80,9 @@ func _append_line(idx: int) -> void:
 			letter = "_"
 			push_color(Color.from_hsv(0, 0, 0, 0))
 		
-		var base_color: Color = Refs.mark_color
+		var base_color: Color = Refs.current_palette.mark_color
 		if (char_state.quest):
-			base_color = Refs.quest_color
+			base_color = Refs.current_palette.quest_color
 		
 		if (char_state.cursor):
 			if (letter == " "):
@@ -87,7 +90,7 @@ func _append_line(idx: int) -> void:
 			push_customfx(Cursor.new(), {"color": base_color})
 			pushed_effect = true
 		elif (char_state.impassable and letter != "_"):
-			push_color(Refs.inert_color)
+			push_color(Refs.current_palette.inert_color)
 			pushed_effect = true
 		elif (char_state.highlight):
 			push_customfx(Highlight.new(), {})
@@ -96,10 +99,10 @@ func _append_line(idx: int) -> void:
 			push_customfx(Quest.new(), {"idx": char_state.local_idx, "len": current_word.word.length(), "color": base_color})
 			pushed_effect = true
 		elif (char_state.quest):
-			push_color(Refs.quest_color)
+			push_color(Refs.current_palette.quest_color)
 			pushed_effect = true
 		elif (char_state.visited and letter != "_"):
-			push_color(Refs.mark_color)
+			push_color(Refs.current_palette.mark_color)
 			pushed_effect = true
 		elif (char_state.invalid_move):
 			push_customfx(Error.new(), {})

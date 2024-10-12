@@ -8,20 +8,20 @@ var _highlighted_moves: Array[GameClass.MoveCandidate] = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Refs.palette_changed.connect(_update_colors)
-	_update_colors()
+	_update_colors(Refs.current_palette)
 	
 
-func _update_colors():
+func _update_colors(palette: Palette):
 	var style = get_theme_stylebox("panel") as StyleBoxFlat
 	if style != null:
-		style.bg_color = Refs.tutorial_color
-		style.border_color = Refs.inert_color
-	_update_label()
+		style.bg_color = palette.tutorial_color
+		style.border_color = palette.inert_color
+	_update_label(palette)
 
-func _update_label():
+func _update_label(palette: Palette):
 	_highlighted_moves.clear()
 	label.clear()
-	label.add_theme_color_override("default_color", Refs.text_color)
+	label.add_theme_color_override("default_color", palette.text_color)
 	label.append_text("Use your keyboard to navigate. Available moves: ")
 	
 	var valid_candidates = {}
@@ -47,7 +47,7 @@ func _update_label():
 			label.append_text(", ")
 		move.state.highlight = true
 		_highlighted_moves.push_back(move)
-		label.push_bgcolor(Utils.get_contrast_color(Refs.text_color))
+		label.push_bgcolor(Utils.get_contrast_color(Refs.current_palette.text_color))
 		label.append_text(move.character.to_upper())
 		label.pop()
 		i += 1
