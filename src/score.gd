@@ -12,7 +12,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	menu.start(CorpusClass.FullText.new("ScoreScreen", [CorpusClass.Chapter.new(0, "ScoreScreen", "Retry Quit Secret")]), false)
+	menu.start(CorpusClass.FullText.new("custom", "ScoreScreen", [CorpusClass.Chapter.new(0, "ScoreScreen", "Retry Quit Secret")]), false)
 	
 	var current_highscore = _load_highscore()
 	

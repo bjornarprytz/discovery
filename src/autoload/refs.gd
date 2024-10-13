@@ -16,9 +16,12 @@ func set_palette(index: int) -> void:
 	if index < 0 or index >= _palettes.size():
 		set_palette(0)
 		return
+	
 	current_palette_idx = index
+	var prev_palette = current_palette
 	current_palette = _palettes[index]
-	palette_changed.emit(current_palette)
+	if prev_palette != current_palette:
+		palette_changed.emit(current_palette)
 
 func _ready() -> void:
 	set_palette(PlayerData.player_data.color_palette)

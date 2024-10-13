@@ -10,6 +10,7 @@ const segment_width: int = 48
 const segment_height: int = 12
 
 class FullText: # This should probably be called Corpus
+	var id: String
 	var title: String
 	var chapters: Array[Chapter]
 	var full_length: int
@@ -19,7 +20,8 @@ class FullText: # This should probably be called Corpus
 
 	var words: Array[String] = []
 
-	func _init(title_: String, chapters_: Array[Chapter]):
+	func _init(id_: String, title_: String, chapters_: Array[Chapter]):
+		id = id_
 		title = title_
 		chapters = chapters_
 		full_length = 0
@@ -171,6 +173,9 @@ var state: Dictionary = {}
 
 var lengthOfLongestWord: int = 0
 
+## This is the corpus of text that the player will be traversing
+var main_corpus: FullText
+## This may be used for intermediate corpus, like the score screen
 var corpus: FullText
 
 func get_chapter_at(idx: int) -> Chapter:
@@ -234,5 +239,3 @@ func load_corpus(text: FullText, save: bool = true):
 		main_corpus = corpus # Store it for later
 	
 	state = {}
-
-@onready var main_corpus: FullText

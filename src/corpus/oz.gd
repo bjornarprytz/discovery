@@ -1,5 +1,6 @@
 class_name TheWonderfulWizardOfOz
 
+static var id = "oz"
 static var title = "The Wonderful Wizard of Oz"
 static var full_text: CorpusClass.FullText
 
@@ -172,6 +173,6 @@ All you have to do is to knock the heels together three times and command the sh
 
 	chapters.append(CorpusClass.Chapter.new(24, "Home Again", "Aunt Em had just come out of the house to water the cabbages when she looked up and saw Dorothy running toward her. “My darling child!” she cried, folding the little girl in her arms and covering her face with kisses. “Where in the world did you come from?” “From the Land of Oz,” said Dorothy gravely. “And here is Toto, too. And oh, Aunt Em! I'm so glad to be at home again!”"))
 	
-	full_text = CorpusClass.FullText.new(title, chapters)
+	full_text = CorpusClass.FullText.new(id, title, chapters)
 
 	return full_text

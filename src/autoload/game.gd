@@ -76,6 +76,7 @@ class MoveCandidate:
 
 func _ready() -> void:
 	Game.completed_word.connect(_on_word_complete)
+	Game.new_chapter.connect(_on_new_chapter)
 	start(PlayerData.player_data.chosen_corpus())
 
 
@@ -85,9 +86,9 @@ func start(corpus: CorpusClass.FullText, chosen_seed: int = -1):
 	if (chosen_seed == -1):
 		chosen_seed = randi()
 	seed(chosen_seed)
-	stats = PlayerData.Stats.new(chosen_seed)
-
 	Corpus.load_corpus(corpus)
+	
+	stats = PlayerData.Stats.new(Corpus.corpus, chosen_seed)
 
 func try_move(input: String) -> bool:
 	if (input.length() > 1):
@@ -139,7 +140,11 @@ func _reset_word_state():
 func _on_word_complete(_word: String, was_quest: bool):
 	if (was_quest):
 		_cycle_quest()
-	
+
+func _on_new_chapter(chapter: CorpusClass.Chapter):
+	if chapter.number not in stats.chapters_visited:
+		stats.chapters_visited.append(chapter.number)
+
 func _reset_quest_duration(distance: int):
 	quest_cap = distance + current_quest.length()
 	quest_duration = quest_cap

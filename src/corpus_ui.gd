@@ -37,7 +37,7 @@ func _load_corpus():
 	timer.stop()
 	var text_without_tags = sanitize_regex.sub(corpus_input.text, "", true)
 	
-	Game.start(CorpusClass.FullText.new("CustomCorpus", [CorpusClass.Chapter.new(0, "CustomCorpus", text_without_tags)]))
+	Game.start(CorpusClass.FullText.new("custom", "CustomCorpus", [CorpusClass.Chapter.new(0, "CustomCorpus", text_without_tags)]))
 	
 	go_time.visible = true
 	_valid_corpus = true
