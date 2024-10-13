@@ -20,8 +20,9 @@ config/windows_native_icon="res://icon.ico"
 [autoload]
 
 Utils="*res://autoload/utils.gd"
-Refs="*res://autoload/refs.tscn"
+PlayerData="*res://autoload/player_data_manager.tscn"
 Corpus="*res://autoload/corpus.tscn"
+Refs="*res://autoload/refs.tscn"
 Game="*res://autoload/game.tscn"
 SteamController="*res://autoload/steam_controller.tscn"
 Audio="*res://autoload/audio.tscn"

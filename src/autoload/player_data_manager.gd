@@ -1,5 +1,5 @@
-class_name Data
 
+extends Node2D
 
 class Save:
 	var has_completed_a_run: bool
@@ -41,13 +41,13 @@ class Save:
 			stats_summary.traversed_characters < 5:
 			return
 
-		if (highest_score == null || stats_summary.score > highest_score.score):
+		if (highest_score == null || stats_summary.score >= highest_score.score):
 			highest_score = stats_summary
-		if (most_completed_words == null || stats_summary.completed_words > most_completed_words.completed_words):
+		if (most_completed_words == null || stats_summary.completed_words >= most_completed_words.completed_words):
 			most_completed_words = stats_summary
-		if (most_completed_quests == null || stats_summary.completed_quests > most_completed_quests.completed_quests):
+		if (most_completed_quests == null || stats_summary.completed_quests >= most_completed_quests.completed_quests):
 			most_completed_quests = stats_summary
-		if (most_traversed_characters == null || stats_summary.traversed_characters > most_traversed_characters.traversed_characters):
+		if (most_traversed_characters == null || stats_summary.traversed_characters >= most_traversed_characters.traversed_characters):
 			most_traversed_characters = stats_summary
 	
 	func chosen_corpus() -> CorpusClass.FullText:
@@ -77,17 +77,17 @@ class StatsSummary:
 		if data == null:
 			return null
 		var summary = StatsSummary.new()
-		summary.run_seed = data["run_seed"]
-		summary.score = data["score"]
-		summary.multiplier = data["multiplier"]
-		summary.golden_moves = data["golden_moves"]
-		summary.vertical_moves = data["vertical_moves"]
-		summary.traversed_characters = data["traversed_characters"]
-		summary.completed_words = data["completed_words"]
-		summary.completed_quests = data["completed_quests"]
-		summary.ratio_of_characters_completed_words = data["ratio_of_characters_completed_words"]
-		summary.ratio_of_moves_while_golden = data["ratio_of_moves_while_golden"]
-		summary.ratio_of_quests_to_words = data["ratio_of_quests_to_words"]
+		summary.run_seed = data["run_seed"] if "run_seed" in data else 0
+		summary.score = data["score"] if "score" in data else 0
+		summary.multiplier = data["multiplier"] if "multiplier" in data else 0
+		summary.golden_moves = data["golden_moves"] if "golden_moves" in data else 0
+		summary.vertical_moves = data["vertical_moves"] if "vertical_moves" in data else 0
+		summary.traversed_characters = data["traversed_characters"] if "traversed_characters" in data else 0
+		summary.completed_words = data["completed_words"] if "completed_words" in data else 0
+		summary.completed_quests = data["completed_quests"] if "completed_quests" in data else 0
+		summary.ratio_of_characters_completed_words = data["ratio_of_characters_completed_words"] if "ratio_of_characters_completed_words" in data else 0.0
+		summary.ratio_of_moves_while_golden = data["ratio_of_moves_while_golden"] if "ratio_of_moves_while_golden" in data else 0.0
+		summary.ratio_of_quests_to_words = data["ratio_of_quests_to_words"] if "ratio_of_quests_to_words" in data else 0.0
 		return summary
 
 	func to_dictionary() -> Dictionary:
@@ -136,10 +136,13 @@ class Stats:
 		return summary
 
 	func completed_quests() -> Array[CorpusClass.WordData]:
+		if completed_words.is_empty():
+			return []
+
 		return completed_words.filter(func(w: CorpusClass.WordData): return w.is_quest() and w.is_completed())
 
 	func ratio_of_characters_completed_words() -> float:
-		if traversed_characters.size() == 0:
+		if traversed_characters.is_empty() || completed_words.is_empty():
 			return 0.0
 		var n_completed_chars = completed_words.map(func(w: CorpusClass.WordData): return w.word.length()).reduce(func(a, b): return a + b)
 		return n_completed_chars / float(traversed_characters.size())
@@ -155,27 +158,32 @@ class Stats:
 		var quests = completed_quests()
 		return quests.size() / float(completed_words.size())
 
-	
-static func save_stats(stats: Stats):
+
+var player_data: Save = Save.new()
+
+func _ready():
+	player_data = load_data()
+	Game.game_over.connect(save_stats)
+
+func save_stats(stats: Stats):
 	print("Saving data")
 	
 	if not DirAccess.dir_exists_absolute("user://persist"):
 		DirAccess.make_dir_absolute("user://persist")
 	var file = FileAccess.open("user://persist/data.json", FileAccess.WRITE)
 	
-	var data = Data.Save.new()
-	data.has_completed_a_run = true
-	data.color_palette = Refs.current_palette_idx
-	data.corpus_title = Corpus.main_corpus.title
-	data.rank_stats(stats.to_summary())
+	player_data.has_completed_a_run = true
+	player_data.color_palette = Refs.current_palette_idx
+	player_data.corpus_title = Corpus.main_corpus.title
+	player_data.rank_stats(stats.to_summary())
 	
-	var json_data = JSON.stringify(data.to_dictionary())
+	var json_data = JSON.stringify(Utils.to_dictionary(player_data))
 	file.store_string(json_data)
 
-static func load_data() -> Data.Save:
+func load_data() -> Save:
 	print("Loading data")
 	if not FileAccess.file_exists("user://persist/data.json"):
-		return Data.Save.new()
+		return Save.new()
 
 	var file = FileAccess.open("user://persist/data.json", FileAccess.READ)
 	if (file == null):
@@ -187,8 +195,8 @@ static func load_data() -> Data.Save:
 
 	if result != OK || !json_parser.data is Dictionary:
 		push_error("Failed to parse JSON data: %s in %s at line %s" % [json_parser.get_error_message(), json_data, json_parser.get_error_line()])
-		return Data.Save.new()
+		return Save.new()
 
-	var data = Data.Save.from_dictionary(json_parser.data)
+	var data = Save.from_dictionary(json_parser.data)
 
 	return data

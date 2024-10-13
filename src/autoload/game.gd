@@ -9,7 +9,7 @@ signal quest_duration_tick(duration: int, cap: int)
 signal completed_word(word: String, was_quest: bool)
 signal new_quest(word: String)
 signal golden_changed(is_golden: bool)
-signal game_over(stats: Data.Stats)
+signal game_over(stats: PlayerData.Stats)
 signal new_corpus(corpus: CorpusClass.FullText)
 signal new_chapter(chapter: CorpusClass.Chapter)
 signal mute_toggled(muted: bool)
@@ -19,8 +19,7 @@ const QUEST_MULTIPLIER: int = 4
 # How much the distance affects the quest duration
 const QUEST_DISTANCE_FACTOR: int = 2
 
-var stats: Data.Stats
-var player_data: Data.Save
+var stats: PlayerData.Stats
 
 var is_muted: bool:
 	set(value):
@@ -77,10 +76,7 @@ class MoveCandidate:
 
 func _ready() -> void:
 	Game.completed_word.connect(_on_word_complete)
-	Game.game_over.connect(_on_game_over)
-	player_data = Data.load_data()
-	Refs.set_palette(player_data.color_palette)
-	start(player_data.chosen_corpus())
+	start(PlayerData.player_data.chosen_corpus())
 
 
 func start(corpus: CorpusClass.FullText, chosen_seed: int = -1):
@@ -89,7 +85,7 @@ func start(corpus: CorpusClass.FullText, chosen_seed: int = -1):
 	if (chosen_seed == -1):
 		chosen_seed = randi()
 	seed(chosen_seed)
-	stats = Data.Stats.new(chosen_seed)
+	stats = PlayerData.Stats.new(chosen_seed)
 
 	Corpus.load_corpus(corpus)
 
@@ -109,7 +105,7 @@ func try_move(input: String) -> bool:
 		for d in invalid:
 			Corpus.get_state((d as MoveCandidate).destination).invalid_move = true
 		Game.invalid_move.emit()
-		Game.game_over.emit(Game.stats)
+		Game.game_over.emit(stats)
 
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):
@@ -133,10 +129,6 @@ func force_move(target_pos: int, first_move: bool):
 	var prev_pos = current_pos
 	var score_change = _visit(target_pos, first_move)
 	Game.moved.emit(prev_pos, current_pos, Vector2.ZERO, score_change)
-
-
-func _on_game_over(_stats: Data.Stats):
-	Data.save_stats(_stats)
 
 func _reset_word_state():
 	var word = Corpus.get_word_of(current_pos) as CorpusClass.WordData

@@ -20,3 +20,35 @@ func random_color() -> Color:
 		randf_range(0, 1),
 		randf_range(0, 1)
 	)
+	
+func to_dictionary(o: Variant) -> Dictionary:
+	var dict = {}
+	
+	if o == null:
+		return dict
+	
+	# Get a list of all properties on the object
+	var property_list = o.get_property_list()
+	
+	for prop in property_list:
+		var prop_name = prop.name
+		match prop_name:
+			"script":
+				continue
+			"RefCounted":
+				continue
+			"Built-in script":
+				continue
+			_:
+				pass
+		
+		match prop.type:
+			TYPE_OBJECT:
+				dict[prop_name] = Utils.to_dictionary(o.get(prop_name))
+			TYPE_NIL:
+				dict[prop_name] = null
+			_:
+				dict[prop_name] = o.get(prop_name)
+				
+	
+	return dict
