@@ -6,6 +6,7 @@ var stats: PlayerData.StatsSummary
 @onready var header: RichTextLabel = %Header
 @onready var prev_corpus_button: Button = %PrevCorpusButton
 @onready var next_corpus_button: Button = %NextCorpusButton
+@onready var seed_button: Button = %SeedButton
 
 var corpus_titles = [
 	PeterPan.title, # prev
@@ -19,14 +20,18 @@ var trophy_titles = [
 	"most_traversed_characters"
 ]
 
+var current_stats: PlayerData.StatsSummary
+
 func _ready() -> void:
 	load_stats(PlayerData.player_data.alice_trophies.highest_score)
 	pass
 
 func load_stats(stats_summary: PlayerData.StatsSummary):
+	current_stats = stats_summary
 	prev_corpus_button.text = "<%s" % corpus_titles[0]
 	header.text = corpus_titles[1]
 	next_corpus_button.text = "%s>" % corpus_titles[2]
+	seed_button.text = "Seed: %d" % stats_summary.run_seed
 	
 	for child in stats_list.get_children():
 		child.queue_free()
@@ -69,23 +74,22 @@ func load_corpus_stats(trophy: String = "highest_score"):
 func _on_highest_score_pressed() -> void:
 	load_corpus_stats("highest_score")
 
-
 func _on_most_words_pressed() -> void:
 	load_corpus_stats("most_completed_words")
-
 
 func _on_most_quests_pressed() -> void:
 	load_corpus_stats("most_completed_quests")
 
-
 func _on_most_moves_pressed() -> void:
 	load_corpus_stats("most_traversed_characters")
-
 
 func _on_prev_corpus_button_pressed() -> void:
 	corpus_titles.push_front(corpus_titles.pop_back())
 	load_corpus_stats()
-
+	
 func _on_next_corpus_button_pressed() -> void:
 	corpus_titles.push_back(corpus_titles.pop_front())
 	load_corpus_stats()
+
+func _on_seed_button_pressed() -> void:
+	DisplayServer.clipboard_set(str(current_stats.run_seed))

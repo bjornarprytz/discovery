@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dvve53ua35cvj"]
+[gd_scene load_steps=10 format=3 uid="uid://dvve53ua35cvj"]
 
 [ext_resource type="Script" path="res://run_stats_ui.gd" id="1_3he8d"]
 [ext_resource type="FontFile" uid="uid://cirp3jxlmy7d3" path="res://assets/CinzelDecorative-Black.ttf" id="2_e6tvn"]
@@ -8,6 +8,8 @@
 [sub_resource type="Theme" id="Theme_sktdp"]
 default_font = ExtResource("2_sk3j0")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6knei"]
+
 [sub_resource type="Theme" id="Theme_41ypm"]
 default_font = ExtResource("2_e6tvn")
 default_font_size = 32
@@ -15,6 +17,9 @@ default_font_size = 32
 [sub_resource type="Theme" id="Theme_iixf1"]
 default_font = ExtResource("4_plc1j")
 default_font_size = 24
+
+[sub_resource type="Theme" id="Theme_qogrl"]
+default_font = ExtResource("4_plc1j")
 
 [node name="RunStatsUi" type="Control"]
 layout_mode = 3
@@ -47,6 +52,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_sktdp")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6knei")
 text = "<Peter Pan"
 flat = true
 alignment = 0
@@ -67,6 +73,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_sktdp")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6knei")
 text = "The Wonderful Wizard of Oz>"
 flat = true
 alignment = 2
@@ -74,25 +81,26 @@ alignment = 2
 [node name="CenterContainer" type="CenterContainer" parent="PanelContainer/VB"]
 layout_mode = 2
 
-[node name="HB2" type="HBoxContainer" parent="PanelContainer/VB/CenterContainer"]
+[node name="HB" type="HBoxContainer" parent="PanelContainer/VB/CenterContainer"]
 layout_mode = 2
+theme_override_constants/separation = 20
 
-[node name="HighestScore" type="Button" parent="PanelContainer/VB/CenterContainer/HB2"]
+[node name="HighestScore" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
 text = "Highest Score"
 
-[node name="MostWords" type="Button" parent="PanelContainer/VB/CenterContainer/HB2"]
+[node name="MostWords" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
 text = "Most Words"
 
-[node name="MostQuests" type="Button" parent="PanelContainer/VB/CenterContainer/HB2"]
+[node name="MostQuests" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
 text = "Most Quests"
 
-[node name="MostMoves" type="Button" parent="PanelContainer/VB/CenterContainer/HB2"]
+[node name="MostMoves" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
 text = "Most Moves"
@@ -109,9 +117,41 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Ratios" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VB/MarginContainer/VB/Ratios"]
+layout_mode = 2
+
+[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/Ratios/PanelContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/Ratios/PanelContainer/VB"]
+layout_mode = 2
+
+[node name="Value" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/Ratios/PanelContainer/VB"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PanelContainer/VB/MarginContainer/VB"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PanelContainer/VB/MarginContainer/VB/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeedButton" type="Button" parent="PanelContainer/VB/MarginContainer/VB/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_qogrl")
+text = "Seed:"
+
 [connection signal="pressed" from="PanelContainer/VB/HB/PrevCorpusButton" to="." method="_on_prev_corpus_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VB/HB/NextCorpusButton" to="." method="_on_next_corpus_button_pressed"]
-[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB2/HighestScore" to="." method="_on_highest_score_pressed"]
-[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB2/MostWords" to="." method="_on_most_words_pressed"]
-[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB2/MostQuests" to="." method="_on_most_quests_pressed"]
-[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB2/MostMoves" to="." method="_on_most_moves_pressed"]
+[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/HighestScore" to="." method="_on_highest_score_pressed"]
+[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/MostWords" to="." method="_on_most_words_pressed"]
+[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/MostQuests" to="." method="_on_most_quests_pressed"]
+[connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/MostMoves" to="." method="_on_most_moves_pressed"]
+[connection signal="pressed" from="PanelContainer/VB/MarginContainer/VB/HBoxContainer/SeedButton" to="." method="_on_seed_button_pressed"]
