@@ -16,9 +16,11 @@ Goal: collect specific words to increase high score
   - Change palette in settings
 
 - Show Player Run Stats
+  - Would it work with a background game of "Alice Peter Oz"
 
 - UI
   - Rework Settings Menu
+  - Add choose seed
 
 - OnDeadEnd
   - Show run Stats

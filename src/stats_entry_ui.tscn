@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://qbngi4ss4eg5"]
+
+[ext_resource type="Script" path="res://stats_entry_ui.gd" id="1_8uwe4"]
+
+[node name="StatsEntry" type="HBoxContainer"]
+script = ExtResource("1_8uwe4")
+
+[node name="Category" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "Score"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Separator" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Value" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "1"
+fit_content = true
+autowrap_mode = 0
