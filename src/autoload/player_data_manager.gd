@@ -179,6 +179,7 @@ class StatsSummary:
 		summary.completed_words = data["completed_words"] if "completed_words" in data else 0
 		summary.completed_quests = data["completed_quests"] if "completed_quests" in data else 0
 		summary.chapters_visited = data["chapters_visited"] if "chapters_visited" in data else []
+		summary.total_chapters = data["total_chapters"] if "total_chapters" in data else 0
 		summary.ratio_of_characters_completed_words = data["ratio_of_characters_completed_words"] if "ratio_of_characters_completed_words" in data else 0.0
 		summary.ratio_of_moves_while_golden = data["ratio_of_moves_while_golden"] if "ratio_of_moves_while_golden" in data else 0.0
 		summary.ratio_of_quests_to_words = data["ratio_of_quests_to_words"] if "ratio_of_quests_to_words" in data else 0.0

@@ -1,25 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://qbngi4ss4eg5"]
+[gd_scene load_steps=5 format=3 uid="uid://qbngi4ss4eg5"]
 
 [ext_resource type="Script" path="res://stats_entry_ui.gd" id="1_8uwe4"]
+[ext_resource type="FontFile" uid="uid://cays8r4q66yls" path="res://assets/Unifontexmono-AL3RA.ttf" id="2_ko6yb"]
 
-[node name="StatsEntry" type="HBoxContainer"]
+[sub_resource type="Theme" id="Theme_4vrap"]
+default_font = ExtResource("2_ko6yb")
+default_font_size = 24
+
+[sub_resource type="Theme" id="Theme_nidat"]
+default_font = ExtResource("2_ko6yb")
+default_font_size = 24
+
+[node name="StatsEntry" type="PanelContainer"]
+offset_right = 1147.0
+offset_bottom = 23.0
 script = ExtResource("1_8uwe4")
 
-[node name="Category" type="RichTextLabel" parent="."]
+[node name="HB" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Category" type="RichTextLabel" parent="HB"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = SubResource("Theme_4vrap")
 bbcode_enabled = true
 text = "Score"
 fit_content = true
 autowrap_mode = 0
 
-[node name="Separator" type="Control" parent="."]
+[node name="Separator" type="RichTextLabel" parent="HB"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = SubResource("Theme_nidat")
+text = "......................................................................................................................................................................................................................................................................"
+scroll_active = false
+autowrap_mode = 0
 
-[node name="Value" type="RichTextLabel" parent="."]
+[node name="Value" type="RichTextLabel" parent="HB"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = SubResource("Theme_4vrap")
 bbcode_enabled = true
 text = "1"
 fit_content = true

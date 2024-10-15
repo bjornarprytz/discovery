@@ -178,6 +178,15 @@ var main_corpus: FullText
 ## This may be used for intermediate corpus, like the score screen
 var corpus: FullText
 
+func get_title(corpusId: String):
+	match corpusId:
+		"oz":
+			return TheWonderfulWizardOfOz.title
+		"peter":
+			return PeterPan.title
+		_:
+			return AlicesAdventuresInWonderland.title
+
 func get_chapter_at(idx: int) -> Chapter:
 	var normalized_idx = normalize_idx(idx)
 	for chapter in corpus.chapters:
