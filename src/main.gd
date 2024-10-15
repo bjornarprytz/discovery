@@ -95,7 +95,7 @@ func _flair(amount: int):
 	var f = flair.instantiate() as CPUParticles2D
 	add_child(f)
 	f.position = cam.position
-	f.amount = amount
+	f.amount = min(amount, 200)
 	f.emitting = true
 	await get_tree().create_timer(f.lifetime).timeout
 	f.queue_free()
