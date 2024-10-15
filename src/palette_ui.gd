@@ -1,9 +1,9 @@
 extends PanelContainer
 
-@onready var button_default: TextureButton = %ButtonDefault
-@onready var button_peter_pan: TextureButton = %ButtonPeterPan
-@onready var button_robinson_crusoe: TextureButton = %ButtonRobinsonCrusoe
-@onready var button_oz: TextureButton = %ButtonOz
+@onready var button_default: Button = %ButtonDefault
+@onready var button_peter_pan: Button = %ButtonPeterPan
+@onready var button_robinson_crusoe: Button = %ButtonRobinsonCrusoe
+@onready var button_oz: Button = %ButtonOz
 
 func _ready() -> void:
 	button_default.modulate = Palette.alice().mark_color

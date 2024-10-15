@@ -17,6 +17,9 @@ Goal: collect specific words to increase high score
 
 - Show Player Run Stats
 
+- UI
+  - Rework Settings Menu
+
 - OnDeadEnd
   - Show run Stats
   - Zoom Out
@@ -24,6 +27,8 @@ Goal: collect specific words to increase high score
 
 - QoL
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
+
+- Verify that cloud saves work on steam
 
 ## 1.1 roadmap (October Update)
 

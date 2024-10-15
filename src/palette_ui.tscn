@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqojxtpm0nf36"]
+[gd_scene load_steps=5 format=3 uid="uid://dqojxtpm0nf36"]
 
 [ext_resource type="Script" path="res://palette_ui.gd" id="1_6v6y3"]
 [ext_resource type="Texture2D" uid="uid://l1havtlaoqvw" path="res://assets/palette.png" id="1_gsn5j"]
-[ext_resource type="Texture2D" uid="uid://r2d4bo3ywynd" path="res://assets/palette-clicked.png" id="2_qh4yu"]
-[ext_resource type="Texture2D" uid="uid://bnjfdwy3orx0q" path="res://assets/palette-hover.png" id="3_jj22s"]
+[ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="2_klcoy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nb7qy"]
 
@@ -32,14 +31,13 @@ theme_override_constants/margin_bottom = 8
 [node name="CenterContainer" type="CenterContainer" parent="Buttons/DefaultPalette"]
 layout_mode = 2
 
-[node name="ButtonDefault" type="TextureButton" parent="Buttons/DefaultPalette/CenterContainer"]
+[node name="ButtonDefault" type="Button" parent="Buttons/DefaultPalette/CenterContainer"]
 unique_name_in_owner = true
 modulate = Color(0.854902, 0.647059, 0.223529, 1)
 texture_filter = 3
 layout_mode = 2
-texture_normal = ExtResource("1_gsn5j")
-texture_pressed = ExtResource("2_qh4yu")
-texture_hover = ExtResource("3_jj22s")
+theme = ExtResource("2_klcoy")
+icon = ExtResource("1_gsn5j")
 
 [node name="PeterPanPalette" type="MarginContainer" parent="Buttons"]
 layout_mode = 2
@@ -51,14 +49,13 @@ theme_override_constants/margin_bottom = 8
 [node name="CenterContainer" type="CenterContainer" parent="Buttons/PeterPanPalette"]
 layout_mode = 2
 
-[node name="ButtonPeterPan" type="TextureButton" parent="Buttons/PeterPanPalette/CenterContainer"]
+[node name="ButtonPeterPan" type="Button" parent="Buttons/PeterPanPalette/CenterContainer"]
 unique_name_in_owner = true
 modulate = Color(0.854902, 0.647059, 0.223529, 1)
 texture_filter = 3
 layout_mode = 2
-texture_normal = ExtResource("1_gsn5j")
-texture_pressed = ExtResource("2_qh4yu")
-texture_hover = ExtResource("3_jj22s")
+theme = ExtResource("2_klcoy")
+icon = ExtResource("1_gsn5j")
 
 [node name="Palette2" type="MarginContainer" parent="Buttons"]
 layout_mode = 2
@@ -70,14 +67,13 @@ theme_override_constants/margin_bottom = 8
 [node name="CenterContainer" type="CenterContainer" parent="Buttons/Palette2"]
 layout_mode = 2
 
-[node name="ButtonRobinsonCrusoe" type="TextureButton" parent="Buttons/Palette2/CenterContainer"]
+[node name="ButtonRobinsonCrusoe" type="Button" parent="Buttons/Palette2/CenterContainer"]
 unique_name_in_owner = true
 modulate = Color(0.854902, 0.647059, 0.223529, 1)
 texture_filter = 3
 layout_mode = 2
-texture_normal = ExtResource("1_gsn5j")
-texture_pressed = ExtResource("2_qh4yu")
-texture_hover = ExtResource("3_jj22s")
+theme = ExtResource("2_klcoy")
+icon = ExtResource("1_gsn5j")
 
 [node name="Palette3" type="MarginContainer" parent="Buttons"]
 layout_mode = 2
@@ -89,14 +85,13 @@ theme_override_constants/margin_bottom = 8
 [node name="CenterContainer" type="CenterContainer" parent="Buttons/Palette3"]
 layout_mode = 2
 
-[node name="ButtonOz" type="TextureButton" parent="Buttons/Palette3/CenterContainer"]
+[node name="ButtonOz" type="Button" parent="Buttons/Palette3/CenterContainer"]
 unique_name_in_owner = true
 modulate = Color(0.854902, 0.647059, 0.223529, 1)
 texture_filter = 3
 layout_mode = 2
-texture_normal = ExtResource("1_gsn5j")
-texture_pressed = ExtResource("2_qh4yu")
-texture_hover = ExtResource("3_jj22s")
+theme = ExtResource("2_klcoy")
+icon = ExtResource("1_gsn5j")
 
 [connection signal="pressed" from="Buttons/DefaultPalette/CenterContainer/ButtonDefault" to="." method="_on_button_pressed" binds= [0]]
 [connection signal="pressed" from="Buttons/PeterPanPalette/CenterContainer/ButtonPeterPan" to="." method="_on_button_pressed" binds= [1]]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d2xdtano7t7xb"]
+[gd_scene load_steps=11 format=3 uid="uid://d2xdtano7t7xb"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
@@ -7,48 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/custom_text.tscn" id="3_t4al8"]
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="4_fidr8"]
 [ext_resource type="Texture2D" uid="uid://cvb0xnpb5e30s" path="res://assets/exit.png" id="4_ijtnc"]
+[ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="5_emdlp"]
 [ext_resource type="PackedScene" uid="uid://b2cgwyo06yfwn" path="res://leaderboard_ui.tscn" id="7_lba4x"]
 
 [sub_resource type="Theme" id="Theme_jatff"]
 default_font = ExtResource("1_0iihq")
 default_font_size = 128
-
-[sub_resource type="Theme" id="Theme_k3nlm"]
-default_font = ExtResource("1_0iihq")
-default_font_size = 24
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iqimc"]
-texture = ExtResource("2_bfdqy")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4mlar"]
-texture = ExtResource("2_bfdqy")
-modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e4ret"]
-texture = ExtResource("2_bfdqy")
-modulate_color = Color(0.821789, 0.821789, 0.821788, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wug6k"]
-texture = ExtResource("3_n24qx")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7wf6"]
-texture = ExtResource("3_n24qx")
-modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b0a3m"]
-texture = ExtResource("3_n24qx")
-modulate_color = Color(0.821789, 0.821789, 0.821788, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2eemy"]
-texture = ExtResource("4_ijtnc")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_388db"]
-texture = ExtResource("4_ijtnc")
-modulate_color = Color(0.462291, 0.462291, 0.46229, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2ja8m"]
-texture = ExtResource("4_ijtnc")
-modulate_color = Color(0.821789, 0.821789, 0.821788, 1)
 
 [node name="Score" type="Node2D"]
 script = ExtResource("1_66yog")
@@ -164,30 +128,30 @@ modulate = Color(0.498039, 1, 0.831373, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Retry"
-theme = SubResource("Theme_k3nlm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_iqimc")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_4mlar")
-theme_override_styles/normal = SubResource("StyleBoxTexture_e4ret")
+theme = ExtResource("5_emdlp")
+icon = ExtResource("2_bfdqy")
+icon_alignment = 1
+expand_icon = true
 
 [node name="Settings" type="Button" parent="Background/ButtonBackground/Buttons"]
 modulate = Color(0.792157, 0.8, 0.478431, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Secret"
-theme = SubResource("Theme_k3nlm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_wug6k")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_q7wf6")
-theme_override_styles/normal = SubResource("StyleBoxTexture_b0a3m")
+theme = ExtResource("5_emdlp")
+icon = ExtResource("3_n24qx")
+icon_alignment = 1
+expand_icon = true
 
 [node name="Quit" type="Button" parent="Background/ButtonBackground/Buttons"]
 modulate = Color(0.8, 0.478431, 0.556863, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Quit"
-theme = SubResource("Theme_k3nlm")
-theme_override_styles/hover = SubResource("StyleBoxTexture_2eemy")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_388db")
-theme_override_styles/normal = SubResource("StyleBoxTexture_2ja8m")
+theme = ExtResource("5_emdlp")
+icon = ExtResource("4_ijtnc")
+icon_alignment = 1
+expand_icon = true
 
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
