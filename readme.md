@@ -15,12 +15,19 @@ Goal: collect specific words to increase high score
 - Add Color Palettes
   - Change palette in settings
 
-- Show Player Run Stats
-  - Would it work with a background game of "Alice Peter Oz"
+- Show Player Trophy Room (run stats)
+  - Add a background game of "Alice Peter Oz"
+  - Highlight best scores with some BBCode
+  - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
 
 - UI
   - Rework Settings Menu
-  - Add choose seed
+    - It should serve as the main menu
+  - Settings
+    - Choose seed
+    - Palette
+    - Corpus
+    - See stats + leaderboard
 
 - OnDeadEnd
   - Show run Stats

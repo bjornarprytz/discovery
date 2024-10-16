@@ -107,33 +107,39 @@ text = "Most Moves"
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VB"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
 
 [node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer"]
 layout_mode = 2
 
-[node name="StatsList" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
+[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
+layout_mode = 2
+
+[node name="StatsList" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/VB"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Ratios" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
+[node name="Ratios" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/VB"]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VB/MarginContainer/VB/Ratios"]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios"]
 layout_mode = 2
 
-[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/Ratios/PanelContainer"]
+[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios/PanelContainer"]
 layout_mode = 2
 
-[node name="Description" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/Ratios/PanelContainer/VB"]
+[node name="Description" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios/PanelContainer/VB"]
 layout_mode = 2
 
-[node name="Value" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/Ratios/PanelContainer/VB"]
+[node name="Value" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios/PanelContainer/VB"]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="PanelContainer/VB/MarginContainer/VB"]
+[node name="Spacer2" type="Control" parent="PanelContainer/VB/MarginContainer/VB"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
 layout_mode = 2

@@ -20,7 +20,14 @@ func random_color() -> Color:
 		randf_range(0, 1),
 		randf_range(0, 1)
 	)
-	
+
+func fade_in(node: CanvasItem, duration: float) -> Tween:
+	var tween = node.create_tween()
+	node.modulate.a = 0
+	tween.tween_property(node, "modulate:a", 1.0, duration)
+
+	return tween
+
 func to_dictionary(o: Variant) -> Dictionary:
 	var dict = {}
 	

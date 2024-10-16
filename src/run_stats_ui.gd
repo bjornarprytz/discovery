@@ -20,6 +20,8 @@ var trophy_titles = [
 	"most_traversed_characters"
 ]
 
+var _is_updating: bool = false
+
 var current_stats: PlayerData.StatsSummary
 
 func _ready() -> void:
@@ -54,9 +56,16 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 	var i = 0
 	for key in entries.keys():
 		var value = entries[key]
-		stats_list.add_child(Create.stats_entry(key, value, i))
+		var entry = Create.stats_entry(key, value, i)
+		var current_chilt = stats_list.get_child(i)
+		if current_chilt != null:
+			current_chilt.queue_free()
+		
+		stats_list.add_child(entry)
+		stats_list.move_child(entry, i)
+		Utils.fade_in(entry, 0.5)
+		await get_tree().create_timer(0.069).timeout
 		i += 1
-	pass
 
 func load_corpus_stats(trophy: String = "highest_score"):
 	var trophies: PlayerData.CorpusTrophies
