@@ -20,8 +20,6 @@ var trophy_titles = [
 	"most_traversed_characters"
 ]
 
-var _is_updating: bool = false
-
 var current_stats: PlayerData.StatsSummary
 
 func _ready() -> void:
@@ -34,9 +32,6 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 	header.text = corpus_titles[1]
 	next_corpus_button.text = "%s>" % corpus_titles[2]
 	seed_button.text = "Seed: %d" % stats_summary.run_seed
-	
-	for child in stats_list.get_children():
-		child.queue_free()
 
 	var entries = {
 		"Score": stats_summary.score,
@@ -56,13 +51,15 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 	var i = 0
 	for key in entries.keys():
 		var value = entries[key]
-		var entry = Create.stats_entry(key, value, i)
-		var current_chilt = stats_list.get_child(i)
-		if current_chilt != null:
-			current_chilt.queue_free()
 		
-		stats_list.add_child(entry)
-		stats_list.move_child(entry, i)
+		var entry: StatsEntry
+		if stats_list.get_child_count() <= i:
+			entry = Create.stats_entry(key, value, i)
+			stats_list.add_child(entry)
+		else:
+			entry = stats_list.get_child(i)
+			entry.initialize(key, value, i)
+		
 		Utils.fade_in(entry, 0.5)
 		await get_tree().create_timer(0.069).timeout
 		i += 1
