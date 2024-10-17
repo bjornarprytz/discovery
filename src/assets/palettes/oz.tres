@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Palette" load_steps=2 format=3 uid="uid://bd7kbut1h3m4l"]
+
+[ext_resource type="Script" path="res://palette.gd" id="1_drk2g"]
+
+[resource]
+script = ExtResource("1_drk2g")
+background_color = Color(0.305882, 0.65098, 0.945098, 1)
+background_accent_color = Color(0.0745098, 0.568627, 1, 1)
+tutorial_color = Color(0.443137, 0.509804, 0.941176, 1)
+text_color = Color(1, 1, 1, 1)
+text_contrast_color = Color(0, 0, 0, 1)
+quest_color = Color(0.0823529, 0.431373, 0.137255, 1)
+error_color = Color(0.0431373, 0.027451, 0.0235294, 1)
+mark_color = Color(0.996078, 0.901961, 0.141176, 1)
+inert_color = Color(0.647059, 0.639216, 0.627451, 1)

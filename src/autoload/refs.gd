@@ -2,24 +2,22 @@ extends Node
 
 signal palette_changed(palette: Palette)
 
-var _palettes: Array[Palette] = [
-	Palette.alice(),
-	Palette.peter(),
-	Palette.robinson(),
-	Palette.oz()
-]
+@export var palettes: Array[Palette]
 
 var current_palette_idx: int = 0
-@export var current_palette: Palette = _palettes[current_palette_idx]
+var current_palette: Palette:
+	get:
+		if current_palette_idx >= palettes.size():
+			return null
+		return palettes[current_palette_idx]
 
 func set_palette(index: int) -> void:
-	if index < 0 or index >= _palettes.size():
+	if index < 0 or index >= palettes.size():
 		set_palette(0)
 		return
 	
-	current_palette_idx = index
 	var prev_palette = current_palette
-	current_palette = _palettes[index]
+	current_palette_idx = index
 	if prev_palette != current_palette:
 		palette_changed.emit(current_palette)
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqojxtpm0nf36"]
+[gd_scene load_steps=6 format=3 uid="uid://dqojxtpm0nf36"]
 
 [ext_resource type="Script" path="res://palette_ui.gd" id="1_6v6y3"]
 [ext_resource type="Texture2D" uid="uid://l1havtlaoqvw" path="res://assets/palette.png" id="1_gsn5j"]
 [ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="2_klcoy"]
+[ext_resource type="Texture2D" uid="uid://r2d4bo3ywynd" path="res://assets/palette-clicked.png" id="4_kk730"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nb7qy"]
 
@@ -11,89 +12,22 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_right = -20.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nb7qy")
 script = ExtResource("1_6v6y3")
+button_theme = ExtResource("2_klcoy")
+palette_button_icon = ExtResource("1_gsn5j")
+current_palette_button_icon = ExtResource("4_kk730")
 
-[node name="Buttons" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="DefaultPalette" type="MarginContainer" parent="Buttons"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="CenterContainer" type="CenterContainer" parent="Buttons/DefaultPalette"]
-layout_mode = 2
-
-[node name="ButtonDefault" type="Button" parent="Buttons/DefaultPalette/CenterContainer"]
-unique_name_in_owner = true
-modulate = Color(0.854902, 0.647059, 0.223529, 1)
-texture_filter = 3
-layout_mode = 2
-theme = ExtResource("2_klcoy")
-icon = ExtResource("1_gsn5j")
-
-[node name="PeterPanPalette" type="MarginContainer" parent="Buttons"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="CenterContainer" type="CenterContainer" parent="Buttons/PeterPanPalette"]
-layout_mode = 2
-
-[node name="ButtonPeterPan" type="Button" parent="Buttons/PeterPanPalette/CenterContainer"]
-unique_name_in_owner = true
-modulate = Color(0.854902, 0.647059, 0.223529, 1)
-texture_filter = 3
-layout_mode = 2
-theme = ExtResource("2_klcoy")
-icon = ExtResource("1_gsn5j")
-
-[node name="Palette2" type="MarginContainer" parent="Buttons"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="CenterContainer" type="CenterContainer" parent="Buttons/Palette2"]
-layout_mode = 2
-
-[node name="ButtonRobinsonCrusoe" type="Button" parent="Buttons/Palette2/CenterContainer"]
-unique_name_in_owner = true
-modulate = Color(0.854902, 0.647059, 0.223529, 1)
-texture_filter = 3
-layout_mode = 2
-theme = ExtResource("2_klcoy")
-icon = ExtResource("1_gsn5j")
-
-[node name="Palette3" type="MarginContainer" parent="Buttons"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="CenterContainer" type="CenterContainer" parent="Buttons/Palette3"]
-layout_mode = 2
-
-[node name="ButtonOz" type="Button" parent="Buttons/Palette3/CenterContainer"]
-unique_name_in_owner = true
-modulate = Color(0.854902, 0.647059, 0.223529, 1)
-texture_filter = 3
-layout_mode = 2
-theme = ExtResource("2_klcoy")
-icon = ExtResource("1_gsn5j")
-
-[connection signal="pressed" from="Buttons/DefaultPalette/CenterContainer/ButtonDefault" to="." method="_on_button_pressed" binds= [0]]
-[connection signal="pressed" from="Buttons/PeterPanPalette/CenterContainer/ButtonPeterPan" to="." method="_on_button_pressed" binds= [1]]
-[connection signal="pressed" from="Buttons/Palette2/CenterContainer/ButtonRobinsonCrusoe" to="." method="_on_button_pressed" binds= [2]]
-[connection signal="pressed" from="Buttons/Palette3/CenterContainer/ButtonOz" to="." method="_on_button_pressed" binds= [3]]
+theme_override_constants/separation = 10

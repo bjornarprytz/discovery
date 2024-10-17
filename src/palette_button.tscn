@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://gab8g7wel5lw"]
+
+[ext_resource type="Script" path="res://palette_button.gd" id="1_0udxw"]
+[ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="1_7126g"]
+[ext_resource type="Texture2D" uid="uid://l1havtlaoqvw" path="res://assets/palette.png" id="2_yxt06"]
+
+[node name="DefaultPalette" type="MarginContainer"]
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_0udxw")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="ButtonDefault" type="Button" parent="CenterContainer"]
+unique_name_in_owner = true
+modulate = Color(0.854902, 0.647059, 0.223529, 1)
+texture_filter = 3
+layout_mode = 2
+theme = ExtResource("1_7126g")
+icon = ExtResource("2_yxt06")
