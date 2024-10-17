@@ -1,5 +1,5 @@
+class_name CustomTextGame
 extends Node2D
-class_name ScoreTextGame
 
 @onready var segment_spawner = preload("res://logic/text-segment.tscn")
 @onready var LINE_LENGTH: int = Corpus.corpus_line_length
@@ -44,9 +44,6 @@ func try_move(input: String) -> bool:
 	
 	var invalid = not_visited.filter(func(c1: MoveCandidate): return not_visited.filter(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0).size() > 1)
 	var valid = not_visited.filter(func(c: MoveCandidate): return Corpus.is_char_valid(c.character)).filter(func(c1: MoveCandidate): return !invalid.any(func(c2: MoveCandidate): return c1.character.nocasecmp_to(c2.character) == 0))
-	
-	if valid.is_empty():
-		Game.game_over.emit(Game.score)
 	
 	for candidate in valid:
 		if (input.nocasecmp_to(candidate.character) == 0):

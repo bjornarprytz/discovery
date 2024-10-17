@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://b53ke0asmd13e"]
+
+[ext_resource type="Script" path="res://trophy_room.gd" id="1_pahov"]
+[ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/custom_text.tscn" id="2_ysphe"]
+[ext_resource type="PackedScene" uid="uid://dvve53ua35cvj" path="res://run_stats_ui.tscn" id="3_mqni7"]
+
+[node name="TrophyRoom" type="Node2D"]
+script = ExtResource("1_pahov")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0823529, 0.0823529, 0.0823529, 1)
+
+[node name="TrophyTextGame" parent="Background" instance=ExtResource("2_ysphe")]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.0313726)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0.427451)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="RunStatsUi" parent="CanvasLayer/MarginContainer" instance=ExtResource("3_mqni7")]
+unique_name_in_owner = true
+layout_mode = 2

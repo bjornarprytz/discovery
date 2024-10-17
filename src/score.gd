@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var menu: ScoreTextGame = $Background/ScoreTextGame
+@onready var menu: CustomTextGame = $Background/ScoreTextGame
 
 @onready var leaderboard: LeaderboardUI = $Background/HB/Leaderboard
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvve53ua35cvj"]
+[gd_scene load_steps=11 format=3 uid="uid://dvve53ua35cvj"]
 
 [ext_resource type="Script" path="res://run_stats_ui.gd" id="1_3he8d"]
 [ext_resource type="FontFile" uid="uid://cirp3jxlmy7d3" path="res://assets/CinzelDecorative-Black.ttf" id="2_e6tvn"]
@@ -17,6 +17,8 @@ default_font_size = 32
 [sub_resource type="Theme" id="Theme_iixf1"]
 default_font = ExtResource("4_plc1j")
 default_font_size = 24
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_psjoi"]
 
 [sub_resource type="Theme" id="Theme_qogrl"]
 default_font = ExtResource("4_plc1j")
@@ -86,23 +88,35 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="HighestScore" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_psjoi")
 text = "Highest Score"
 
 [node name="MostWords" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_psjoi")
 text = "Most Words"
 
 [node name="MostQuests" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_psjoi")
 text = "Most Quests"
 
 [node name="MostMoves" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = SubResource("Theme_iixf1")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_psjoi")
 text = "Most Moves"
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VB"]

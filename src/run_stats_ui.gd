@@ -1,3 +1,4 @@
+class_name RunStatsUI
 extends Control
 
 var stats: PlayerData.StatsSummary
@@ -8,11 +9,20 @@ var stats: PlayerData.StatsSummary
 @onready var next_corpus_button: Button = %NextCorpusButton
 @onready var seed_button: Button = %SeedButton
 
+# Names here are important to match trophy titles
+@onready var highest_score: Button = %HighestScore
+@onready var most_completed_words: Button = %MostWords
+@onready var most_completed_quests: Button = %MostQuests
+@onready var most_traversed_characters: Button = %MostMoves
+
+
 var corpus_titles = [
 	PeterPan.title, # prev
 	AlicesAdventuresInWonderland.title, # current
 	TheWonderfulWizardOfOz.title # next
 ]
+
+var current_trophy_index: int
 var trophy_titles = [
 	"highest_score",
 	"most_completed_words",
@@ -23,7 +33,7 @@ var trophy_titles = [
 var current_stats: PlayerData.StatsSummary
 
 func _ready() -> void:
-	load_stats(PlayerData.player_data.alice_trophies.highest_score)
+	change_corpus(AlicesAdventuresInWonderland.title)
 	pass
 
 func load_stats(stats_summary: PlayerData.StatsSummary):
@@ -66,6 +76,11 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 
 func load_corpus_stats(trophy: String = "highest_score"):
 	var trophies: PlayerData.CorpusTrophies
+	var next_trophy_index = trophy_titles.find(trophy)
+
+	if next_trophy_index == -1:
+		push_error("Trophy %s not found" % trophy)
+		return
 
 	match corpus_titles[1]:
 		PeterPan.title:
@@ -75,7 +90,35 @@ func load_corpus_stats(trophy: String = "highest_score"):
 		_:
 			trophies = PlayerData.player_data.alice_trophies
 
+	(get(trophy) as Button).button_pressed = true
 	load_stats(trophies.get(trophy))
+	current_trophy_index = next_trophy_index
+
+func change_corpus(title: String):
+	match title:
+		PeterPan.title:
+			corpus_titles = [
+				TheWonderfulWizardOfOz.title, # next
+				PeterPan.title, # current
+				AlicesAdventuresInWonderland.title # prev
+			]
+		TheWonderfulWizardOfOz.title:
+			corpus_titles = [
+				AlicesAdventuresInWonderland.title, # next
+				TheWonderfulWizardOfOz.title, # current
+				PeterPan.title # prev
+			]
+		AlicesAdventuresInWonderland.title:
+			corpus_titles = [
+				PeterPan.title, # next
+				AlicesAdventuresInWonderland.title, # current
+				TheWonderfulWizardOfOz.title # prev
+			]
+	load_corpus_stats()
+
+func cycle_trophy():
+	current_trophy_index = (current_trophy_index + 1) % trophy_titles.size()
+	load_corpus_stats(trophy_titles[current_trophy_index])
 
 func _on_highest_score_pressed() -> void:
 	load_corpus_stats("highest_score")
