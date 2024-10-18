@@ -74,7 +74,9 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 		await get_tree().create_timer(0.069).timeout
 		i += 1
 
-func load_corpus_stats(trophy: String = "highest_score"):
+func load_corpus_stats(trophy: String = ""):
+	if trophy == "":
+		trophy = trophy_titles[current_trophy_index]
 	var trophies: PlayerData.CorpusTrophies
 	var next_trophy_index = trophy_titles.find(trophy)
 
@@ -116,9 +118,20 @@ func change_corpus(title: String):
 			]
 	load_corpus_stats()
 
-func cycle_trophy():
-	current_trophy_index = (current_trophy_index + 1) % trophy_titles.size()
-	load_corpus_stats(trophy_titles[current_trophy_index])
+func copy_seed():
+	DisplayServer.clipboard_set(str(current_stats.run_seed))
+
+func cycle_trophy(back: bool = false):
+	var change = -1 if back else 1
+	current_trophy_index = (current_trophy_index + change) % trophy_titles.size()
+	load_corpus_stats()
+
+func cycle_corpus(back: bool = false):
+	if back:
+		corpus_titles.push_front(corpus_titles.pop_back())
+	else:
+		corpus_titles.push_back(corpus_titles.pop_front())
+	load_corpus_stats()
 
 func _on_highest_score_pressed() -> void:
 	load_corpus_stats("highest_score")
@@ -133,12 +146,10 @@ func _on_most_moves_pressed() -> void:
 	load_corpus_stats("most_traversed_characters")
 
 func _on_prev_corpus_button_pressed() -> void:
-	corpus_titles.push_front(corpus_titles.pop_back())
-	load_corpus_stats()
+	cycle_corpus(true)
 	
 func _on_next_corpus_button_pressed() -> void:
-	corpus_titles.push_back(corpus_titles.pop_front())
-	load_corpus_stats()
+	cycle_corpus()
 
 func _on_seed_button_pressed() -> void:
-	DisplayServer.clipboard_set(str(current_stats.run_seed))
+	copy_seed()

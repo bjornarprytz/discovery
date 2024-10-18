@@ -17,10 +17,6 @@ Goal: collect specific words to increase high score
   - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
   - Button to Go Back
   - Color from palette
-  - Controls
-    - Left/Right: Change Corpus
-    - Esc: Go Back
-    - Ctrl-C: Copy Seed
 
 - UI
   - Settings / Main Menu (Rework)
@@ -41,6 +37,9 @@ Goal: collect specific words to increase high score
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
 
 - Verify that cloud saves work on steam
+
+- Achievements:
+  - No Place Like Home
 
 ## 1.1 roadmap (October Update)
 
