@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://be6kuksy0lijm"]
+[gd_scene load_steps=22 format=3 uid="uid://be6kuksy0lijm"]
 
 [ext_resource type="Script" path="res://main_ui.gd" id="1_r4clx"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_rmc51"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dl0xwr7njputo" path="res://assets/mute-off.png" id="5_de3f0"]
 [ext_resource type="Texture2D" uid="uid://d4dn6dvfrdbd" path="res://assets/mute-on.png" id="6_xeavy"]
 [ext_resource type="PackedScene" uid="uid://dqojxtpm0nf36" path="res://palette_ui.tscn" id="7_76j7e"]
+[ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="8_a4g22"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bi1r6"]
 bg_color = Color(0.0235294, 0.0235294, 0.215686, 1)
@@ -253,5 +254,14 @@ layout_mode = 1
 offset_left = -76.0
 offset_right = -66.0
 
+[node name="SeedButton" type="Button" parent="Menu"]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 141.0
+offset_bottom = 23.0
+theme = ExtResource("8_a4g22")
+text = "Seed: 1337696969"
+
 [connection signal="pressed" from="Menu/MuteOff" to="." method="_on_mute_off_pressed"]
 [connection signal="pressed" from="Menu/MuteOn" to="." method="_on_mute_on_pressed"]
+[connection signal="pressed" from="Menu/SeedButton" to="." method="_on_seed_button_pressed"]

@@ -14,6 +14,8 @@ extends CanvasLayer
 @onready var multiplier_label: RichTextLabel = $Border/QuestBar/Multiplier
 @onready var quest_bar: ProgressBar = $Border/QuestBar
 @onready var sheen: ColorRect = $Border/QuestBar/TargetWord/Sheen
+@onready var seed_button: Button = %SeedButton
+
 @onready var sheen_base_position = sheen.position
 
 func _ready() -> void:
@@ -35,6 +37,7 @@ func _ready() -> void:
 	Refs.palette_changed.connect(_on_palette_changed)
 	_on_palette_changed(Refs.current_palette)
 	
+	_update_seed()
 
 func set_show_menu(show_ui: bool) -> void:
 	var toggle_tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
@@ -48,6 +51,9 @@ func set_show_menu(show_ui: bool) -> void:
 		toggle_tween.tween_property(menu, 'modulate:a', 0.0, .3)
 		await toggle_tween.finished
 		menu.hide()
+
+func _update_seed():
+	seed_button.text = "Seed: %d" % Game.stats.run_seed
 
 func _on_palette_changed(palette: Palette):
 	_on_golden_changed(Game.is_golden)
@@ -144,3 +150,6 @@ func _on_mute_off_pressed() -> void:
 
 func _on_mute_on_pressed() -> void:
 	Game.is_muted = false
+
+func _on_seed_button_pressed() -> void:
+	DisplayServer.clipboard_set(str(Game.stats.run_seed))

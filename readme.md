@@ -15,18 +15,14 @@ Goal: collect specific words to increase high score
 - Show Player Trophy Room (run stats)
   - Highlight best scores with some BBCode
   - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
-  - Button to Go Back
   - Color from palette
 
 - UI
   - Settings / Main Menu (Rework)
     - Choose seed
     - Palette
-    - Corpus
+    - Choose Corpus
     - See stats + leaderboard
-  - In-Game Menu
-    - Choose Palette
-    - Copy Seed
 
 - OnDeadEnd
   - Show run Stats

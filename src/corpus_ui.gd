@@ -12,6 +12,10 @@ extends Control
 @onready var go_boom: CPUParticles2D = $GoTime/GoBoom
 @onready var boom: AudioStreamPlayer2D = $Boom
 
+@onready var alice_button: Button = $PanelContainer/VBoxContainer/AliceButton
+@onready var peter_pan_button: Button = $PanelContainer/VBoxContainer/PeterPanButton
+@onready var oz_button: Button = $PanelContainer/VBoxContainer/OzButton
+
 const SEGMENT_COUNT := 9
 const SHAKE_MAGNITUDE := 5
 @onready var minimum_corpus_length := ceil((Corpus.segment_height * Corpus.segment_width * SEGMENT_COUNT) / 1000.0) * 1000.0
@@ -25,6 +29,17 @@ func _ready() -> void:
 	sanitize_regex = RegEx.new()
 	sanitize_regex.compile("\\[.*?\\]")
 	corpus_input.grab_focus()
+	_update_button_state()
+
+func _update_button_state():
+	match Corpus.main_corpus.id:
+		AlicesAdventuresInWonderland.id:
+			alice_button.button_pressed = true
+		PeterPan.id:
+			peter_pan_button.button_pressed = true
+		TheWonderfulWizardOfOz.id:
+			oz_button.button_pressed = true
+		
 	
 func _load_corpus():
 	if (!timer.is_stopped()):
@@ -88,10 +103,8 @@ func set_loading(state: bool):
 func _on_alice_button_pressed() -> void:
 	Corpus.load_corpus(AlicesAdventuresInWonderland.create_corpus(), true)
 
-
 func _on_peter_pan_button_pressed() -> void:
 	Corpus.load_corpus(PeterPan.create_corpus(), true)
-
 
 func _on_oz_button_pressed() -> void:
 	Corpus.load_corpus(TheWonderfulWizardOfOz.create_corpus(), true)

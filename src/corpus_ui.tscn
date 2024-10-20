@@ -1,13 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://b55yp7h0uty8s"]
+[gd_scene load_steps=8 format=3 uid="uid://b55yp7h0uty8s"]
 
 [ext_resource type="Script" path="res://corpus_ui.gd" id="1_b8no8"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_g3olx"]
 [ext_resource type="Texture2D" uid="uid://dyeaopgkkyw48" path="res://assets/enter-icon.png" id="2_0eim3"]
 [ext_resource type="AudioStream" uid="uid://eqni4bq3mka7" path="res://assets/finished.wav" id="3_sk0yg"]
+[ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="5_ntqgl"]
 
 [sub_resource type="Theme" id="Theme_ltn4h"]
 default_font = ExtResource("1_g3olx")
 default_font_size = 128
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_suxdl"]
 
 [node name="Corpus" type="Control"]
 layout_mode = 3
@@ -158,14 +161,23 @@ layout_mode = 2
 
 [node name="AliceButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_ntqgl")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_suxdl")
 text = "Alice's Adventures in Wonderland"
 
 [node name="PeterPanButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_ntqgl")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_suxdl")
 text = "Peter pan"
 
 [node name="OzButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("5_ntqgl")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_suxdl")
 text = "The Wonderful Wizard of Oz"
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/AliceButton" to="." method="_on_alice_button_pressed"]
