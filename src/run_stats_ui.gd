@@ -41,7 +41,7 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 	prev_corpus_button.text = "<%s" % corpus_titles[0]
 	header.text = corpus_titles[1]
 	next_corpus_button.text = "%s>" % corpus_titles[2]
-	seed_button.text = "Seed: %d" % stats_summary.run_seed
+	seed_button.text = "Seed: %s" % [str(stats_summary.run_seed) if stats_summary.run_seed != 0 else "-"]
 
 	var entries = {
 		"Score": stats_summary.score,

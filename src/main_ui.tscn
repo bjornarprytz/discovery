@@ -251,8 +251,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_hteoj")
 [node name="PaletteUI" parent="Menu" instance=ExtResource("7_76j7e")]
 layout_mode = 1
 offset_left = -76.0
-offset_right = 76.0
-offset_bottom = 48.0
+offset_right = -66.0
 
 [connection signal="pressed" from="Menu/MuteOff" to="." method="_on_mute_off_pressed"]
 [connection signal="pressed" from="Menu/MuteOn" to="." method="_on_mute_on_pressed"]

@@ -56,6 +56,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = SubResource("Theme_sktdp")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6knei")
 text = "<Peter Pan"
@@ -77,6 +78,7 @@ autowrap_mode = 0
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 theme = SubResource("Theme_sktdp")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6knei")
 text = "The Wonderful Wizard of Oz>"
@@ -93,6 +95,7 @@ theme_override_constants/separation = 20
 [node name="HighestScore" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme = SubResource("Theme_iixf1")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_psjoi")
@@ -101,6 +104,7 @@ text = "Highest Score"
 [node name="MostWords" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme = SubResource("Theme_iixf1")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_psjoi")
@@ -109,6 +113,7 @@ text = "Most Words"
 [node name="MostQuests" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme = SubResource("Theme_iixf1")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_psjoi")
@@ -117,6 +122,7 @@ text = "Most Quests"
 [node name="MostMoves" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme = SubResource("Theme_iixf1")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_psjoi")
@@ -168,6 +174,7 @@ size_flags_horizontal = 3
 [node name="SeedButton" type="Button" parent="PanelContainer/VB/MarginContainer/VB/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme = SubResource("Theme_qogrl")
 text = "Seed:"
 

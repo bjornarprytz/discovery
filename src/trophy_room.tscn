@@ -1,8 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://b53ke0asmd13e"]
+[gd_scene load_steps=9 format=3 uid="uid://b53ke0asmd13e"]
 
 [ext_resource type="Script" path="res://trophy_room.gd" id="1_pahov"]
 [ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/custom_text.tscn" id="2_ysphe"]
+[ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="3_4qm1l"]
 [ext_resource type="PackedScene" uid="uid://dvve53ua35cvj" path="res://run_stats_ui.tscn" id="3_mqni7"]
+
+[sub_resource type="Theme" id="Theme_s8fyr"]
+default_font = ExtResource("3_4qm1l")
+default_font_size = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u1dwb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+
+[sub_resource type="InputEventKey" id="InputEventKey_gdjpl"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_ovdd1"]
+events = [SubResource("InputEventKey_gdjpl")]
 
 [node name="TrophyRoom" type="Node2D"]
 script = ExtResource("1_pahov")
@@ -30,10 +49,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Back" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "     <     "
+tooltip_text = "Back"
+focus_mode = 0
+theme = SubResource("Theme_s8fyr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_u1dwb")
+shortcut = SubResource("Shortcut_ovdd1")
+text = "<<"
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
@@ -48,4 +72,4 @@ unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.768627)
 layout_mode = 2
 
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/Button" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Back" to="." method="_on_back_pressed"]
