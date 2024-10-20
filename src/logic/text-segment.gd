@@ -18,7 +18,7 @@ func _ready():
 	_on_mute_toggled(Game.is_muted)
 	_fade_in_volume()
 	Refs.palette_changed.connect(_on_palette_changed)
-	background.color = Refs.current_palette.background_color
+	_on_palette_changed(Refs.current_palette)
 
 func set_start_index(idx: int) -> void:
 	var normalized_idx = Corpus.normalize_idx(idx)

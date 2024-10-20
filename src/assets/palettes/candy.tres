@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Palette" load_steps=2 format=3 uid="uid://cmt656wovohen"]
+
+[ext_resource type="Script" path="res://palette.gd" id="1_l8iyu"]
+
+[resource]
+script = ExtResource("1_l8iyu")
+background_color = Color(0.992157, 0.772549, 0.870588, 1)
+background_accent_color = Color(0.741687, 0.804592, 0.907883, 1)
+tutorial_color = Color(0.992157, 0.713726, 0.603922, 1)
+text_color = Color(0.0980392, 0.509804, 0.772549, 1)
+text_contrast_color = Color(1, 1, 1, 1)
+quest_color = Color(0.545098, 0.788235, 0.152941, 1)
+error_color = Color(1, 0.792157, 0.227451, 1)
+mark_color = Color(0.415686, 0.298039, 0.580392, 1)
+inert_color = Color(0.411765, 0.411765, 0.411765, 1)

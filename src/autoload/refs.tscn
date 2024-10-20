@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://7st6luypoimd"]
+[gd_scene load_steps=8 format=3 uid="uid://7st6luypoimd"]
 
 [ext_resource type="Script" path="res://autoload/refs.gd" id="1_e08ly"]
 [ext_resource type="Script" path="res://palette.gd" id="2_56sge"]
@@ -6,7 +6,8 @@
 [ext_resource type="Resource" uid="uid://bqufg0ksof4tu" path="res://assets/palettes/peter.tres" id="4_i24es"]
 [ext_resource type="Resource" uid="uid://56c7v3pw24c6" path="res://assets/palettes/robinson.tres" id="5_2j216"]
 [ext_resource type="Resource" uid="uid://bd7kbut1h3m4l" path="res://assets/palettes/oz.tres" id="6_700ci"]
+[ext_resource type="Resource" uid="uid://cmt656wovohen" path="res://assets/palettes/candy.tres" id="7_m8721"]
 
 [node name="Refs" type="Node"]
 script = ExtResource("1_e08ly")
-palettes = Array[ExtResource("2_56sge")]([ExtResource("3_bw3v5"), ExtResource("4_i24es"), ExtResource("5_2j216"), ExtResource("6_700ci")])
+palettes = Array[ExtResource("2_56sge")]([ExtResource("3_bw3v5"), ExtResource("4_i24es"), ExtResource("5_2j216"), ExtResource("6_700ci"), ExtResource("7_m8721")])
