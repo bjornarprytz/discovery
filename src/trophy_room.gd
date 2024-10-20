@@ -23,11 +23,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		elif (event.is_action("ui_copy")):
 			run_stats_ui.copy_seed()
 		elif (event.is_action("ui_cancel")):
-			get_tree().change_scene_to_packed(preload("res://score.tscn"))
+			_back()
 		
 		var key = event.as_text()
 		trophy_text_game.try_move(key)
 
+func _back():
+	get_tree().change_scene_to_packed(preload("res://score.tscn"))
 
 func _easter_egg_check() -> void:
 	if _easter_egg.is_empty():
@@ -49,3 +51,7 @@ func _make_it_rain():
 func _word_complete(_w: String, _was_quest: bool):
 	_easter_egg.pop_back()
 	_easter_egg_check()
+
+
+func _on_back_pressed() -> void:
+	_back()

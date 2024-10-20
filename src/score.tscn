@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2xdtano7t7xb"]
+[gd_scene load_steps=12 format=3 uid="uid://d2xdtano7t7xb"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cvb0xnpb5e30s" path="res://assets/exit.png" id="4_ijtnc"]
 [ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="5_emdlp"]
 [ext_resource type="PackedScene" uid="uid://b2cgwyo06yfwn" path="res://leaderboard_ui.tscn" id="7_lba4x"]
+[ext_resource type="Texture2D" uid="uid://db0uwp3klacma" path="res://assets/trophies.png" id="8_8rkue"]
 
 [sub_resource type="Theme" id="Theme_jatff"]
 default_font = ExtResource("1_0iihq")
@@ -98,32 +99,29 @@ layout_mode = 2
 [node name="ScoreTextGame" parent="Background" instance=ExtResource("3_t4al8")]
 modulate = Color(1, 1, 1, 0.0313726)
 
-[node name="ButtonBackground" type="ColorRect" parent="Background"]
+[node name="ButtonBackground" type="PanelContainer" parent="Background"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = -55.0
-offset_right = 143.0
+offset_right = 176.0
 offset_bottom = -8.0
 grow_vertical = 0
-color = Color(0, 0, 0, 0)
 
-[node name="Buttons" type="HBoxContainer" parent="Background/ButtonBackground"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = -5.0
-offset_bottom = -5.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MarginContainer" type="MarginContainer" parent="Background/ButtonBackground"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Buttons" type="HBoxContainer" parent="Background/ButtonBackground/MarginContainer"]
+layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Retry" type="Button" parent="Background/ButtonBackground/Buttons"]
+[node name="Retry" type="Button" parent="Background/ButtonBackground/MarginContainer/Buttons"]
 modulate = Color(0.498039, 1, 0.831373, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -133,7 +131,7 @@ icon = ExtResource("2_bfdqy")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Settings" type="Button" parent="Background/ButtonBackground/Buttons"]
+[node name="Settings" type="Button" parent="Background/ButtonBackground/MarginContainer/Buttons"]
 modulate = Color(0.792157, 0.8, 0.478431, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -143,7 +141,17 @@ icon = ExtResource("3_n24qx")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Quit" type="Button" parent="Background/ButtonBackground/Buttons"]
+[node name="Stats" type="Button" parent="Background/ButtonBackground/MarginContainer/Buttons"]
+modulate = Color(0.478431, 0.741176, 0.8, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Secret"
+theme = ExtResource("5_emdlp")
+icon = ExtResource("8_8rkue")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Quit" type="Button" parent="Background/ButtonBackground/MarginContainer/Buttons"]
 modulate = Color(0.8, 0.478431, 0.556863, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -157,6 +165,7 @@ expand_icon = true
 stream = ExtResource("4_fidr8")
 
 [connection signal="toggle_show" from="Background/HB/Leaderboard" to="." method="_on_leaderboard_toggle_show"]
-[connection signal="pressed" from="Background/ButtonBackground/Buttons/Retry" to="." method="_on_retry_pressed"]
-[connection signal="pressed" from="Background/ButtonBackground/Buttons/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="Background/ButtonBackground/Buttons/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Stats" to="." method="_on_stats_pressed"]
+[connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Quit" to="." method="_on_quit_pressed"]

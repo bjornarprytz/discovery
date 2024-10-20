@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dvve53ua35cvj"]
+[gd_scene load_steps=12 format=3 uid="uid://dvve53ua35cvj"]
 
 [ext_resource type="Script" path="res://run_stats_ui.gd" id="1_3he8d"]
 [ext_resource type="FontFile" uid="uid://cirp3jxlmy7d3" path="res://assets/CinzelDecorative-Black.ttf" id="2_e6tvn"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="2_sk3j0"]
 [ext_resource type="FontFile" uid="uid://cays8r4q66yls" path="res://assets/Unifontexmono-AL3RA.ttf" id="4_plc1j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tupu0"]
 
 [sub_resource type="Theme" id="Theme_sktdp"]
 default_font = ExtResource("2_sk3j0")
@@ -42,6 +44,7 @@ offset_right = 1.0
 offset_bottom = -108.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tupu0")
 
 [node name="VB" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2

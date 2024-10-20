@@ -12,7 +12,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	menu.start(CorpusClass.FullText.new("custom", "ScoreScreen", [CorpusClass.Chapter.new(0, "ScoreScreen", "Retry Quit Secret")]), false)
+	menu.start(CorpusClass.FullText.new("custom", "ScoreScreen", [CorpusClass.Chapter.new(0, "ScoreScreen", "Retry Quit Secret Trophy")]), false)
 	
 	var current_highscore = _load_highscore()
 	
@@ -50,6 +50,8 @@ func _word_complete(w: String, _was_quest: bool):
 		_retry()
 	elif (w.nocasecmp_to("secret") == 0):
 		_settings()
+	elif(w.nocasecmp_to("trophy") == 0):
+		_stats()
 
 func _load_highscore() -> int:
 	var file = FileAccess.open("user://highscore.txt", FileAccess.READ)
@@ -75,6 +77,9 @@ func _retry():
 func _settings():
 	get_tree().change_scene_to_file("res://options.tscn")
 
+func _stats():
+	get_tree().change_scene_to_file("res://trophy_room.tscn")
+
 func _quit():
 	get_tree().quit()
 
@@ -87,6 +92,8 @@ func _on_settings_pressed() -> void:
 func _on_quit_pressed() -> void:
 	_quit()
 
+func _on_stats_pressed() -> void:
+	_stats()
 
 func _on_leaderboard_toggle_show(show_leaderboard: bool) -> void:
 	
