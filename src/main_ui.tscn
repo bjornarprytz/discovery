@@ -234,6 +234,7 @@ layout_mode = 2
 [node name="Mute" type="Button" parent="Menu/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Toggle Mute"
 theme = ExtResource("8_a4g22")
 toggle_mode = true
 icon = ExtResource("5_de3f0")
