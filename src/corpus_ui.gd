@@ -32,13 +32,20 @@ func _ready() -> void:
 	_update_button_state()
 
 func _update_button_state():
+	alice_button.text = AlicesAdventuresInWonderland.title
+	peter_pan_button.text = PeterPan.title
+	oz_button.text = TheWonderfulWizardOfOz.title
+	
 	match Corpus.main_corpus.id:
 		AlicesAdventuresInWonderland.id:
 			alice_button.button_pressed = true
+			alice_button.text = "* %s *" % alice_button.text
 		PeterPan.id:
 			peter_pan_button.button_pressed = true
+			peter_pan_button.text = "* %s *" % peter_pan_button.text
 		TheWonderfulWizardOfOz.id:
 			oz_button.button_pressed = true
+			oz_button.text = "* %s *" % oz_button.text
 		
 	
 func _load_corpus():
@@ -102,9 +109,12 @@ func set_loading(state: bool):
 
 func _on_alice_button_pressed() -> void:
 	Corpus.load_corpus(AlicesAdventuresInWonderland.create_corpus(), true)
+	_update_button_state()
 
 func _on_peter_pan_button_pressed() -> void:
 	Corpus.load_corpus(PeterPan.create_corpus(), true)
+	_update_button_state()
 
 func _on_oz_button_pressed() -> void:
 	Corpus.load_corpus(TheWonderfulWizardOfOz.create_corpus(), true)
+	_update_button_state()

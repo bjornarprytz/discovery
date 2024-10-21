@@ -149,33 +149,43 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -326.0
+offset_top = -58.0
+offset_right = 326.0
+offset_bottom = 58.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="AliceButton" type="Button" parent="PanelContainer/VBoxContainer"]
+modulate = Color(0.854902, 0.647059, 0.12549, 1)
 layout_mode = 2
 theme = ExtResource("5_ntqgl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
 toggle_mode = true
 button_group = SubResource("ButtonGroup_suxdl")
 text = "Alice's Adventures in Wonderland"
 
 [node name="PeterPanButton" type="Button" parent="PanelContainer/VBoxContainer"]
+modulate = Color(0.0431373, 0.415686, 0.14902, 1)
 layout_mode = 2
 theme = ExtResource("5_ntqgl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
 toggle_mode = true
 button_group = SubResource("ButtonGroup_suxdl")
-text = "Peter pan"
+text = "Peter Pan"
 
 [node name="OzButton" type="Button" parent="PanelContainer/VBoxContainer"]
+modulate = Color(0.0745098, 0.568627, 1, 1)
 layout_mode = 2
 theme = ExtResource("5_ntqgl")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
 toggle_mode = true
 button_group = SubResource("ButtonGroup_suxdl")
 text = "The Wonderful Wizard of Oz"
