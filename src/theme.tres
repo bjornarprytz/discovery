@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cruwujjnx10fy"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cruwujjnx10fy"]
 
 [ext_resource type="FontFile" uid="uid://cays8r4q66yls" path="res://assets/Unifontexmono-AL3RA.ttf" id="1_tqpg6"]
 [ext_resource type="FontFile" uid="uid://cirp3jxlmy7d3" path="res://assets/CinzelDecorative-Black.ttf" id="1_y2wbl"]
@@ -26,6 +26,17 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 shadow_size = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j43s3"]
+bg_color = Color(0.478431, 0.8, 0.788235, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [resource]
 Button/colors/icon_hover_color = Color(0.77084, 0.770839, 0.770839, 1)
 Button/colors/icon_pressed_color = Color(0.336608, 0.336608, 0.336608, 1)
@@ -33,4 +44,6 @@ Button/fonts/font = ExtResource("1_tqpg6")
 Button/styles/hover = SubResource("StyleBoxFlat_eu0g4")
 Button/styles/normal = SubResource("StyleBoxFlat_adbv2")
 Button/styles/pressed = SubResource("StyleBoxFlat_atvju")
+PopupMenu/fonts/font = ExtResource("1_tqpg6")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_j43s3")
 RichTextLabel/fonts/normal_font = ExtResource("1_y2wbl")

@@ -83,7 +83,7 @@ func _ready() -> void:
 func start(corpus: CorpusClass.FullText, chosen_seed: int = -1):
 	is_golden = true
 	quest_duration = 0
-	if (chosen_seed == -1):
+	if (chosen_seed <= 0):
 		chosen_seed = randi()
 	seed(chosen_seed)
 	Corpus.load_corpus(corpus)

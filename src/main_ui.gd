@@ -3,8 +3,6 @@ extends CanvasLayer
 
 @onready var ui: ColorRect = $Border
 @onready var menu: ColorRect = $Menu
-@onready var mute_off: Button = $Menu/MuteOff
-@onready var mute_on: Button = $Menu/MuteOn
 @onready var chapter_title: RichTextLabel = $Menu/ChapterTitle
 @onready var corpus_title: RichTextLabel = %CorpusTitle
 @onready var score_board: RichTextLabel = $Border/QuestBar/Score

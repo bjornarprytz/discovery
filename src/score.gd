@@ -9,6 +9,8 @@ extends Node2D
 
 @onready var all_container: HBoxContainer = $Background/HB
 @onready var base_container_width = all_container.size.x
+@onready var corpus_select: OptionButton = %CorpusSelect
+@onready var seed_input: LineEdit = %SeedInput
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,6 +39,13 @@ func _ready() -> void:
 		all_container.size.x = get_viewport_rect().size.x
 	
 	Audio.play_score()
+	match Corpus.main_corpus.id:
+		PeterPan.id:
+			corpus_select.selected = 1
+		TheWonderfulWizardOfOz.id:
+			corpus_select.selected = 2
+		_:
+			corpus_select.selected = 0
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
@@ -71,7 +80,11 @@ func _save_highscore(score_value: int):
 	save.close()
 
 func _retry():
-	Game.start(Corpus.main_corpus)
+	var chosen_seed: int = -1
+	if seed_input.text.length() == 10:
+		chosen_seed = int(seed_input.text)
+	
+	Game.start(Corpus.main_corpus, chosen_seed)
 	get_tree().change_scene_to_file("res://main.tscn")
 
 func _settings():
@@ -105,3 +118,12 @@ func _on_leaderboard_toggle_show(show_leaderboard: bool) -> void:
 	
 	var tween = create_tween()
 	tween.tween_property(all_container, "size:x", target_width, .3)
+
+func _on_corpus_select_item_selected(index: int) -> void:
+	match index:
+		0:
+			Corpus.load_corpus(AlicesAdventuresInWonderland.create_corpus())
+		1:
+			Corpus.load_corpus(PeterPan.create_corpus())
+		2:
+			Corpus.load_corpus(TheWonderfulWizardOfOz.create_corpus())

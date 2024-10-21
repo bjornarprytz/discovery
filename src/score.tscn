@@ -100,15 +100,12 @@ layout_mode = 2
 modulate = Color(1, 1, 1, 0.0313726)
 
 [node name="ButtonBackground" type="PanelContainer" parent="Background"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = -55.0
-offset_right = 176.0
-offset_bottom = -8.0
+layout_mode = 2
+offset_top = 610.0
+offset_right = 137.0
+offset_bottom = 648.0
 grow_vertical = 0
+size_flags_horizontal = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="Background/ButtonBackground"]
 layout_mode = 2
@@ -161,6 +158,40 @@ icon = ExtResource("4_ijtnc")
 icon_alignment = 1
 expand_icon = true
 
+[node name="HBoxContainer" type="HBoxContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -225.0
+offset_top = -31.0
+offset_right = 197.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CorpusSelect" type="OptionButton" parent="Background/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_emdlp")
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+item_count = 3
+popup/item_0/text = "Alice's Adventures in Wonderland"
+popup/item_1/text = "Peter Pan"
+popup/item_1/id = 1
+popup/item_2/text = "The Wonderful Wizard of Oz"
+popup/item_2/id = 2
+
+[node name="SeedInput" type="LineEdit" parent="Background/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Custom Seed"
+max_length = 10
+
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
 
@@ -169,3 +200,4 @@ stream = ExtResource("4_fidr8")
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Stats" to="." method="_on_stats_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Quit" to="." method="_on_quit_pressed"]
+[connection signal="item_selected" from="Background/HBoxContainer/CorpusSelect" to="." method="_on_corpus_select_item_selected"]
