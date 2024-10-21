@@ -1,13 +1,13 @@
-[gd_scene load_steps=22 format=3 uid="uid://be6kuksy0lijm"]
+[gd_scene load_steps=16 format=3 uid="uid://be6kuksy0lijm"]
 
 [ext_resource type="Script" path="res://main_ui.gd" id="1_r4clx"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_rmc51"]
 [ext_resource type="FontFile" uid="uid://cays8r4q66yls" path="res://assets/Unifontexmono-AL3RA.ttf" id="2_volwn"]
 [ext_resource type="FontFile" uid="uid://foxahcnij3k1" path="res://assets/CinzelDecorative-Bold.ttf" id="4_7vtqu"]
 [ext_resource type="Texture2D" uid="uid://dl0xwr7njputo" path="res://assets/mute-off.png" id="5_de3f0"]
-[ext_resource type="Texture2D" uid="uid://d4dn6dvfrdbd" path="res://assets/mute-on.png" id="6_xeavy"]
 [ext_resource type="PackedScene" uid="uid://dqojxtpm0nf36" path="res://palette_ui.tscn" id="7_76j7e"]
 [ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="8_a4g22"]
+[ext_resource type="Texture2D" uid="uid://x8f1863tl04s" path="res://assets/play.png" id="8_fkcl7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bi1r6"]
 bg_color = Color(0.0235294, 0.0235294, 0.215686, 1)
@@ -40,28 +40,6 @@ expand_margin_right = 10.0
 [sub_resource type="Theme" id="Theme_f2kwe"]
 default_font = ExtResource("4_7vtqu")
 default_font_size = 32
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_07gt5"]
-texture = ExtResource("5_de3f0")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d6sc2"]
-texture = ExtResource("5_de3f0")
-modulate_color = Color(0.505344, 0.505344, 0.505344, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dfhdi"]
-texture = ExtResource("5_de3f0")
-modulate_color = Color(0.716296, 0.716296, 0.716296, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ix1u7"]
-texture = ExtResource("6_xeavy")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lb43e"]
-texture = ExtResource("6_xeavy")
-modulate_color = Color(0.505344, 0.505344, 0.505344, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hteoj"]
-texture = ExtResource("6_xeavy")
-modulate_color = Color(0.716296, 0.716296, 0.716296, 1)
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_r4clx")
@@ -226,33 +204,10 @@ text = "[center]The Rabbit Sends in a Little Bill"
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="MuteOff" type="Button" parent="Menu"]
-layout_mode = 0
-offset_left = 1110.0
-offset_top = 10.0
-offset_right = 1142.0
-offset_bottom = 42.0
-size_flags_horizontal = 3
-theme_override_styles/hover = SubResource("StyleBoxTexture_07gt5")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_d6sc2")
-theme_override_styles/normal = SubResource("StyleBoxTexture_dfhdi")
-
-[node name="MuteOn" type="Button" parent="Menu"]
-visible = false
-layout_mode = 0
-offset_left = 1110.0
-offset_top = 10.0
-offset_right = 1142.0
-offset_bottom = 42.0
-size_flags_horizontal = 3
-theme_override_styles/hover = SubResource("StyleBoxTexture_ix1u7")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lb43e")
-theme_override_styles/normal = SubResource("StyleBoxTexture_hteoj")
-
 [node name="PaletteUI" parent="Menu" instance=ExtResource("7_76j7e")]
 layout_mode = 1
-offset_left = -76.0
-offset_right = -66.0
+offset_left = -5.0
+offset_right = 5.0
 
 [node name="SeedButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
@@ -262,6 +217,34 @@ offset_bottom = 23.0
 theme = ExtResource("8_a4g22")
 text = "Seed: 1337696969"
 
-[connection signal="pressed" from="Menu/MuteOff" to="." method="_on_mute_off_pressed"]
-[connection signal="pressed" from="Menu/MuteOn" to="." method="_on_mute_on_pressed"]
+[node name="PanelContainer" type="PanelContainer" parent="Menu"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -75.0
+offset_top = 8.0
+offset_right = -7.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/PanelContainer"]
+layout_mode = 2
+
+[node name="Mute" type="Button" parent="Menu/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("8_a4g22")
+toggle_mode = true
+icon = ExtResource("5_de3f0")
+
+[node name="Abandon" type="Button" parent="Menu/PanelContainer/HBoxContainer"]
+modulate = Color(1, 0.435294, 0.427451, 1)
+layout_mode = 2
+tooltip_text = "Abandon"
+theme = ExtResource("8_a4g22")
+icon = ExtResource("8_fkcl7")
+
 [connection signal="pressed" from="Menu/SeedButton" to="." method="_on_seed_button_pressed"]
+[connection signal="toggled" from="Menu/PanelContainer/HBoxContainer/Mute" to="." method="_on_mute_button_toggled"]
+[connection signal="pressed" from="Menu/PanelContainer/HBoxContainer/Abandon" to="." method="_on_abandon_pressed"]

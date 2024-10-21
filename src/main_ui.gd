@@ -15,6 +15,7 @@ extends CanvasLayer
 @onready var quest_bar: ProgressBar = $Border/QuestBar
 @onready var sheen: ColorRect = $Border/QuestBar/TargetWord/Sheen
 @onready var seed_button: Button = %SeedButton
+@onready var mute_button: Button = %Mute
 
 @onready var sheen_base_position = sheen.position
 
@@ -142,14 +143,14 @@ func _on_multiplier_changed(multiplier: int):
 	multiplier_label.append_text("[right]x%d" % multiplier)
 
 func _on_mute_toggled(muted: bool):
-	mute_off.visible = !muted
-	mute_on.visible = muted
-
-func _on_mute_off_pressed() -> void:
-	Game.is_muted = true
-
-func _on_mute_on_pressed() -> void:
-	Game.is_muted = false
+	mute_button.button_pressed = muted
+	mute_button.icon = preload("res://assets/mute-on.png") if muted else preload("res://assets/mute-off.png")
 
 func _on_seed_button_pressed() -> void:
 	DisplayServer.clipboard_set(str(Game.stats.run_seed))
+
+func _on_mute_button_toggled(toggled_on: bool) -> void:
+	Game.is_muted = toggled_on
+
+func _on_abandon_pressed() -> void:
+	get_tree().change_scene_to_file("res://score.tscn")
