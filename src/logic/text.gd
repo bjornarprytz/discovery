@@ -1,8 +1,8 @@
 extends Node2D
 class_name TextGame
 
-const SEGMENT_ROWS = 5
-const SEGMENT_COLS = 5
+var _segment_rows: int = 3
+var _segment_columns: int = 3
 
 @export var cam: Camera2D
 
@@ -27,7 +27,7 @@ var _segments: Array = []
 
 var center_segment: TextSegment:
 	get:
-		return _segments[SEGMENT_ROWS / 2][SEGMENT_COLS / 2]
+		return _segments[_segment_rows / 2][_segment_columns / 2]
 
 func force_refresh():
 	for segment in _get_flat_segments():
@@ -36,6 +36,31 @@ func force_refresh():
 func queue_full_refresh():
 	for segment in _get_flat_segments():
 		segment.dirty = true
+
+func resize(new_rows: int, new_columns: int):
+	assert(new_rows > 0 and new_columns > 0, "Invalid size")
+	if new_rows == _segment_rows and new_columns == _segment_columns:
+		return
+
+	if new_rows > _segment_rows:
+		for i in range(new_rows - _segment_rows):
+			_add_segments(Vector2.RIGHT if i % 2 == 0 else Vector2.LEFT)
+	elif new_rows < _segment_rows:
+		for i in range(_segment_rows - new_rows):
+			_remove_segments(Vector2.RIGHT if i % 2 == 0 else Vector2.LEFT)
+		
+	if new_columns > _segment_columns:
+		for i in range(new_columns - _segment_columns):
+			_add_segments(Vector2.DOWN if i % 2 == 0 else Vector2.UP)
+	elif new_columns < _segment_columns:
+		for i in range(_segment_columns - new_columns):
+			_remove_segments(Vector2.DOWN if i % 2 == 0 else Vector2.UP)
+
+	_segment_rows = new_rows
+	_segment_columns = new_columns
+
+	_refresh_text()
+	
 
 func _ready() -> void:
 	Game.ready_to_move.connect(_refresh_text)
@@ -46,10 +71,14 @@ func _ready() -> void:
 	var random_start = randi_range(0, Corpus.corpus.length() - 1)
 	var upper_left: int = random_start - ((SEGMENT_WIDTH + SEGMENT_HEIGHT) * 1.5)
 	
+	_create_segments(upper_left)
+
+
+func _create_segments(upper_left: int):
 	# Create grid of segments
-	for y in range(SEGMENT_ROWS):
+	for y in range(_segment_rows):
 		var row = []
-		for x in range(SEGMENT_COLS):
+		for x in range(_segment_columns):
 			var segment = segment_spawner.instantiate() as TextSegment
 			var start_index = upper_left + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT)
 			segment.set_start_index(start_index)
@@ -57,9 +86,9 @@ func _ready() -> void:
 			segment.position = -segment.size + Vector2(segment.size.x * x, segment.size.y * y)
 			row.append(segment)
 		_segments.append(row)
-
+	
 	_assign_ambiance_streams()
-		
+	
 	_refresh_text()
 
 func _assign_ambiance_streams():
@@ -78,21 +107,15 @@ func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: i
 
 	var current_segment_index = _get_segment_under_camera(camera_point)
 
-	match current_segment_index.x:
-		0:
-			_shift_segments(Vector2.LEFT)
-		SEGMENT_COLS - 1:
-			_shift_segments(Vector2.RIGHT)
-		_:
-			pass
+	if current_segment_index.x == 0:
+		_shift_segments(Vector2.LEFT)
+	elif current_segment_index.x == _segment_columns - 1:
+		_shift_segments(Vector2.RIGHT)
 	
-	match current_segment_index.y:
-		0:
-			_shift_segments(Vector2.UP)
-		SEGMENT_ROWS - 1:
-			_shift_segments(Vector2.DOWN)
-		_:
-			pass
+	if current_segment_index.y == 0:
+		_shift_segments(Vector2.UP)
+	elif current_segment_index.y == _segment_rows - 1:
+		_shift_segments(Vector2.DOWN)
 
 	_set_dirty_within(2, 2, prev_pos)
 
@@ -106,8 +129,8 @@ func _on_moved(prev_pos: int, current_pos: int, _step: Vector2, _score_change: i
 
 func _get_segment_under_camera(camera_point: Vector2) -> Vector2i:
 	# Iterate through all segments to find the one the camera is over
-	for row in range(SEGMENT_ROWS):
-		for col in range(SEGMENT_COLS):
+	for row in range(_segment_rows):
+		for col in range(_segment_columns):
 			var segment = _segments[row][col]
 			if segment.get_rect().has_point(camera_point):
 				return Vector2(col, row) # Return the column and row of the segment
@@ -139,11 +162,11 @@ func _refresh_text():
 		segment.refresh()
 
 func _shift_segments(dir: Vector2i):
-	var vertical_text_shift: int = SEGMENT_HEIGHT * SEGMENT_ROWS
-	var horizontal_text_shift: int = SEGMENT_WIDTH * SEGMENT_COLS
+	var vertical_text_shift: int = SEGMENT_HEIGHT * _segment_rows
+	var horizontal_text_shift: int = SEGMENT_WIDTH * _segment_columns
 
-	var vertical_pixel_shift: float = _segments[0][0].size.y * SEGMENT_ROWS
-	var horizontal_pixel_shift: float = _segments[0][0].size.x * SEGMENT_COLS
+	var vertical_pixel_shift: float = _segments[0][0].size.y * _segment_rows
+	var horizontal_pixel_shift: float = _segments[0][0].size.x * _segment_columns
 
 	match dir.x:
 		1:
@@ -181,6 +204,76 @@ func _shift_segments(dir: Vector2i):
 
 	_refresh_text()
 
+func _add_segments(dir: Vector2i):
+	match dir.x:
+		1:
+			for row in _segments:
+				var segment = segment_spawner.instantiate() as TextSegment
+
+				var rightmost_segment = row[-1]
+
+				segment.set_start_index(rightmost_segment.start_index + SEGMENT_WIDTH)
+				segment.position = rightmost_segment.position + Vector2.RIGHT * rightmost_segment.size.x
+
+				row.push_back(segment)
+				add_child(segment)
+		-1:
+			for row in _segments:
+				var segment = segment_spawner.instantiate() as TextSegment
+
+				var leftmost_segment = row[0]
+
+				segment.set_start_index(leftmost_segment.start_index - SEGMENT_WIDTH)
+				segment.position = leftmost_segment.position + Vector2.LEFT * leftmost_segment.size.x
+
+				row.push_front(segment)
+				add_child(segment)
+
+	match dir.y:
+		1:
+			var top_row = _segments[0]
+			var new_top_row = []
+			for segment in top_row:
+				var new_segment = segment_spawner.instantiate() as TextSegment
+				new_segment.set_start_index(segment.start_index + SEGMENT_HEIGHT)
+				new_segment.position = segment.position + Vector2.UP * segment.size.y
+				new_top_row.append(new_segment)
+				add_child(new_segment)
+				
+			_segments.push_back(new_top_row)
+		-1:
+			var bottom_row = _segments[-1]
+			var new_bottom_row = []
+			for segment in bottom_row:
+				var new_segment = segment_spawner.instantiate() as TextSegment
+				new_segment.set_start_index(segment.start_index - SEGMENT_HEIGHT)
+				new_segment.position = segment.position + Vector2.DOWN * segment.size.y
+				new_bottom_row.append(new_segment)
+				add_child(new_segment)
+			_segments.push_front(new_bottom_row)
+
+	_assign_ambiance_streams()
+
+	_refresh_text()
+
+func _remove_segments(dir: Vector2i):
+	match dir.x:
+		1:
+			for row in _segments:
+				var segment = row.pop_front()
+				segment.queue_free()
+		-1:
+			for row in _segments:
+				var segment = row.pop_back()
+				segment.queue_free()
+	
+	match dir.y:
+		1:
+			_segments.pop_front()
+		-1:
+			_segments.pop_back()
+
+	_refresh_text()
 
 func _set_dirty_within(horizontal_range: int, vertical_range: int, origin: int = -1):
 	if origin == -1:

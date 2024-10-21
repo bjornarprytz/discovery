@@ -17,17 +17,8 @@ Goal: collect specific words to increase high score
   - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
   - Color from palette
 
-- UI
-  - Settings / Main Menu (Rework)
-    - Choose seed
-    - Palette
-    - Choose Corpus
-    - See stats + leaderboard
-
 - OnDeadEnd
   - Show run Stats
-  - Zoom Out
-    - Add additional segments as needed in order to see the whole path
 
 - QoL
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
