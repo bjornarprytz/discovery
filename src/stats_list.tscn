@@ -21,6 +21,7 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="VB/Ratios"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="VB" type="VBoxContainer" parent="VB/Ratios/PanelContainer"]
 layout_mode = 2
@@ -31,16 +32,18 @@ layout_mode = 2
 [node name="Value" type="RichTextLabel" parent="VB/Ratios/PanelContainer/VB"]
 layout_mode = 2
 
-[node name="Spacer2" type="Control" parent="."]
+[node name="Spacer" type="Control" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Spacer" type="Control" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="SeedButton" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true

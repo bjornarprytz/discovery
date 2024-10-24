@@ -59,9 +59,6 @@ func resize(new_rows: int, new_columns: int):
 	_segment_rows = new_rows
 	_segment_columns = new_columns
 
-	_refresh_text()
-	
-
 func _ready() -> void:
 	Game.ready_to_move.connect(_refresh_text)
 	Game.moved.connect(_on_moved)
@@ -88,8 +85,6 @@ func _create_segments(upper_left: int):
 		_segments.append(row)
 	
 	_assign_ambiance_streams()
-	
-	_refresh_text()
 
 func _assign_ambiance_streams():
 	ambiance_streams.shuffle()
@@ -98,7 +93,6 @@ func _assign_ambiance_streams():
 		var ambiance = ambiance_streams.pop_front()
 		
 		s.ambiance.stream = ambiance
-		s.ambiance.play(randi_range(0, s.ambiance.stream.get_length() - 1))
 
 		ambiance_streams.append(ambiance)
 

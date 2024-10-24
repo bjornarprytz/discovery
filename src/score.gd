@@ -90,7 +90,7 @@ func _retry():
 	Game.start(Corpus.main_corpus, chosen_seed)
 	get_tree().change_scene_to_file("res://main.tscn")
 
-func _update_score(underscore: bool=false):
+func _update_score(underscore: bool = false):
 	score.clear()
 	if underscore:
 		score.append_text("[center][u][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
@@ -141,6 +141,7 @@ func _on_corpus_select_item_selected(index: int) -> void:
 
 func _open_stats():
 	stats_container.show()
+	stats.load_stats(PlayerData.most_recent)
 
 func _close_stats():
 	stats_container.hide()
@@ -153,7 +154,6 @@ func _on_stats_panel_gui_input(event: InputEvent) -> void:
 func _on_close_stats_pressed() -> void:
 	_close_stats()
 
-
 func _on_score_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.is_pressed():
@@ -164,3 +164,7 @@ func _on_score_mouse_entered() -> void:
 
 func _on_score_mouse_exited() -> void:
 	_update_score()
+
+func _on_game_over_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		_close_stats()

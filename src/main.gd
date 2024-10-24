@@ -19,6 +19,7 @@ var _current_chapter: CorpusClass.Chapter
 var made_first_move: bool
 var target_pos: Vector2
 var game_over := false
+var _ready_for_next_scene := false
 var show_menu := false
 var quest_duration := 0
 
@@ -30,6 +31,8 @@ func _ready() -> void:
 	Game.invalid_move.connect(_on_invalid_move)
 	Game.game_over.connect(_game_over)
 	Game.completed_word.connect(_on_completed_word)
+	Refs.palette_changed.connect(_on_palette_changed)
+	_on_palette_changed(Refs.current_palette)
 	
 	get_tree().create_timer(TUTORIAL_TIMER).timeout.connect(_show_tutorial, CONNECT_ONE_SHOT)
 
@@ -38,6 +41,9 @@ func _ready() -> void:
 	Game.new_corpus.emit(Corpus.main_corpus)
 
 	_fade_in()
+
+func _on_palette_changed(palette: Palette):
+	game_over_label.add_theme_color_override("default_color", palette.background_color)
 
 func _fade_in():
 	var tween = create_tween()
@@ -103,16 +109,18 @@ func _flair(amount: int):
 func _game_over(_stats: PlayerData.Stats):
 	$Camera/Sounds/Finished.play()
 	game_over = true
-	text_game.resize(5, 6)
+	text_game.resize(5, 7)
 	game_over_label.show()
 	game_over_label.modulate.a = 0.0
 	Engine.time_scale = 0.5
-	camera_tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
-	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * .2, 1.8)
+	camera_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_parallel()
+	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * .3, 1.8)
 	camera_tween.tween_property(game_over_label, 'modulate:a', 1.0, 1.8)
-	camera_tween.tween_interval(3.0)
-	camera_tween.set_parallel(false)
-	camera_tween.tween_callback(_show_score)
+	camera_tween.tween_interval(4.0)
+	await camera_tween.finished
+
+	_ready_for_next_scene = true
+	_show_skip()
 
 func _show_score():
 	game_over = false
@@ -134,7 +142,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				_hide_tutorial()
 			Game.ready_to_move.emit()
 	elif game_over and event.is_pressed():
-		if event.as_text() == "Space":
+		if _ready_for_next_scene:
+			_show_score()
+		elif event.as_text() == "Space":
 			Engine.time_scale = 2.0
 		else:
 			_show_skip()

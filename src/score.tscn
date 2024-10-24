@@ -114,35 +114,37 @@ theme_override_constants/margin_bottom = 100
 
 [node name="StatsPanel" type="PanelContainer" parent="Background/HB/GameOver/StatsContainer"]
 layout_mode = 2
+mouse_filter = 1
 theme = ExtResource("5_emdlp")
 theme_override_styles/panel = SubResource("StyleBoxFlat_crs10")
 
-[node name="Control" type="Control" parent="Background/HB/GameOver/StatsContainer/StatsPanel"]
-layout_mode = 2
-
-[node name="Stats" parent="Background/HB/GameOver/StatsContainer/StatsPanel/Control" instance=ExtResource("3_5gamj")]
+[node name="Stats" parent="Background/HB/GameOver/StatsContainer/StatsPanel" instance=ExtResource("3_5gamj")]
 unique_name_in_owner = true
 layout_mode = 2
-offset_right = 748.0
-offset_bottom = 346.0
+
+[node name="Control" type="Control" parent="Background/HB/GameOver/StatsContainer/StatsPanel"]
+layout_mode = 2
+mouse_filter = 2
 
 [node name="Control" type="Control" parent="Background/HB/GameOver/StatsContainer/StatsPanel/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -19.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CloseStats" type="Button" parent="Background/HB/GameOver/StatsContainer/StatsPanel/Control"]
+self_modulate = Color(0.831466, 0.744432, 0.253309, 1)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 16.0
+offset_left = -56.0
+offset_top = -16.0
 grow_horizontal = 0
-text = "Close"
+text = " Close "
 
 [node name="Leaderboard" parent="Background/HB" instance=ExtResource("7_lba4x")]
 custom_minimum_size = Vector2(600, 0)
@@ -247,6 +249,7 @@ max_length = 10
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
 
+[connection signal="gui_input" from="Background/HB/GameOver" to="." method="_on_game_over_gui_input"]
 [connection signal="gui_input" from="Background/HB/GameOver/Score" to="." method="_on_score_gui_input"]
 [connection signal="mouse_entered" from="Background/HB/GameOver/Score" to="." method="_on_score_mouse_entered"]
 [connection signal="mouse_exited" from="Background/HB/GameOver/Score" to="." method="_on_score_mouse_exited"]

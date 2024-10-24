@@ -67,7 +67,8 @@ grow_horizontal = 0
 scale = Vector2(0.15, 0.15)
 pivot_offset = Vector2(471, 129)
 theme = SubResource("Theme_ocgxc")
-text = "Space to skip"
+bbcode_enabled = true
+text = "[bgcolor=black]Space to skip"
 
 [node name="Sounds" type="Node2D" parent="Camera"]
 

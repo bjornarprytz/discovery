@@ -12,15 +12,13 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
+- Add music transitions between menus
+
 - Copy Seed
   - Show visually
 
 - Show Player Trophy Room (run stats)
   - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
-
-- OnDeadEnd
-  - Bigger resize (5x7?)
-  - Threaded text segment refresh when off screen
 
 - QoL
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
@@ -34,13 +32,6 @@ Goal: collect specific words to increase high score
 
 ## 1.1 roadmap (October Update)
 
-- OnDeadEnd
-  - Stats from the run
-  - Other visual representation of the run
-    - Zoom out to see the path?
-    - See every letter
-    - See the words
-  - Get seed
 - New ambience
   - Group into themed ambiance
 - OnNewQuest
@@ -49,7 +40,6 @@ Goal: collect specific words to increase high score
 ### Nice to have
 
 - Ingest custom texts
-- Use VisibleOnScreenNotifier2D on the text-segment
 - Make all ambiance "loopable"
 - New Game Mode: Vertical Limit
   - Limited number of vertical moves
