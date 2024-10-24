@@ -5,7 +5,9 @@ extends Node2D
 @onready var leaderboard: LeaderboardUI = $Background/HB/Leaderboard
 
 @onready var score: RichTextLabel = $Background/HB/GameOver/Score
+@onready var stats: StatsList = %Stats
 @onready var highscore: RichTextLabel = $Background/HB/GameOver/Highscore
+@onready var stats_container: MarginContainer = %StatsContainer
 
 @onready var all_container: HBoxContainer = $Background/HB
 @onready var base_container_width = all_container.size.x
@@ -18,8 +20,7 @@ func _ready() -> void:
 	
 	var current_highscore = _load_highscore()
 	
-	score.clear()
-	score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
+	_update_score()
 	
 	highscore.clear()
 	
@@ -46,6 +47,8 @@ func _ready() -> void:
 			corpus_select.selected = 2
 		_:
 			corpus_select.selected = 0
+	
+	stats.load_stats(PlayerData.most_recent)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
@@ -59,7 +62,7 @@ func _word_complete(w: String, _was_quest: bool):
 		_retry()
 	elif (w.nocasecmp_to("secret") == 0):
 		_settings()
-	elif(w.nocasecmp_to("trophy") == 0):
+	elif (w.nocasecmp_to("trophy") == 0):
 		_stats()
 
 func _load_highscore() -> int:
@@ -86,6 +89,14 @@ func _retry():
 	
 	Game.start(Corpus.main_corpus, chosen_seed)
 	get_tree().change_scene_to_file("res://main.tscn")
+
+func _update_score(underscore: bool=false):
+	score.clear()
+	if underscore:
+		score.append_text("[center][u][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
+	else:
+		score.append_text("[center][rainbow freq=.2 sat=0.4]" + str(Game.score).pad_zeros(5))
+
 
 func _settings():
 	get_tree().change_scene_to_file("res://options.tscn")
@@ -127,3 +138,29 @@ func _on_corpus_select_item_selected(index: int) -> void:
 			Corpus.load_corpus(PeterPan.create_corpus())
 		2:
 			Corpus.load_corpus(TheWonderfulWizardOfOz.create_corpus())
+
+func _open_stats():
+	stats_container.show()
+
+func _close_stats():
+	stats_container.hide()
+
+func _on_stats_panel_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			_close_stats()
+
+func _on_close_stats_pressed() -> void:
+	_close_stats()
+
+
+func _on_score_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			_open_stats()
+
+func _on_score_mouse_entered() -> void:
+	_update_score(true)
+
+func _on_score_mouse_exited() -> void:
+	_update_score()

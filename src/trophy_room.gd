@@ -4,12 +4,12 @@ extends Node2D
 @onready var trophy_text_game: CustomTextGame = %TrophyTextGame
 @onready var run_stats_ui: RunStatsUI = %RunStatsUi
 
-var custom_text: String = "home. No place like"
+var custom_text: String = " home. No place like"
 var _easter_egg: Array[String] = ["No", "place", "like", "home"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	trophy_text_game.start(CorpusClass.FullText.new("custom", "TrophyRoom", [CorpusClass.Chapter.new(0, "TrophyRoom", custom_text)]), false)
+	trophy_text_game.start(CorpusClass.FullText.new("custom", "TrophyRoom", [CorpusClass.Chapter.new(0, "TrophyRoom", custom_text, false)]), false)
 	Game.completed_word.connect(_word_complete)
 
 func _unhandled_key_input(event: InputEvent) -> void:

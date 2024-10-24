@@ -188,13 +188,15 @@ class StatsSummary:
 
 
 var player_data: Save = Save.new()
+var most_recent: StatsSummary = StatsSummary.new()
 
 func _ready():
 	player_data = load_data()
 	Game.game_over.connect(save_stats)
 
 func save_stats(stats: Stats):
-	print("Saving data")
+	var summary = stats.to_summary()
+	most_recent = summary
 	
 	if not DirAccess.dir_exists_absolute("user://persist"):
 		DirAccess.make_dir_absolute("user://persist")
@@ -203,13 +205,12 @@ func save_stats(stats: Stats):
 	player_data.has_completed_a_run = true
 	player_data.color_palette = Refs.current_palette_idx
 	player_data.corpus_id = Corpus.main_corpus.id
-	player_data.rank_stats(stats.to_summary())
+	player_data.rank_stats(summary)
 	
 	var json_data = JSON.stringify(Utils.to_dictionary(player_data))
 	file.store_string(json_data)
 
 func load_data() -> Save:
-	print("Loading data")
 	if not FileAccess.file_exists("user://persist/data.json"):
 		return Save.new()
 

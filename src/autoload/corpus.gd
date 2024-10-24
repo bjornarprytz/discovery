@@ -106,11 +106,11 @@ class Chapter:
 
 	var length: int
 
-	func _init(number_: int, title_: String, text_: String):
+	func _init(number_: int, title_: String, text_: String, add_trailing_space: bool = true):
 		number = number_
 		title = title_
 		text = text_
-		text = text.replace("\n", " ").replace("  ", " ") + " " # Add space to separate the last and first words
+		text = text.replace("\n", " ").replace("  ", " ") + (" " if add_trailing_space else "") # Add space to separate the last and first words
 
 		length = text.length()
 

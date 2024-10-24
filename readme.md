@@ -16,12 +16,11 @@ Goal: collect specific words to increase high score
   - Show visually
 
 - Show Player Trophy Room (run stats)
-  - Highlight best scores with some BBCode
   - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
-  - Color from palette
 
 - OnDeadEnd
-  - Show run Stats
+  - Bigger resize (5x7?)
+  - Threaded text segment refresh when off screen
 
 - QoL
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
@@ -35,9 +34,6 @@ Goal: collect specific words to increase high score
 
 ## 1.1 roadmap (October Update)
 
-- Add main menu (after the player has done their first run)
-  - Set seed
-  - Choose corpus
 - OnDeadEnd
   - Stats from the run
   - Other visual representation of the run

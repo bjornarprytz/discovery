@@ -7,7 +7,6 @@ extends Node2D
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
 @onready var skip_label: RichTextLabel = $Camera/CanvasLayer/SkipText
-@onready var stats: StatsList = %Stats
 
 @onready var text_game: TextGame = $Text
 
@@ -110,7 +109,6 @@ func _game_over(_stats: PlayerData.Stats):
 	Engine.time_scale = 0.5
 	camera_tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
 	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * .2, 1.8)
-	#camera_tween.tween_property($Camera/Fade, 'color', Color.BLACK, 1.8)
 	camera_tween.tween_property(game_over_label, 'modulate:a', 1.0, 1.8)
 	camera_tween.tween_interval(3.0)
 	camera_tween.set_parallel(false)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://d2xdtano7t7xb"]
+[gd_scene load_steps=14 format=3 uid="uid://d2xdtano7t7xb"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
 [ext_resource type="Texture2D" uid="uid://x8f1863tl04s" path="res://assets/play.png" id="2_bfdqy"]
+[ext_resource type="PackedScene" uid="uid://bw1f4d4lqps38" path="res://stats_list.tscn" id="3_5gamj"]
 [ext_resource type="Texture2D" uid="uid://cekaat430s03d" path="res://assets/settings.png" id="3_n24qx"]
 [ext_resource type="PackedScene" uid="uid://by63xypgmdorg" path="res://logic/custom_text.tscn" id="3_t4al8"]
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="4_fidr8"]
@@ -14,6 +15,9 @@
 [sub_resource type="Theme" id="Theme_jatff"]
 default_font = ExtResource("1_0iihq")
 default_font_size = 128
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crs10"]
+bg_color = Color(0.0962047, 0.0962048, 0.0962047, 0.913725)
 
 [node name="Score" type="Node2D"]
 script = ExtResource("1_66yog")
@@ -63,15 +67,17 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -314.5
+offset_left = -140.0
 offset_top = -251.0
-offset_right = 314.5
-offset_bottom = -88.0
+offset_right = 141.0
+offset_bottom = -122.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_jatff")
 bbcode_enabled = true
 text = "[center][rainbow freq=.2 sat=0.4]00069"
+fit_content = true
+autowrap_mode = 0
 
 [node name="Highscore" type="RichTextLabel" parent="Background/HB/GameOver"]
 layout_mode = 1
@@ -91,6 +97,52 @@ theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[right][color=gray]Best: "
 scroll_active = false
+
+[node name="StatsContainer" type="MarginContainer" parent="Background/HB/GameOver"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="StatsPanel" type="PanelContainer" parent="Background/HB/GameOver/StatsContainer"]
+layout_mode = 2
+theme = ExtResource("5_emdlp")
+theme_override_styles/panel = SubResource("StyleBoxFlat_crs10")
+
+[node name="Control" type="Control" parent="Background/HB/GameOver/StatsContainer/StatsPanel"]
+layout_mode = 2
+
+[node name="Stats" parent="Background/HB/GameOver/StatsContainer/StatsPanel/Control" instance=ExtResource("3_5gamj")]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 748.0
+offset_bottom = 346.0
+
+[node name="Control" type="Control" parent="Background/HB/GameOver/StatsContainer/StatsPanel/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CloseStats" type="Button" parent="Background/HB/GameOver/StatsContainer/StatsPanel/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 16.0
+grow_horizontal = 0
+text = "Close"
 
 [node name="Leaderboard" parent="Background/HB" instance=ExtResource("7_lba4x")]
 custom_minimum_size = Vector2(600, 0)
@@ -195,6 +247,11 @@ max_length = 10
 [node name="Denied" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_fidr8")
 
+[connection signal="gui_input" from="Background/HB/GameOver/Score" to="." method="_on_score_gui_input"]
+[connection signal="mouse_entered" from="Background/HB/GameOver/Score" to="." method="_on_score_mouse_entered"]
+[connection signal="mouse_exited" from="Background/HB/GameOver/Score" to="." method="_on_score_mouse_exited"]
+[connection signal="gui_input" from="Background/HB/GameOver/StatsContainer/StatsPanel/Control/Control" to="." method="_on_stats_panel_gui_input"]
+[connection signal="pressed" from="Background/HB/GameOver/StatsContainer/StatsPanel/Control/CloseStats" to="." method="_on_close_stats_pressed"]
 [connection signal="toggle_show" from="Background/HB/Leaderboard" to="." method="_on_leaderboard_toggle_show"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Retry" to="." method="_on_retry_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
