@@ -29,9 +29,11 @@ fit_content = true
 autowrap_mode = 0
 
 [node name="Separator" type="RichTextLabel" parent="HB"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_nidat")
+bbcode_enabled = true
 text = "......................................................................................................................................................................................................................................................................"
 scroll_active = false
 autowrap_mode = 0

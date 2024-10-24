@@ -7,6 +7,7 @@ extends Node2D
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
 @onready var skip_label: RichTextLabel = $Camera/CanvasLayer/SkipText
+@onready var stats: StatsList = %Stats
 
 @onready var text_game: TextGame = $Text
 

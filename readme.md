@@ -12,6 +12,9 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
+- Copy Seed
+  - Show visually
+
 - Show Player Trophy Room (run stats)
   - Highlight best scores with some BBCode
   - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
@@ -27,6 +30,8 @@ Goal: collect specific words to increase high score
 
 - Achievements:
   - No Place Like Home
+  - Visit all chapters
+    - Alice, Peter, Oz
 
 ## 1.1 roadmap (October Update)
 
@@ -42,9 +47,6 @@ Goal: collect specific words to increase high score
   - Get seed
 - New ambience
   - Group into themed ambiance
-- Extra Corpus
-  - How does this affect the leaderboard?
-  - Maybe one per official text?
 - OnNewQuest
   - Highlight the quest words more?
 

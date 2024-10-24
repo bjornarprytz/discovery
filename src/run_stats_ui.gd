@@ -3,11 +3,11 @@ extends Control
 
 var stats: PlayerData.StatsSummary
 
-@onready var stats_list: VBoxContainer = %StatsList
+@onready var stats_list: StatsList = %Stats
+
 @onready var header: RichTextLabel = %Header
 @onready var prev_corpus_button: Button = %PrevCorpusButton
 @onready var next_corpus_button: Button = %NextCorpusButton
-@onready var seed_button: Button = %SeedButton
 
 # Names here are important to match trophy titles
 @onready var highest_score: Button = %HighestScore
@@ -41,38 +41,8 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 	prev_corpus_button.text = "<%s" % corpus_titles[0]
 	header.text = corpus_titles[1]
 	next_corpus_button.text = "%s>" % corpus_titles[2]
-	seed_button.text = "Seed: %s" % [str(stats_summary.run_seed) if stats_summary.run_seed != 0 else "-"]
-
-	var entries = {
-		"Score": stats_summary.score,
-		"Multiplier": stats_summary.multiplier,
-		"Total Moves": stats_summary.traversed_characters,
-		"Vertical Moves": stats_summary.vertical_moves,
-		"Golden Moves": stats_summary.golden_moves,
-		"Completed Words": stats_summary.completed_words,
-		"Completed Quests": stats_summary.completed_quests,
-		"Chapters Visited": "%d / %d" % [stats_summary.chapters_visited.size(), stats_summary.total_chapters],
-		"Ratio of Characters to Completed Words": "%.2f" % stats_summary.ratio_of_characters_completed_words,
-		"Ratio of Moves While Golden": "%.2f" % stats_summary.ratio_of_moves_while_golden,
-		"Ratio of Quests to Words": "%.2f" % stats_summary.ratio_of_quests_to_words,
-		"Ratio of Chapters Visited": "%.2f" % stats_summary.ratio_of_chapters_visited
-	}
-
-	var i = 0
-	for key in entries.keys():
-		var value = entries[key]
-		
-		var entry: StatsEntry
-		if stats_list.get_child_count() <= i:
-			entry = Create.stats_entry(key, value, i)
-			stats_list.add_child(entry)
-		else:
-			entry = stats_list.get_child(i)
-			entry.initialize(key, value, i)
-		
-		Utils.fade_in(entry, 0.5)
-		await get_tree().create_timer(0.069).timeout
-		i += 1
+	
+	stats_list.load_stats(stats_summary)
 
 func load_corpus_stats(trophy: String = ""):
 	if trophy == "":
@@ -119,7 +89,7 @@ func change_corpus(title: String):
 	load_corpus_stats()
 
 func copy_seed():
-	DisplayServer.clipboard_set(str(current_stats.run_seed))
+	stats_list.copy_seed()
 
 func cycle_trophy(back: bool = false):
 	var change = -1 if back else 1
@@ -150,6 +120,3 @@ func _on_prev_corpus_button_pressed() -> void:
 	
 func _on_next_corpus_button_pressed() -> void:
 	cycle_corpus()
-
-func _on_seed_button_pressed() -> void:
-	copy_seed()

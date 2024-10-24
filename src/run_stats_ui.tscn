@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://cirp3jxlmy7d3" path="res://assets/CinzelDecorative-Black.ttf" id="2_e6tvn"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="2_sk3j0"]
 [ext_resource type="FontFile" uid="uid://cays8r4q66yls" path="res://assets/Unifontexmono-AL3RA.ttf" id="4_plc1j"]
+[ext_resource type="PackedScene" uid="uid://bw1f4d4lqps38" path="res://stats_list.tscn" id="5_dbobs"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tupu0"]
 
@@ -21,9 +22,6 @@ default_font = ExtResource("4_plc1j")
 default_font_size = 24
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_psjoi"]
-
-[sub_resource type="Theme" id="Theme_qogrl"]
-default_font = ExtResource("4_plc1j")
 
 [node name="RunStatsUi" type="Control"]
 layout_mode = 3
@@ -135,48 +133,9 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 20
 
-[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer"]
-layout_mode = 2
-
-[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
-layout_mode = 2
-
-[node name="StatsList" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/VB"]
+[node name="Stats" parent="PanelContainer/VB/MarginContainer" instance=ExtResource("5_dbobs")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Ratios" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/VB"]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios"]
-layout_mode = 2
-
-[node name="VB" type="VBoxContainer" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios/PanelContainer"]
-layout_mode = 2
-
-[node name="Description" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios/PanelContainer/VB"]
-layout_mode = 2
-
-[node name="Value" type="RichTextLabel" parent="PanelContainer/VB/MarginContainer/VB/VB/Ratios/PanelContainer/VB"]
-layout_mode = 2
-
-[node name="Spacer2" type="Control" parent="PanelContainer/VB/MarginContainer/VB"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VB/MarginContainer/VB"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="PanelContainer/VB/MarginContainer/VB/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SeedButton" type="Button" parent="PanelContainer/VB/MarginContainer/VB/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-theme = SubResource("Theme_qogrl")
-text = "Seed:"
 
 [connection signal="pressed" from="PanelContainer/VB/HB/PrevCorpusButton" to="." method="_on_prev_corpus_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VB/HB/NextCorpusButton" to="." method="_on_next_corpus_button_pressed"]
@@ -184,4 +143,3 @@ text = "Seed:"
 [connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/MostWords" to="." method="_on_most_words_pressed"]
 [connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/MostQuests" to="." method="_on_most_quests_pressed"]
 [connection signal="pressed" from="PanelContainer/VB/CenterContainer/HB/MostMoves" to="." method="_on_most_moves_pressed"]
-[connection signal="pressed" from="PanelContainer/VB/MarginContainer/VB/HBoxContainer/SeedButton" to="." method="_on_seed_button_pressed"]

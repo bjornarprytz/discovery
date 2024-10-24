@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://bw1f4d4lqps38"]
+
+[ext_resource type="FontFile" uid="uid://cays8r4q66yls" path="res://assets/Unifontexmono-AL3RA.ttf" id="1_5qv1j"]
+[ext_resource type="Script" path="res://stats_list.gd" id="1_ya10q"]
+
+[sub_resource type="Theme" id="Theme_qogrl"]
+default_font = ExtResource("1_5qv1j")
+
+[node name="Stats" type="VBoxContainer"]
+script = ExtResource("1_ya10q")
+
+[node name="VB" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="StatsList" type="VBoxContainer" parent="VB"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Ratios" type="HBoxContainer" parent="VB"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VB/Ratios"]
+layout_mode = 2
+
+[node name="VB" type="VBoxContainer" parent="VB/Ratios/PanelContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="VB/Ratios/PanelContainer/VB"]
+layout_mode = 2
+
+[node name="Value" type="RichTextLabel" parent="VB/Ratios/PanelContainer/VB"]
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SeedButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme = SubResource("Theme_qogrl")
+text = "Seed:"
+
+[connection signal="pressed" from="HBoxContainer/SeedButton" to="." method="_on_seed_button_pressed"]

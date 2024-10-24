@@ -112,7 +112,7 @@ func _on_tree_changed():
 	elif current_scene.name == "Score":
 		Steam.setRichPresence("steam_display", "#ScoreScreen")
 
-func _on_moved(_prev_pos: int, current_pos: int, _direction: Vector2, _score_change: int):
+func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")
 	_stats.save()
 
