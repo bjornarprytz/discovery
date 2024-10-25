@@ -4,7 +4,7 @@ extends CanvasLayer
 @onready var title: TextureRect = $Control/Title
 
 func _ready() -> void:
-	Audio.fade_in(Audio.intro_track)
+	Audio.fade_in(Audio.klokke_track)
 	title.visible = true
 	title.modulate.a = 0.0
 	var tween = create_tween().set_ease(Tween.EASE_IN) # .set_trans(Tween.TRANS_CIRC)

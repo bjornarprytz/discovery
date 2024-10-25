@@ -56,8 +56,8 @@ func cross_fade(new_stream: AudioStream):
 	secondary_player.stream = new_stream
 	secondary_player.play(current_playback_position) # Sync playback position
 	var tween = create_tween().set_parallel()
-	tween.tween_property(main_player, "volume_db", -80, 1.0) # Fade out
-	tween.tween_property(secondary_player, "volume_db", 0.0, 1.0) # Fade in
+	tween.tween_property(main_player, "volume_db", -80, .69) # Fade out
+	tween.tween_property(secondary_player, "volume_db", 0.0, .69) # Fade in
 	tween.set_parallel(false)
 	tween.tween_callback(main_player.stop)
 	await tween.finished

@@ -26,7 +26,7 @@ class CorpusTrophies:
 			return
 		
 		for chapter in stats_summary.chapters_visited:
-			if not chapters_visited.has(chapter):
+			if not chapters_visited.any(func(c): return int(c) == int(chapter)):
 				chapters_visited.append(chapter)
 
 		if (stats_summary.score >= highest_score.score):

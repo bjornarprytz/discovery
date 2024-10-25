@@ -118,12 +118,16 @@ func _on_tree_changed():
 	if current_scene.name == _current_scene_name:
 		return
 	
+	print("Scene changed to: ", current_scene.name)
+	_session = SessionTracking.new()
+
 	_current_scene_name = current_scene.name
 
 	if current_scene.name == "Options":
 		Steam.setRichPresence("steam_display", "#Settings")
 	elif current_scene.name == "Score":
 		Steam.setRichPresence("steam_display", "#ScoreScreen")
+		_set_chapter_stats()
 
 func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_change: int):
 	_stats.increment_stat("letters_typed")
@@ -137,7 +141,7 @@ func _on_moved(_prev_pos: int, _current_pos: int, _direction: Vector2, _score_ch
 func _on_completed_word(word: String, was_quest: bool):
 	_stats.complete_achievement("FirstWord")
 	_stats.increment_stat("words_completed")
-	_set_chapter_stats()
+	
 	if was_quest:
 		_stats.complete_achievement("FirstQuest")
 		_stats.increment_stat("quests_completed")
@@ -196,6 +200,8 @@ func _set_chapter_stats():
 			_stats.set_stat("chapters_peter", PlayerData.player_data.peter_trophies.chapters_visited.size())
 		AlicesAdventuresInWonderland.id:
 			_stats.set_stat("chapters_alice", PlayerData.player_data.alice_trophies.chapters_visited.size())
+
+	_stats.save()
 			
 
 func _on_game_over(run_stats: PlayerData.Stats):
