@@ -20,20 +20,14 @@ Goal: collect specific words to increase high score
 
 - QoL
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
+  - Highlight the quest words more
 
 - Verify that cloud saves work on steam
-
-- Achievements:
-  - No Place Like Home
-  - Visit all chapters
-    - Alice, Peter, Oz
 
 ## 1.1 roadmap (October Update)
 
 - New ambience
   - Group into themed ambiance
-- OnNewQuest
-  - Highlight the quest words more?
 
 ### Nice to have
 

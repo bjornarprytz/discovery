@@ -1,6 +1,7 @@
 extends Node2D
 
 class CorpusTrophies:
+	var chapters_visited: Array[int] = []
 	var highest_score: StatsSummary = StatsSummary.new()
 	var most_completed_words: StatsSummary = StatsSummary.new()
 	var most_completed_quests: StatsSummary = StatsSummary.new()
@@ -10,6 +11,7 @@ class CorpusTrophies:
 		if data == null or data.is_empty():
 			return CorpusTrophies.new()
 		var trophies = CorpusTrophies.new()
+		trophies.chapters_visited = data["chapters_visited"] if "chapters_visited" in data else []
 		trophies.highest_score = StatsSummary.from_dictionary(data["highest_score"] if "highest_score" in data else {})
 		trophies.most_completed_words = StatsSummary.from_dictionary(data["most_completed_words"] if "most_completed_words" in data else {})
 		trophies.most_completed_quests = StatsSummary.from_dictionary(data["most_completed_quests"] if "most_completed_quests" in data else {})
@@ -22,6 +24,10 @@ class CorpusTrophies:
 			stats_summary.completed_words == 0 || \
 			stats_summary.traversed_characters < 5:
 			return
+		
+		for chapter in stats_summary.chapters_visited:
+			if not chapters_visited.has(chapter):
+				chapters_visited.append(chapter)
 
 		if (stats_summary.score >= highest_score.score):
 			highest_score = stats_summary
@@ -158,7 +164,7 @@ class StatsSummary:
 	var traversed_characters: int
 	var completed_words: int
 	var completed_quests: int
-	var chapters_visited: Array = []
+	var chapters_visited: Array[int] = []
 	var total_chapters: int
 	var ratio_of_characters_completed_words: float
 	var ratio_of_moves_while_golden: float
