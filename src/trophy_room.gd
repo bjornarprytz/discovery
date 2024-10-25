@@ -12,6 +12,8 @@ func _ready() -> void:
 	trophy_text_game.start(CorpusClass.FullText.new("custom", "TrophyRoom", [CorpusClass.Chapter.new(0, "TrophyRoom", custom_text, false)]), false)
 	Game.completed_word.connect(_word_complete)
 
+	Audio.cross_fade(Audio.stats_track)
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if (event.is_released()):
 		if (event.is_action("ui_focus_next")):

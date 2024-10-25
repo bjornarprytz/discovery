@@ -50,7 +50,7 @@ func _fade_in():
 	text_game.modulate.a = 0.0
 	tween.tween_property(text_game, 'modulate:a', 1.0, 1.69)
 
-	await Audio.play_main()
+	await Audio.fade_out()
 
 func _show_tutorial():
 	if (made_first_move):

@@ -39,7 +39,7 @@ func _ready() -> void:
 		leaderboard.queue_free()
 		all_container.size.x = get_viewport_rect().size.x
 	
-	Audio.play_score()
+	Audio.cross_fade(Audio.score_track)
 	match Corpus.main_corpus.id:
 		PeterPan.id:
 			corpus_select.selected = 1

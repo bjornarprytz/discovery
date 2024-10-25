@@ -1,7 +1,7 @@
 extends Node2D
 @export var transition_speed: float = 0.2
 
-@onready var score_scene = preload ("res://score.tscn")
+@onready var score_scene = preload("res://score.tscn")
 
 @onready var next_button: Button = $CanvasLayer/NextButton
 @onready var prev_button: Button = $CanvasLayer/PrevButton
@@ -32,6 +32,8 @@ func _ready() -> void:
 		prev_button.hide()
 	else:
 		_update_button_text()
+	
+	Audio.cross_fade(Audio.secret_track)
 
 func _on_next_button_pressed() -> void:
 	next_menu.position.x = next_menu.size.x

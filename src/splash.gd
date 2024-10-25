@@ -1,13 +1,13 @@
 class_name SplashScreen
 extends CanvasLayer
 
-@onready var title : TextureRect = $Control/Title
+@onready var title: TextureRect = $Control/Title
 
 func _ready() -> void:
-	Audio.play_score()
+	Audio.fade_in(Audio.intro_track)
 	title.visible = true
 	title.modulate.a = 0.0
-	var tween = create_tween().set_ease(Tween.EASE_IN)#.set_trans(Tween.TRANS_CIRC)
+	var tween = create_tween().set_ease(Tween.EASE_IN) # .set_trans(Tween.TRANS_CIRC)
 	
 	tween.tween_property(title, "modulate:a", 1.0, .69)
 	

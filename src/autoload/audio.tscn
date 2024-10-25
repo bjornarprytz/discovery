@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" path="res://autoload/audio.gd" id="1_588yo"]
 
-[node name="Audio" type="AudioStreamPlayer"]
-volume_db = -5.0
+[node name="Audio" type="Node"]
 script = ExtResource("1_588yo")
+
+[node name="Main" type="AudioStreamPlayer" parent="."]
+
+[node name="Main2" type="AudioStreamPlayer" parent="."]

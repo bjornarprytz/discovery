@@ -134,12 +134,7 @@ func _fade_in_volume():
 	tween.tween_property(ambiance, "volume_db", base_volume, .69)
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
-	print("Entered screen")
-	if ambiance.stream != null:
-		ambiance.play(randi_range(0, ambiance.stream.get_length() - 1))
 	threaded = false
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	print("Exited screen")
-	ambiance.stop()
 	threaded = true

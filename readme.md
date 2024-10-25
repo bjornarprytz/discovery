@@ -12,8 +12,6 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
-- Add music transitions between menus
-
 - Copy Seed
   - Show visually
 

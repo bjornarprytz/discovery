@@ -37,7 +37,7 @@ func queue_full_refresh():
 	for segment in _get_flat_segments():
 		segment.dirty = true
 
-func resize(new_rows: int, new_columns: int):
+func resize(new_rows: int, new_columns: int, reassign_ambiance: bool = false):
 	assert(new_rows > 0 and new_columns > 0, "Invalid size")
 	if new_rows == _segment_rows and new_columns == _segment_columns:
 		return
@@ -59,6 +59,11 @@ func resize(new_rows: int, new_columns: int):
 	_segment_rows = new_rows
 	_segment_columns = new_columns
 
+	if reassign_ambiance:
+		_assign_ambiance_streams()
+	
+	_refresh_text()
+
 func _ready() -> void:
 	Game.ready_to_move.connect(_refresh_text)
 	Game.moved.connect(_on_moved)
@@ -70,6 +75,7 @@ func _ready() -> void:
 	
 	_create_segments(upper_left)
 
+	_assign_ambiance_streams()
 
 func _create_segments(upper_left: int):
 	# Create grid of segments
@@ -84,7 +90,6 @@ func _create_segments(upper_left: int):
 			row.append(segment)
 		_segments.append(row)
 	
-	_assign_ambiance_streams()
 
 func _assign_ambiance_streams():
 	ambiance_streams.shuffle()
@@ -93,6 +98,7 @@ func _assign_ambiance_streams():
 		var ambiance = ambiance_streams.pop_front()
 		
 		s.ambiance.stream = ambiance
+		s.ambiance.play(randf_range(0, ambiance.get_length() - 1))
 
 		ambiance_streams.append(ambiance)
 
@@ -194,8 +200,6 @@ func _shift_segments(dir: Vector2i):
 				segment.position.y -= vertical_pixel_shift
 			_segments.push_front(row_to_shift)
 
-	_assign_ambiance_streams()
-
 	_refresh_text()
 
 func _add_segments(dir: Vector2i):
@@ -246,10 +250,6 @@ func _add_segments(dir: Vector2i):
 				add_child(new_segment)
 			_segments.push_front(new_bottom_row)
 
-	_assign_ambiance_streams()
-
-	_refresh_text()
-
 func _remove_segments(dir: Vector2i):
 	match dir.x:
 		1:
@@ -266,8 +266,6 @@ func _remove_segments(dir: Vector2i):
 			_segments.pop_front()
 		-1:
 			_segments.pop_back()
-
-	_refresh_text()
 
 func _set_dirty_within(horizontal_range: int, vertical_range: int, origin: int = -1):
 	if origin == -1:
