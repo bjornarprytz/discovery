@@ -1,7 +1,7 @@
 extends Node2D
 
 class CorpusTrophies:
-	var chapters_visited: Array[int] = []
+	var chapters_visited: Array = []
 	var highest_score: StatsSummary = StatsSummary.new()
 	var most_completed_words: StatsSummary = StatsSummary.new()
 	var most_completed_quests: StatsSummary = StatsSummary.new()
@@ -11,11 +11,11 @@ class CorpusTrophies:
 		if data == null or data.is_empty():
 			return CorpusTrophies.new()
 		var trophies = CorpusTrophies.new()
-		trophies.chapters_visited = data["chapters_visited"] if "chapters_visited" in data else []
-		trophies.highest_score = StatsSummary.from_dictionary(data["highest_score"] if "highest_score" in data else {})
-		trophies.most_completed_words = StatsSummary.from_dictionary(data["most_completed_words"] if "most_completed_words" in data else {})
-		trophies.most_completed_quests = StatsSummary.from_dictionary(data["most_completed_quests"] if "most_completed_quests" in data else {})
-		trophies.most_traversed_characters = StatsSummary.from_dictionary(data["most_traversed_characters"] if "most_traversed_characters" in data else {})
+		trophies.chapters_visited = [] if "chapters_visited" not in data else data["chapters_visited"]
+		trophies.highest_score = StatsSummary.from_dictionary({} if "highest_score" not in data else data["highest_score"])
+		trophies.most_completed_words = StatsSummary.from_dictionary({} if "most_completed_words" not in data else data["most_completed_words"])
+		trophies.most_completed_quests = StatsSummary.from_dictionary({} if "most_completed_quests" not in data else data["most_completed_quests"])
+		trophies.most_traversed_characters = StatsSummary.from_dictionary({} if "most_traversed_characters" not in data else data["most_traversed_characters"])
 		return trophies
 	
 	func rank_stats(stats_summary: StatsSummary):
@@ -51,12 +51,12 @@ class Save:
 		if data == null or data.is_empty():
 			return Save.new()
 		var save_data = Save.new()
-		save_data.has_completed_a_run = data["has_completed_a_run"] if "has_completed_a_run" in data else false
-		save_data.color_palette = data["color_palette"] if "color_palette" in data else 0
-		save_data.corpus_id = data["corpus_id"] if "corpus_id" in data else ""
-		save_data.peter_trophies = CorpusTrophies.from_dictionary(data["peter_trophies"] if "peter_trophies" in data else {})
-		save_data.alice_trophies = CorpusTrophies.from_dictionary(data["alice_trophies"] if "alice_trophies" in data else {})
-		save_data.oz_trophies = CorpusTrophies.from_dictionary(data["oz_trophies"] if "oz_trophies" in data else {})
+		save_data.has_completed_a_run = false if "has_completed_a_run" in data else data["has_completed_a_run"]
+		save_data.color_palette = 0 if "color_palette" not in data else data["color_palette"]
+		save_data.corpus_id = "" if "corpus_id" not in data else data["corpus_id"]
+		save_data.peter_trophies = CorpusTrophies.from_dictionary({} if "peter_trophies" not in data else data["peter_trophies"])
+		save_data.alice_trophies = CorpusTrophies.from_dictionary({} if "alice_trophies" not in data else data["alice_trophies"])
+		save_data.oz_trophies = CorpusTrophies.from_dictionary({} if "oz_trophies" not in data else data["oz_trophies"])
 		
 		return save_data
 
@@ -94,7 +94,7 @@ class Stats:
 	var vertical_moves: int
 	var traversed_characters: Array[CorpusClass.CharState] = []
 	var completed_words: Array[CorpusClass.WordData] = []
-	var chapters_visited: Array[int] = []
+	var chapters_visited: Array = []
 	var total_chapters: int
 	
 	func _init(corpus: CorpusClass.FullText, seed_: int):
@@ -164,7 +164,7 @@ class StatsSummary:
 	var traversed_characters: int
 	var completed_words: int
 	var completed_quests: int
-	var chapters_visited: Array[int] = []
+	var chapters_visited: Array = []
 	var total_chapters: int
 	var ratio_of_characters_completed_words: float
 	var ratio_of_moves_while_golden: float
@@ -175,21 +175,21 @@ class StatsSummary:
 		if data == null or data.is_empty():
 			return StatsSummary.new()
 		var summary = StatsSummary.new()
-		summary.run_seed = data["run_seed"] if "run_seed" in data else 0
-		summary.corpus_id = data["corpus_id"] if "corpus_id" in data else AlicesAdventuresInWonderland.id
-		summary.score = data["score"] if "score" in data else 0
-		summary.multiplier = data["multiplier"] if "multiplier" in data else 0
-		summary.golden_moves = data["golden_moves"] if "golden_moves" in data else 0
-		summary.vertical_moves = data["vertical_moves"] if "vertical_moves" in data else 0
-		summary.traversed_characters = data["traversed_characters"] if "traversed_characters" in data else 0
-		summary.completed_words = data["completed_words"] if "completed_words" in data else 0
-		summary.completed_quests = data["completed_quests"] if "completed_quests" in data else 0
-		summary.chapters_visited = data["chapters_visited"] if "chapters_visited" in data else []
-		summary.total_chapters = data["total_chapters"] if "total_chapters" in data else 0
-		summary.ratio_of_characters_completed_words = data["ratio_of_characters_completed_words"] if "ratio_of_characters_completed_words" in data else 0.0
-		summary.ratio_of_moves_while_golden = data["ratio_of_moves_while_golden"] if "ratio_of_moves_while_golden" in data else 0.0
-		summary.ratio_of_quests_to_words = data["ratio_of_quests_to_words"] if "ratio_of_quests_to_words" in data else 0.0
-		summary.ratio_of_chapters_visited = data["ratio_of_chapters_visited"] if "ratio_of_chapters_visited" in data else 0.0
+		summary.run_seed = 0 if "run_seed" not in data else data["run_seed"]
+		summary.corpus_id = AlicesAdventuresInWonderland.id if "corpus_id" not in data else data["corpus_id"]
+		summary.score = 0 if "score" not in data else data["score"]
+		summary.multiplier = 1 if "multiplier" not in data else data["multiplier"]
+		summary.golden_moves = 0 if "golden_moves" not in data else data["golden_moves"]
+		summary.vertical_moves = 0 if "vertical_moves" not in data else data["vertical_moves"]
+		summary.traversed_characters = 0 if "traversed_characters" not in data else data["traversed_characters"]
+		summary.completed_words = 0 if "completed_words" not in data else data["completed_words"]
+		summary.completed_quests = 0 if "completed_quests" not in data else data["completed_quests"]
+		summary.chapters_visited = [] if "chapters_visited" not in data else data["chapters_visited"]
+		summary.total_chapters = 0 if "total_chapters" not in data else data["total_chapters"]
+		summary.ratio_of_characters_completed_words = 0.0 if "ratio_of_characters_completed_words" not in data else data["ratio_of_characters_completed_words"]
+		summary.ratio_of_moves_while_golden = 0.0 if "ratio_of_moves_while_golden" not in data else data["ratio_of_moves_while_golden"]
+		summary.ratio_of_quests_to_words = 0.0 if "ratio_of_quests_to_words" not in data else data["ratio_of_quests_to_words"]
+		summary.ratio_of_chapters_visited = 0.0 if "ratio_of_chapters_visited" not in data else data["ratio_of_chapters_visited"]
 		return summary
 
 
