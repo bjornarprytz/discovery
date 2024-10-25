@@ -193,7 +193,7 @@ func _on_completed_word(word: String, was_quest: bool):
 	_stats.save()
 
 func _set_chapter_stats():
-	match Corpus.corpus.id:
+	match Corpus.main_corpus.id:
 		TheWonderfulWizardOfOz.id:
 			_stats.set_stat("chapters_oz", PlayerData.player_data.oz_trophies.chapters_visited.size())
 		PeterPan.id:
