@@ -1,6 +1,8 @@
 class_name DiscoveryUI
 extends CanvasLayer
 
+@onready var copy_flair_spawner = preload("res://fx/copy_flair.tscn")
+
 @onready var ui: ColorRect = $Border
 @onready var menu: ColorRect = $Menu
 @onready var chapter_title: RichTextLabel = $Menu/ChapterTitle
@@ -146,6 +148,12 @@ func _on_mute_toggled(muted: bool):
 
 func _on_seed_button_pressed() -> void:
 	DisplayServer.clipboard_set(str(Game.stats.run_seed))
+	
+	var flair = copy_flair_spawner.instantiate() as CPUParticles2D
+	seed_button.add_child(flair)
+	flair.rotate(PI/2.0)
+	flair.emitting = true
+	flair.finished.connect(flair.queue_free)
 
 func _on_mute_button_toggled(toggled_on: bool) -> void:
 	Game.is_muted = toggled_on

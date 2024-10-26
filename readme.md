@@ -12,15 +12,11 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
-- Copy Seed
-  - Show visually
-
-- Show Player Trophy Room (run stats)
-  - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
-
-- QoL
+- Nice to have
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
   - Highlight the quest words more
+  - Clarify meaning of: Highest score, Most words, Most Quests, Most moves
+  - Sounds on UI
 
 - Verify that cloud saves work on steam
 

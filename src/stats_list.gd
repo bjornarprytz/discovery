@@ -1,6 +1,8 @@
 class_name StatsList
 extends VBoxContainer
 
+@onready var copy_flair_spawner = preload("res://fx/copy_flair.tscn")
+
 @onready var stats_list: VBoxContainer = %StatsList
 @onready var seed_button: Button = %SeedButton
 
@@ -67,6 +69,12 @@ func load_stats(stats_summary: PlayerData.StatsSummary):
 		i += 1
 func copy_seed():
 	DisplayServer.clipboard_set(str(current_stats.run_seed))
+	
+	var flair = copy_flair_spawner.instantiate() as CPUParticles2D
+	seed_button.add_child(flair)
+	flair.position = seed_button.size / 2.0
+	flair.emitting = true
+	flair.finished.connect(flair.queue_free)
 
 func _on_seed_button_pressed() -> void:
 	copy_seed()
