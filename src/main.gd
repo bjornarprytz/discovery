@@ -109,13 +109,12 @@ func _flair(amount: int):
 func _game_over(_stats: PlayerData.Stats):
 	$Camera/Sounds/Finished.play()
 	game_over = true
-	text_game.resize(5, 7)
+	text_game.call_deferred("resize", 5, 8)
 	game_over_label.show()
 	game_over_label.modulate.a = 0.0
-	Engine.time_scale = 0.5
 	camera_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_parallel()
-	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * .3, 1.8)
-	camera_tween.tween_property(game_over_label, 'modulate:a', 1.0, 1.8)
+	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * .3, 3.69)
+	camera_tween.tween_property(game_over_label, 'modulate:a', 1.0, 3.69)
 	camera_tween.tween_interval(4.0)
 	await camera_tween.finished
 
@@ -124,7 +123,6 @@ func _game_over(_stats: PlayerData.Stats):
 
 func _show_score():
 	game_over = false
-	Engine.time_scale = 1.0
 	get_tree().change_scene_to_packed(score_scene)
 
 func _toggle_menu():
@@ -142,12 +140,17 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				_hide_tutorial()
 			Game.ready_to_move.emit()
 	elif game_over and event.is_pressed():
-		if _ready_for_next_scene:
-			_show_score()
-		elif event.as_text() == "Space":
-			Engine.time_scale = 2.0
-		else:
-			_show_skip()
+		_transition_out()
+
+var is_transitioning := false
+
+func _transition_out():
+	if is_transitioning:
+		return
+	is_transitioning = true
+	var tween = create_tween()
+	tween.tween_property(self, 'modulate:a', 0.0, 1.38)
+	tween.tween_callback(_show_score)
 
 func _show_skip():
 	skip_label.modulate.a = 0.0

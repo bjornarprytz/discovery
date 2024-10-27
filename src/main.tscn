@@ -59,16 +59,18 @@ visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -606.0
-offset_top = -108.0
-offset_right = 750.0
-offset_bottom = 156.0
+offset_left = -667.0
+offset_top = -104.0
+offset_right = 1074.0
+offset_bottom = 160.0
 grow_horizontal = 0
 scale = Vector2(0.15, 0.15)
 pivot_offset = Vector2(471, 129)
 theme = SubResource("Theme_ocgxc")
 bbcode_enabled = true
-text = "[bgcolor=black]Space to skip"
+text = "[bgcolor=black]Space to continue"
+fit_content = true
+autowrap_mode = 0
 
 [node name="Sounds" type="Node2D" parent="Camera"]
 

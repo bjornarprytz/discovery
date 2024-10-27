@@ -97,7 +97,7 @@ focus_mode = 0
 theme = SubResource("Theme_iixf1")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_psjoi")
-text = "Highest Score"
+text = "Best Score"
 
 [node name="MostWords" type="Button" parent="PanelContainer/VB/CenterContainer/HB"]
 unique_name_in_owner = true
