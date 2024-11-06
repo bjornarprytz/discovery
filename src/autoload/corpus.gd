@@ -141,7 +141,7 @@ class Chapter:
 		return data
 
 class WordData:
-	var word: String
+	var word: String = ""
 	var start_idx: int
 	var states: Array[CharState] = []
 

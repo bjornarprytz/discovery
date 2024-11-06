@@ -80,9 +80,3 @@ mouse_filter = 2
 theme = SubResource("Theme_7c1m4")
 bbcode_enabled = true
 text = "[center][u][wave amp=100.0 freq=2.0]Press any key to continue"
-
-[node name="USERPATH" type="RichTextLabel" parent="."]
-offset_left = 287.0
-offset_top = 611.0
-offset_right = 935.0
-offset_bottom = 651.0

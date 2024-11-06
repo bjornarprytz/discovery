@@ -2,7 +2,6 @@ class_name SplashScreen
 extends CanvasLayer
 
 @onready var title: TextureRect = $Control/Title
-@onready var userpath: RichTextLabel = $USERPATH
 
 func _ready() -> void:
 	Audio.fade_in(Audio.klokke_track)
@@ -11,8 +10,6 @@ func _ready() -> void:
 	var tween = create_tween().set_ease(Tween.EASE_IN) # .set_trans(Tween.TRANS_CIRC)
 	
 	tween.tween_property(title, "modulate:a", 1.0, .69)
-	
-	userpath.text = "User path: " + OS.get_user_data_dir()
 
 func _input(event: InputEvent) -> void:
 	if event.is_pressed():

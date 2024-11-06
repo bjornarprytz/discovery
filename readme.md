@@ -12,18 +12,18 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
+- Gameplay improvements:
+  - strafe past certain symbols: '-
+- Animation
+
 - Nice to have
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End
   - Highlight the quest words more
   - Clarify meaning of: Best score, Most words, Most Quests, Most moves
   - Sounds on UI
+  - Additional ambiance tracks
 
 - Verify that cloud saves work on steam
-
-## 1.1 roadmap (October Update)
-
-- New ambience
-  - Group into themed ambiance
 
 ### Nice to have
 

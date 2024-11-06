@@ -214,7 +214,7 @@ func _cycle_quest():
 	var vertical_distance: int
 	var horizontal_distance: int
 
-	while (next_quest == null or next_quest.is_completed()):
+	while (next_quest == null or next_quest.word.length() <= 1 or next_quest.is_completed()):
 		vertical_distance = (randi() % 2) + 2
 		horizontal_distance = (randi() % 10) + 2
 		next_quest = _get_random_word(vertical_distance, horizontal_distance)

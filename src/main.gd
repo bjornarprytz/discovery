@@ -148,8 +148,9 @@ func _transition_out():
 	if is_transitioning:
 		return
 	is_transitioning = true
-	var tween = create_tween()
-	tween.tween_property(self, 'modulate:a', 0.0, 1.38)
+	var tween = create_tween().set_ease(Tween.EASE_OUT)
+	tween.tween_property(text_game, 'modulate', Color.BLACK, 1.69)
+	tween.tween_interval(.69)
 	tween.tween_callback(_show_score)
 
 func _show_skip():

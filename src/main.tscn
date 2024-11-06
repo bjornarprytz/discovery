@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cykltnkc0oakx"]
+[gd_scene load_steps=11 format=3 uid="uid://cykltnkc0oakx"]
 
 [ext_resource type="PackedScene" uid="uid://dimlovpbn02gs" path="res://logic/text.tscn" id="1_8pnxv"]
 [ext_resource type="Script" path="res://main.gd" id="1_l7u6q"]
-[ext_resource type="Shader" path="res://fx/magnify.gdshader" id="3_853ub"]
 [ext_resource type="AudioStream" uid="uid://baptchqbrwor6" path="res://assets/click.wav" id="4_28lg2"]
 [ext_resource type="PackedScene" uid="uid://be6kuksy0lijm" path="res://main_ui.tscn" id="4_rm2oh"]
 [ext_resource type="AudioStream" uid="uid://8481vgpl2nyt" path="res://assets/pickup-word.mp3" id="5_7s16o"]
@@ -10,12 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="6_yi4vj"]
 [ext_resource type="AudioStream" uid="uid://eqni4bq3mka7" path="res://assets/finished.wav" id="8_0jjta"]
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="10_dld76"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_d6bg2"]
-shader = ExtResource("3_853ub")
-shader_parameter/magnification = 2.0
-shader_parameter/distortion_strength = null
-shader_parameter/sharpness_radius = null
 
 [sub_resource type="Theme" id="Theme_ocgxc"]
 default_font = ExtResource("10_dld76")
@@ -30,9 +23,6 @@ cam = NodePath("../Camera")
 [node name="Camera" type="Camera2D" parent="."]
 offset = Vector2(0, 32)
 zoom = Vector2(1.3, 1.3)
-
-[node name="Fade" type="CanvasModulate" parent="Camera"]
-material = SubResource("ShaderMaterial_d6bg2")
 
 [node name="CanvasLayer" parent="Camera" instance=ExtResource("4_rm2oh")]
 
