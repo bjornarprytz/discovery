@@ -6,7 +6,7 @@ on:
       - "steam-v*"
 
 env:
-  GODOT_VERSION: 4.2.1
+  GODOT_VERSION: 4.3
   GAME_NAME: bookworm
   PROJECT_PATH: "./src/"
 
