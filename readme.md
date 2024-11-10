@@ -26,8 +26,6 @@ Goal: collect specific words to increase high score
   - Sounds on UI
   - Additional ambiance tracks
 
-- Verify that cloud saves work on steam
-
 ### Nice to have
 
 - Ingest custom texts
@@ -37,9 +35,7 @@ Goal: collect specific words to increase high score
   - New Lose condition: running out of vertical moves
   - Get additional moves when completing a word (depending on length?)
 
-- Still support web export
-  - Branch, and remove steam references from that version, and update the export templates
-  - Add steam link
+- Add steam link to web version
 
 ### Bugs
 
