@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsd5aw5p6ic78"]
+[gd_scene load_steps=2 format=3 uid="uid://mto840pc88o3"]
 
 [ext_resource type="Script" path="res://autoload/steam_controller.gd" id="1_7m01l"]
 

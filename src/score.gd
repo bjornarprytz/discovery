@@ -2,8 +2,6 @@ extends Node2D
 
 @onready var menu: CustomTextGame = $Background/ScoreTextGame
 
-@onready var leaderboard: LeaderboardUI = $Background/HB/Leaderboard
-
 @onready var score: RichTextLabel = $Background/HB/GameOver/Score
 @onready var stats: StatsList = %Stats
 @onready var highscore: RichTextLabel = $Background/HB/GameOver/Highscore
@@ -31,13 +29,6 @@ func _ready() -> void:
 		highscore.append_text("[right][color=gray]Best: " + str(current_highscore).pad_zeros(5))
 	
 	Game.completed_word.connect(_word_complete)
-
-	if SteamController.is_initialized():
-		leaderboard.show()
-		highscore.hide()
-	else:
-		leaderboard.queue_free()
-		all_container.size.x = get_viewport_rect().size.x
 	
 	Audio.cross_fade(Audio.score_track)
 	match Corpus.main_corpus.id:
@@ -118,17 +109,6 @@ func _on_quit_pressed() -> void:
 
 func _on_stats_pressed() -> void:
 	_stats()
-
-func _on_leaderboard_toggle_show(show_leaderboard: bool) -> void:
-	
-	var target_width: float
-	if show_leaderboard:
-		target_width = base_container_width - leaderboard.size.x
-	else:
-		target_width = base_container_width
-	
-	var tween = create_tween()
-	tween.tween_property(all_container, "size:x", target_width, .3)
 
 func _on_corpus_select_item_selected(index: int) -> void:
 	match index:

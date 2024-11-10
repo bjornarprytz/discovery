@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d2xdtano7t7xb"]
+[gd_scene load_steps=13 format=3 uid="uid://d2xdtano7t7xb"]
 
 [ext_resource type="FontFile" uid="uid://bgt0wktokjwnl" path="res://assets/VT323-Regular.ttf" id="1_0iihq"]
 [ext_resource type="Script" path="res://score.gd" id="1_66yog"]
@@ -9,7 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://cgmidlr0psbbw" path="res://assets/denied.wav" id="4_fidr8"]
 [ext_resource type="Texture2D" uid="uid://cvb0xnpb5e30s" path="res://assets/exit.png" id="4_ijtnc"]
 [ext_resource type="Theme" uid="uid://cruwujjnx10fy" path="res://theme.tres" id="5_emdlp"]
-[ext_resource type="PackedScene" uid="uid://b2cgwyo06yfwn" path="res://leaderboard_ui.tscn" id="7_lba4x"]
 [ext_resource type="Texture2D" uid="uid://db0uwp3klacma" path="res://assets/trophies.png" id="8_8rkue"]
 
 [sub_resource type="Theme" id="Theme_jatff"]
@@ -33,9 +32,12 @@ grow_vertical = 2
 color = Color(0.0823529, 0.0823529, 0.0823529, 1)
 
 [node name="HB" type="HBoxContainer" parent="Background"]
-layout_mode = 0
-offset_right = 1752.0
-offset_bottom = 646.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="GameOver" type="Control" parent="Background/HB"]
 layout_mode = 2
@@ -146,10 +148,6 @@ offset_top = -16.0
 grow_horizontal = 0
 text = " Close "
 
-[node name="Leaderboard" parent="Background/HB" instance=ExtResource("7_lba4x")]
-custom_minimum_size = Vector2(600, 0)
-layout_mode = 2
-
 [node name="ScoreTextGame" parent="Background" instance=ExtResource("3_t4al8")]
 modulate = Color(1, 1, 1, 0.0313726)
 
@@ -255,7 +253,6 @@ stream = ExtResource("4_fidr8")
 [connection signal="mouse_exited" from="Background/HB/GameOver/Score" to="." method="_on_score_mouse_exited"]
 [connection signal="gui_input" from="Background/HB/GameOver/StatsContainer/StatsPanel/Control/Control" to="." method="_on_stats_panel_gui_input"]
 [connection signal="pressed" from="Background/HB/GameOver/StatsContainer/StatsPanel/Control/CloseStats" to="." method="_on_close_stats_pressed"]
-[connection signal="toggle_show" from="Background/HB/Leaderboard" to="." method="_on_leaderboard_toggle_show"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Retry" to="." method="_on_retry_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Background/ButtonBackground/MarginContainer/Buttons/Stats" to="." method="_on_stats_pressed"]

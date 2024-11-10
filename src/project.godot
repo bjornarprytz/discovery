@@ -25,7 +25,6 @@ Corpus="*res://autoload/corpus.tscn"
 Refs="*res://autoload/refs.tscn"
 Create="*res://autoload/factory.tscn"
 Game="*res://autoload/game.tscn"
-SteamController="*res://autoload/steam_controller.tscn"
 Audio="*res://autoload/audio.tscn"
 
 [display]
