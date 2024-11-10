@@ -12,9 +12,12 @@ Goal: collect specific words to increase high score
 
 ## Short term implementation
 
+- Fix score screen palette too dark
 - Gameplay improvements:
   - strafe past certain symbols: '-
 - Animation
+- Add Linux exe
+- "Turn the page"-mechanic
 
 - Nice to have
   - When there are no available moves (not even duplicate), count down to tutorialize the Dead End

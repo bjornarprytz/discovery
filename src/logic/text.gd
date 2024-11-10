@@ -23,6 +23,8 @@ var ambiance_streams: Array[AudioStream] = [
 	preload("res://assets/ambiance/wind-winter-trees-variable-gusts-70km-mono-clean-77mel-190208-19041.mp3")
 ]
 
+var _resize_segments_working_grid: Array = []
+
 var _segments: Array = []
 
 var center_segment: TextSegment:
@@ -37,32 +39,78 @@ func queue_full_refresh():
 	for segment in _get_flat_segments():
 		segment.dirty = true
 
-func resize(new_rows: int, new_columns: int, reassign_ambiance: bool = false):
+func resize(new_rows: int, new_columns: int, reassign_ambiance: bool = false):    
 	assert(new_rows > 0 and new_columns > 0, "Invalid size")
 	if new_rows == _segment_rows and new_columns == _segment_columns:
 		return
 
-	if new_rows > _segment_rows:
-		for i in range(new_rows - _segment_rows):
-			_add_segments(Vector2.RIGHT if i % 2 == 0 else Vector2.LEFT)
-	elif new_rows < _segment_rows:
-		for i in range(_segment_rows - new_rows):
-			_remove_segments(Vector2.RIGHT if i % 2 == 0 else Vector2.LEFT)
-		
-	if new_columns > _segment_columns:
-		for i in range(new_columns - _segment_columns):
-			_add_segments(Vector2.DOWN if i % 2 == 0 else Vector2.UP)
-	elif new_columns < _segment_columns:
-		for i in range(_segment_columns - new_columns):
-			_remove_segments(Vector2.DOWN if i % 2 == 0 else Vector2.UP)
 
-	_segment_rows = new_rows
-	_segment_columns = new_columns
+	# position the current segments as close to the center of the _resize_segments_working_grid as possible
+	var n_rows_to_add = new_rows - _segment_rows
+	var n_columns_to_add = new_columns - _segment_columns
+
+	var new_left_columns = floor(n_columns_to_add / 2.0)
+	var new_right_columns = n_columns_to_add - new_left_columns
+
+	var new_top_rows = floor(n_rows_to_add / 2.0)
+	var new_bottom_rows = n_rows_to_add - new_top_rows
+
+	var segment_size = _segments[0][0].size
+	var new_upper_left_start_index = _segments[0][0].start_index - (new_left_columns * SEGMENT_WIDTH) - (new_top_rows * SEGMENT_HEIGHT)
+	var new_upper_left_pos = _segments[0][0].position - Vector2(new_left_columns * segment_size.x, new_top_rows * segment_size.y)
+
+	_resize_segments_working_grid.clear()
+	for y in range(new_rows):
+		var row = []
+		for x in range(new_columns):
+			row.append(null) # Marks a position to fill at (x, y)
+		_resize_segments_working_grid.append(row)
+	
+	var segments_to_delete = []
+	for y in range(_segment_rows):
+		for x in range(_segment_columns):
+			segments_to_delete.append(_segments[x][y])
+
+	var threads = [
+		Thread.new(),
+		Thread.new(),
+		Thread.new(),
+		Thread.new(),
+		]
+	var jobs = []
+
+	for y in range(new_rows):
+		for x in range(new_columns):
+			var shifted_x = x - new_left_columns
+			var shifted_y = y - new_top_rows
+
+			if (x < new_left_columns or x >= new_columns - new_right_columns) or (y < new_top_rows or y >= new_rows - new_bottom_rows):
+				var start_index = new_upper_left_start_index + (x * SEGMENT_WIDTH) + (y * SEGMENT_HEIGHT)
+				var pos = new_upper_left_pos + Vector2(x * segment_size.x, y * segment_size.y)
+				jobs.append([start_index, pos, Vector2i(x, y)])
+			elif (shifted_x < _segment_columns and shifted_y < _segment_rows):
+				_resize_segments_working_grid[y][x] = _segments[shifted_y][shifted_x]
+				segments_to_delete.erase(_resize_segments_working_grid[y][x])
+	
+	for segment in segments_to_delete:
+		segment.queue_free()
+
+	while jobs.size() > 0:
+		var startedThreads = []
+		for thread in threads:
+			if jobs.size() == 0:
+				break
+			var job = jobs.pop_front()
+			thread.start(_add_segment.bind(job[0], job[1], job[2]))
+			startedThreads.append(thread)
+		for thread in startedThreads:
+			thread.wait_to_finish()
+
+	_segments = _resize_segments_working_grid
+	_resize_segments_working_grid = []
 
 	if reassign_ambiance:
 		_assign_ambiance_streams()
-	
-	_refresh_text()
 
 func _ready() -> void:
 	Game.ready_to_move.connect(_refresh_text)
@@ -78,6 +126,7 @@ func _ready() -> void:
 	_assign_ambiance_streams()
 
 func _create_segments(upper_left: int):
+	var camera_view = _get_camera_view_rect()
 	# Create grid of segments
 	for y in range(_segment_rows):
 		var row = []
@@ -88,6 +137,11 @@ func _create_segments(upper_left: int):
 			add_child(segment)
 			segment.position = -segment.size + Vector2(segment.size.x * x, segment.size.y * y)
 			row.append(segment)
+			if camera_view.intersects(segment.get_rect()):
+				segment.is_offscreen = false
+				print ("Onscreen")
+			else:
+				segment.is_offscreen = true
 		_segments.append(row)
 	
 
@@ -153,11 +207,7 @@ func _get_camera_view_rect() -> Rect2:
 	return Rect2(cam_pos, cam_size)
 
 func _refresh_text():
-	var cam_rect = _get_camera_view_rect()
 	for s in _get_flat_segments():
-		if !s.get_rect().intersects(cam_rect):
-			continue
-
 		var segment = s as TextSegment
 		segment.refresh()
 
@@ -202,53 +252,59 @@ func _shift_segments(dir: Vector2i):
 
 	_refresh_text()
 
+func _add_segment(start_index: int, pos: Vector2, segment_coords: Vector2i):
+	var segment = segment_spawner.instantiate() as TextSegment
+
+	segment.position = pos
+	_resize_segments_working_grid[segment_coords.y][segment_coords.x] = segment
+	segment.set_start_index.call_deferred(start_index)
+	add_child.call_deferred(segment)
+
+
 func _add_segments(dir: Vector2i):
+	var threads = []
 	match dir.x:
 		1:
 			for row in _segments:
-				var segment = segment_spawner.instantiate() as TextSegment
-
 				var rightmost_segment = row[-1]
+				var start_index = rightmost_segment.start_index + SEGMENT_WIDTH
+				var pos = rightmost_segment.position + Vector2.RIGHT * rightmost_segment.size.x
 
-				segment.set_start_index(rightmost_segment.start_index + SEGMENT_WIDTH)
-				segment.position = rightmost_segment.position + Vector2.RIGHT * rightmost_segment.size.x
-
-				row.push_back(segment)
-				add_child(segment)
+				threads.push_back(Thread.new())
+				threads[-1].start(_add_segment.bind(start_index, pos, row))
 		-1:
 			for row in _segments:
-				var segment = segment_spawner.instantiate() as TextSegment
-
 				var leftmost_segment = row[0]
 
-				segment.set_start_index(leftmost_segment.start_index - SEGMENT_WIDTH)
-				segment.position = leftmost_segment.position + Vector2.LEFT * leftmost_segment.size.x
+				var start_index = leftmost_segment.start_index - SEGMENT_WIDTH
+				var pos = leftmost_segment.position + Vector2.LEFT * leftmost_segment.size.x
 
-				row.push_front(segment)
-				add_child(segment)
+				threads.push_back(Thread.new())
+				threads[-1].start(_add_segment.bind(start_index, pos, row))
 
 	match dir.y:
 		1:
 			var top_row = _segments[0]
 			var new_top_row = []
-			for segment in top_row:
-				var new_segment = segment_spawner.instantiate() as TextSegment
-				new_segment.set_start_index(segment.start_index + SEGMENT_HEIGHT)
-				new_segment.position = segment.position + Vector2.UP * segment.size.y
-				new_top_row.append(new_segment)
-				add_child(new_segment)
-				
 			_segments.push_back(new_top_row)
+			for segment in top_row:
+				var start_index = segment.start_index + SEGMENT_HEIGHT
+				var pos = segment.position + Vector2.UP * segment.size.y
+				threads.push_back(Thread.new())
+				threads[-1].start(_add_segment.bind(start_index, pos, new_top_row))
+				
 		-1:
 			var bottom_row = _segments[-1]
 			var new_bottom_row = []
-			for segment in bottom_row:
-				var new_segment = segment_spawner.instantiate() as TextSegment
-				new_segment.set_start_index(segment.start_index - SEGMENT_HEIGHT)
-				new_segment.position = segment.position + Vector2.DOWN * segment.size.y
-				new_bottom_row.append(new_segment)
-				add_child(new_segment)
 			_segments.push_front(new_bottom_row)
+			for segment in bottom_row:
+				var start_index = segment.start_index - SEGMENT_HEIGHT
+				var pos = segment.position + Vector2.DOWN * segment.size.y
+				threads.push_back(Thread.new())
+				threads[-1].start(_add_segment.bind(start_index, pos, new_bottom_row))
+	
+	for thread in threads:
+		thread.wait_to_finish()
 
 func _remove_segments(dir: Vector2i):
 	match dir.x:

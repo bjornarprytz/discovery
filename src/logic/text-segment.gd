@@ -7,6 +7,7 @@ class_name TextSegment
 var start_index: int
 
 var dirty: bool = true
+var is_offscreen: bool = true
 
 var t: RichTextEffect
 const base_volume = -10
@@ -49,9 +50,13 @@ func refresh(force: bool = false) -> void:
 		return
 
 	clear()
+	
+	if is_offscreen:
+		return
+
 	for line in range(Corpus.segment_height):
 		_append_line(start_index + (line * Corpus.corpus_line_length))
-		
+	
 	dirty = false
 
 func _append_line(idx: int) -> void:
@@ -79,7 +84,7 @@ func _append_line(idx: int) -> void:
 			# Hack to get around trailing spaces being removed in BBCode
 			letter = "_"
 			push_color(Color.from_hsv(0, 0, 0, 0))
-		
+
 		var base_color: Color = Refs.current_palette.mark_color
 		if (char_state.quest):
 			base_color = Refs.current_palette.quest_color
@@ -135,6 +140,9 @@ func _fade_in_volume():
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	threaded = false
+	is_offscreen = false
+	refresh()
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	threaded = true
+	is_offscreen = true

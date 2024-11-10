@@ -109,12 +109,9 @@ func _flair(amount: int):
 func _game_over(_stats: PlayerData.Stats):
 	$Camera/Sounds/Finished.play()
 	game_over = true
-	text_game.call_deferred("resize", 5, 8)
-	game_over_label.show()
-	game_over_label.modulate.a = 0.0
+	text_game.resize(5, 6)
 	camera_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_parallel()
 	camera_tween.tween_property(cam, 'zoom', Vector2.ONE * .3, 3.69)
-	camera_tween.tween_property(game_over_label, 'modulate:a', 1.0, 3.69)
 	camera_tween.tween_interval(4.0)
 	await camera_tween.finished
 
@@ -148,8 +145,13 @@ func _transition_out():
 	if is_transitioning:
 		return
 	is_transitioning = true
-	var tween = create_tween().set_ease(Tween.EASE_OUT)
+	
+	game_over_label.show()
+	game_over_label.modulate.a = 0.0
+	var tween = create_tween().set_ease(Tween.EASE_OUT).set_parallel()
+	tween.tween_property(game_over_label, 'modulate:a', 1.0, 1.69)
 	tween.tween_property(text_game, 'modulate', Color.BLACK, 1.69)
+	tween.set_parallel(false)
 	tween.tween_interval(.69)
 	tween.tween_callback(_show_score)
 
