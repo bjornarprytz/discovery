@@ -46,6 +46,8 @@ max_distance = 800.0
 panning_strength = 2.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(2.85533, 2.85533)
+scale = Vector2(1.28553, 1.28553)
 rect = Rect2(-10, -10, 1556, 788)
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
