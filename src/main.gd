@@ -7,6 +7,7 @@ extends Node2D
 @onready var ui: DiscoveryUI = $Camera/CanvasLayer
 @onready var game_over_label: RichTextLabel = $Camera/CanvasLayer/GameOver
 @onready var skip_label: RichTextLabel = $Camera/CanvasLayer/SkipText
+@onready var retry_label: RichTextLabel = $Camera/CanvasLayer/RetryText
 
 @onready var text_game: TextGame = $Text
 
@@ -108,6 +109,7 @@ func _flair(amount: int):
 
 func _game_over(_stats: PlayerData.Stats):
 	$Camera/Sounds/Finished.play()
+	_show_skip()
 	game_over = true
 	text_game.resize(5, 6)
 	camera_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_parallel()
@@ -116,11 +118,14 @@ func _game_over(_stats: PlayerData.Stats):
 	await camera_tween.finished
 
 	_ready_for_next_scene = true
-	_show_skip()
 
 func _show_score():
 	game_over = false
 	get_tree().change_scene_to_packed(score_scene)
+
+func _retry():
+	game_over = false
+	get_tree().reload_current_scene()
 
 func _toggle_menu():
 	show_menu = !show_menu
@@ -136,12 +141,15 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				made_first_move = true
 				_hide_tutorial()
 			Game.ready_to_move.emit()
-	elif game_over and event.is_pressed():
-		_transition_out()
+	elif game_over and event is InputEventKey and event.is_pressed():
+		if (event.keycode == KEY_R):
+			_retry()
+		elif (event.keycode == KEY_SPACE):
+			_show_score()
 
 var is_transitioning := false
 
-func _transition_out():
+func _transition_out(retry: bool = false):
 	if is_transitioning:
 		return
 	is_transitioning = true
@@ -153,11 +161,18 @@ func _transition_out():
 	tween.tween_property(text_game, 'modulate', Color.BLACK, 1.69)
 	tween.set_parallel(false)
 	tween.tween_interval(.69)
-	tween.tween_callback(_show_score)
+	if retry:
+		tween.tween_callback(_retry)
+	else:
+		tween.tween_callback(_show_score)
 
 func _show_skip():
 	skip_label.modulate.a = 0.0
 	skip_label.show()
+	retry_label.modulate.a = 0.0
+	retry_label.show()
+	
 
-	var tween = create_tween()
-	tween.tween_property(skip_label, "modulate:a", 1.0, .2)
+	var tween = create_tween().set_parallel()
+	tween.tween_property(skip_label, "modulate:a", 1.0, 1.69)
+	tween.tween_property(retry_label, "modulate:a", 1.0, 1.69)

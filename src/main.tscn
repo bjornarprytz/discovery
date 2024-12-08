@@ -49,16 +49,34 @@ visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -667.0
+offset_left = -691.0
 offset_top = -104.0
-offset_right = 1074.0
+offset_right = 1172.0
 offset_bottom = 160.0
 grow_horizontal = 0
 scale = Vector2(0.15, 0.15)
 pivot_offset = Vector2(471, 129)
 theme = SubResource("Theme_ocgxc")
 bbcode_enabled = true
-text = "[bgcolor=black]Space to continue"
+text = "[bgcolor=black]Space to see score"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RetryText" type="RichTextLabel" parent="Camera/CanvasLayer"]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -565.0
+offset_top = -57.0
+offset_right = 459.0
+offset_bottom = 207.0
+grow_horizontal = 0
+scale = Vector2(0.15, 0.15)
+pivot_offset = Vector2(471, 129)
+theme = SubResource("Theme_ocgxc")
+bbcode_enabled = true
+text = "[bgcolor=black]R to retry"
 fit_content = true
 autowrap_mode = 0
 
