@@ -125,6 +125,7 @@ func _show_score():
 
 func _retry():
 	game_over = false
+	Game.start(Corpus.main_corpus)
 	get_tree().reload_current_scene()
 
 func _toggle_menu():
